@@ -1,19 +1,12 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
 
-export default (app) => {
-    app.use('/api/watchlist', router);
+export default async (app) => {
+  app.use("/api/watchlist", router);
 
-    router.get('/', async (req, res, next) => {
+  router.get("/", async (req, res, next) => {});
 
-    });
+  router.post("/", async (req, res, next) => {});
 
-    router.post('/', async (req, res, next) => {
-
-    });
-
-    router.delete('/', async (req, res, next) => {
-
-    });
-    
-}
+  router.delete("/", async (req, res, next) => {});
+};
