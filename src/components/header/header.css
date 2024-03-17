@@ -1,0 +1,70 @@
+nav {
+    background-color: #41A58D;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex; /* Make the list items flex items */
+    align-items: center;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li:not(:first-child):not(.search-bar):hover {
+    background-color: #5EC1A2; /* Lighter shade of #41A58D */
+    border-radius: 6px;
+  }
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 12px;
+
+}
+
+.logo-image {
+    width: 100px;
+    height: auto;
+}
+
+.search-bar {
+    flex: 1;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.search-btn {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    right: 3px;
+}
+
+.watchlist-image {
+    width: 20px;
+    height: auto;
+}
+
+#sign-in {
+    display: block;
+}
