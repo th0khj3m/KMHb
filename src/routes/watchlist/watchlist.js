@@ -1,7 +1,7 @@
 export default function Watchlist() {
-  return (
-    <p>
-      lmao
-    </p>
-  )
+    return (
+        <>
+            <p>lmaosdsdsd</p>
+        </>
+    );
 }
