@@ -14,7 +14,7 @@ const options = {
   },
 };
 
-export default async (app) => {
+export default (app) => {
   swaggerAutogen(outputFile, endpointsFiles, options);
   // Setup Swagger UI middleware
   app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));

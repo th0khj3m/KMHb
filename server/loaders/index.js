@@ -1,12 +1,14 @@
-import watchlist from "../routes/watchlist.js";
+//Import all routes
+import routeLoader from "../routes/index.js"
+
 import swaggerLoader from "./swagger.js";
 
 export default async (app) => {
   // Load API route handlers
-  await watchlist(app);
+  routeLoader(app);
 
   // Load Swagger
-  await swaggerLoader(app);
+  swaggerLoader(app);
 
   // Error Handler
   app.use((err, req, res, next) => {
