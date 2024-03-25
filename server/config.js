@@ -1,11 +1,11 @@
 const SERVER_PORT = process.env.SERVER_PORT;
 
 const DB = {
-    PGHOST: process.env.PGHOST,
-    PGUSER: process.env.PGUSER,
-    PGDATABASE: process.env.PGDATABASE,
-    PGPASSWORD: process.env.PGPASSWORD,
-    PGPORT: process.env.PGPORT
+    HOST: process.env.PGHOST,
+    USER: process.env.PGUSER,
+    DATABASE: process.env.PGDATABASE,
+    PASSWORD: process.env.PGPASSWORD,
+    PORT: process.env.PGPORT
 }
 
-export { DB, SERVER_PORT }
+export { SERVER_PORT, DB }

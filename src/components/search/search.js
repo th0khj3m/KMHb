@@ -5,8 +5,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 export default function Search() {
     return (
         <>
-            <input type = "text" class = 'search-input' placeholder="Searh KMHb"/>
-            <button type ="button" class = 'search-btn'>
+            <input type = "text" className = 'search-input' placeholder="Searh KMHb"/>
+            <button type ="button" className = 'search-btn'>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
         </>

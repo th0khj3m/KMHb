@@ -1,0 +1,67 @@
+.create-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-list input[type="text"],
+.create-list textarea {
+    width: 500px;
+    height: 30px;
+    color: #B5B9C7;
+}
+
+.create-list .form-group {
+    margin-bottom: 20px;
+}
+
+.create-list button {
+    padding: 10px 20px;
+    background-color: #01C6AC;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    width: 300px;
+}
+
+.create-list button:hover {
+    background-color: #5EC1A2;
+}
+
+.list-types {
+    margin-bottom: 50px;
+    /* Add some space between the list types and the bottom */
+}
+
+.list-types h2, p {
+    margin-left: 20px;
+}
+
+.list-types h2 {
+    margin-bottom: 5px;
+    /* Adjust the margin between h2 and p */
+}
+
+.list-types h2 {
+    margin-bottom: 5px;
+    /* Adjust the margin between h2 and p */
+}
+
+.list-types p {
+    margin-top: 5px;
+    /* Adjust the margin between p and h2 */
+}
+
+.line {
+    flex: 1;
+    /* Make the line fill the remaining space */
+    height: 1px;
+    /* Set the height of the line */
+    background-color: black;
+    /* Black color for the line */
+    margin-left: 10px;
+    /* Add some left margin for spacing */
+}

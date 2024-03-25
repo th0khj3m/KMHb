@@ -24,7 +24,7 @@ export default function Header() {
             <span> Menu</span>
           </NavLink>
         </li>
-        <li class = "search-bar"><Search /></li>
+        <li className = "search-bar"><Search /></li>
         <li>
           <NavLink
             to="/watchlist"
