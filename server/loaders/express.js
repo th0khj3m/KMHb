@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import cors from 'cors';
 
+
 export default async (app) => {
     // Enable Cross Origin Resource Sharing to all origins by default
     app.use(cors());

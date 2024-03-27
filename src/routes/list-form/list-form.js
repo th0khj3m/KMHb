@@ -58,7 +58,6 @@ export default function ListForm() {
               label="List Description"
               name = "listDescription"
               placeholder="Text"
-
               className = 'form-group'
             />
             <Button type="submit" variant="contained" disabled={!isValid}>

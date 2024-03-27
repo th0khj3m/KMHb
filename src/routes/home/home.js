@@ -5,9 +5,9 @@ import "./home.css"
 
 export default function Home() {
   return (
-    <div>
+    <div className = "body-container">
       <Header />
-      <main>
+      <main className = "main-content">
         <Outlet/>
       </main>
       <Footer />

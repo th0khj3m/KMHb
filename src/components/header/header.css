@@ -1,19 +1,15 @@
-nav {
+header {
     background-color: #41A58D;
-    justify-content: space-between;
-    align-items: center;
     padding: 10px;
 }
 
 nav ul {
-    margin: 0;
-    padding: 0;
     list-style: none;
     display: flex; /* Make the list items flex items */
     align-items: center;
 }
 
-nav ul li {
+nav ul li:not(.logo) {
     margin-right: 20px;
 }
 
@@ -23,16 +19,15 @@ nav ul li:not(:first-child):not(.search-bar):hover {
   }
 
 .nav-link {
+    display: flex;
     text-decoration: none;
     color: black;
     font-weight: bold;
-    padding: 12px;
-
+    padding: 10px;
 }
 
-.logo-image {
+.nav-link .logo-image {
     width: 100px;
-    height: auto;
 }
 
 .search-bar {
@@ -63,8 +58,4 @@ nav ul li:not(:first-child):not(.search-bar):hover {
 .watchlist-image {
     width: 20px;
     height: auto;
-}
-
-#sign-in {
-    display: block;
 }

@@ -17,6 +17,7 @@ export default (app) => {
       // Perform the database operation to add the new
       const response = await ListServiceInstance.create(title, description);
 
+      //Send status 200 with response
       res.status(200).send(response);
     } catch (err) {
       next(err);
