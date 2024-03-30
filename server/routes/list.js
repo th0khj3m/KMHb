@@ -12,10 +12,9 @@ export default (app) => {
 
   router.post("/", async (req, res, next) => {
     try {
-      // Extract data from the request body
       const { title, description } = req.body;
       // Perform the database operation to add the new
-      const response = await ListServiceInstance.create(title, description);
+      const response = await ListServiceInstance.create({ title, description });
 
       //Send status 200 with response
       res.status(200).send(response);

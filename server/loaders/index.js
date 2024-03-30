@@ -2,14 +2,18 @@
 import expressLoader from './express.js';
 import routeLoader from "../routes/index.js"
 import swaggerLoader from "./swagger.js";
+import passportLoader from './passport.js';
 
 export default async (app) => {
 
   // Load Express middleware
   const expressApp = await expressLoader(app);
 
+  // Load passport middleware in intialized Express app
+  const passport = await passportLoader(expressApp);
+
   // Load API route handlers
-  routeLoader(app);
+  routeLoader(app, passport);
   
   // Load Swagger
   swaggerLoader();

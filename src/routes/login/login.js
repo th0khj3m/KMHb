@@ -1,29 +1,44 @@
+import React, { useState } from "react";
+import "./login.css";
+
 import { Form, Formik, Field } from "formik";
-import { TextField, Button } from "@mui/material";
-import "./sign-in.css";
+import { TextField, Button, Alert } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
+
+import { loginUser } from "../../store/auth/auth.actions";
+
 import * as Yup from "yup";
 
-const validationSchema = Yup.object().shape({
-  username: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required"),
-});
+export default function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
 
-const handleLogin = async (values, { setSubmitting }) => {
-  try {
-  } catch (err) {
-    console.error("Login failed:", err.message);
-  } finally {
-    // Reset the form submission state
-    setSubmitting(false);
-  }
-};
+  const handleLogin = async (credentials, { setSubmitting }) => {
+    try {
+      // Set submitting state to true to indicate form submission is in progress
+      setSubmitting(true);
+      await dispatch(loginUser(credentials)).unwrap();
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      // Set submitting state to false after login attempt is completed (whether success or failure)
+      setSubmitting(false);
+    }
+  };
 
-export default function SignIn() {
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required(),
+    password: Yup.string().required(),
+  });
+
   return (
     <main className="login-page">
       <section className="picture-container">
         <img
-          src={process.env.PUBLIC_URL + "/images/login.jpg"}
+          src={process.env.PUBLIC_URL + "/images/auth.jpg"}
           alt="decoration"
         />
       </section>
@@ -38,15 +53,13 @@ export default function SignIn() {
           initialErrors={{ username: "" }}
           onSubmit={handleLogin}
         >
-          {({ errors, touched, isValid }) => (
+          {({ isValid }) => (
             <Form className="login-form">
               <Field
                 as={TextField}
                 type="text"
                 label="Username"
                 name="username"
-                error={touched.username && !!errors.username}
-                helperText={touched.username && errors.username}
                 required
                 className="form-group"
               />
@@ -55,11 +68,14 @@ export default function SignIn() {
                 type="password"
                 label="Password"
                 name="password"
-                error={touched.password && !!errors.password}
-                helperText={touched.password && errors.password}
                 className="form-group"
                 required
               />
+              {error && (
+                <Alert severity="error" className="error-message">
+                  {error}
+                </Alert>
+              )}
               <span className="credentials">
                 Forgot your <span className="active">username</span> or{" "}
                 <span className="active">password</span>
@@ -70,7 +86,7 @@ export default function SignIn() {
                 className="submitButton"
                 disabled={!isValid}
               >
-                Log in
+                Log In
               </Button>
               <section className="social-login">
                 <p>Or log in using: </p>
@@ -96,7 +112,8 @@ export default function SignIn() {
                 </Button>
               </section>
               <span className="credentials">
-                Not a member yet?&nbsp;<span className="active">Sign Up Now</span>{" "}
+                Not a member yet?&nbsp;
+                <Link to="/register" className="active">Sign Up Now</Link>
               </span>
             </Form>
           )}

@@ -5,12 +5,22 @@
     "description": "COMP1686 Final Year Project using PERN stack",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "localhost:4000",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
+    "/api/auth/login": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/lists/": {
       "get": {
         "description": "",
@@ -22,9 +32,26 @@
       },
       "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         }
       }

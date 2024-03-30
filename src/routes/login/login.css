@@ -2,6 +2,7 @@
     display: flex;
     width: 100%;
     align-items: center;
+    align-items: stretch;
 }
 
 .login-section {
@@ -26,14 +27,13 @@
 
 .login-form .form-group {
     margin-bottom: 20px;
+    width: 100%;
 }
 
-.login-form button {
+.login-form .submitButton {
     padding: 10px 20px;
     background-color: #01C6AC;
     color: white;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 16px;
@@ -41,48 +41,43 @@
     border-radius: 20px;
 }
 
-.login-form button:hover {
+.login-form .submitButton:hover {
     border: 1px solid #49b996;
     background-color: #49b996;
 }
 
-.login-title h1, h3 {
-    margin: 0 auto;
-    width: 525px;
-}
-
-h1 {
-    font-size: 40px;
-}
-
-h3 {
-    font-size: 22px;
-}
-
 .login-title {
-    margin-bottom: 40px;
+    width: 56%;
 }
 
-.login-section h1 {
+.login-title h1 {
+    font-size: 40px;
     color: #2BD7C0;
 }
 
-.login-section h3 {
+.login-title h3 {
+    font-size: 22px;
     color: #666666;
     font-weight: normal;
 }
 
-.credentials {
+.login-title {
+    margin-top: 15px;
+    margin-bottom: 40px;
+}
+
+.login-form .credentials {
     margin-right: auto;
     padding: 20px 0 20px 0;
 }
 
-.active {
+.login-form .credentials .active {
     color: #41A58D;
+    text-decoration: none;
 }
 
-.picture-container {
-    display: flex;
+.login-page .picture-container img {
+    height: 100%;
 }
 
 .login-form .submitButton, .login-form .social-login {
@@ -99,6 +94,8 @@ h3 {
     background-color: white;
     border: 1px solid #EEEEEE;
     margin-right: 20px;
+    border-radius: 20px;
+    padding: 10px 20px;
 }
 
 .googleButton img,
@@ -109,8 +106,12 @@ h3 {
     /* Ensure the image doesn't exceed the button's height */
 }
 
-.social-login p {
+.login-form .social-login p {
     margin-bottom: 20px;
-   font-weight: 600;
-   margin-left: auto;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+.login-form .error-message {
+    margin-right: auto;
 }

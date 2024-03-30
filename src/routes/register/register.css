@@ -1,0 +1,136 @@
+.register-page {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    align-items: stretch;
+}
+
+.register-section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-form input[type="text"],
+.register-form input[type="password"],
+.register-form input[type="email"] {
+    width: 500px;
+    height: 30px;
+    color: #B5B9C7;
+}
+
+.register-form .form-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.register-form .submitButton {
+    padding: 10px 20px;
+    background-color: #01C6AC;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    width: 300px;
+}
+
+.register-form .submitButton:hover {
+    border: 1px solid #49b996;
+    background-color: #49b996;
+}
+
+.register-section .form-group .input-button {
+    position: absolute;
+    top: 50%; /*Position the button in the middle vertically*/
+    right: 15px;
+    color: #666666;
+    transform: translateY(-50%); /* Center the button vertically */
+    background-color: transparent; /* Make the button background transparent */
+    border: none;
+    cursor: pointer;
+    width: auto;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+/* Add autocomplete styling */
+.register-form input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset; /* Set a high box-shadow to cover input */
+}
+
+.register-title {
+    width: 56%;
+}
+
+.register-title h1 {
+    font-size: 40px;
+    color: #2BD7C0;
+}
+
+.register-title h3 {
+    font-size: 22px;
+    color: #666666;
+    font-weight: normal;
+}
+
+.register-title {
+    margin-bottom: 40px;
+}
+
+.register-form .credentials {
+    margin-right: auto;
+    padding: 20px 0 20px 0;
+}
+
+.register-form .credentials .active {
+    color: #41A58D;
+    text-decoration: none;
+}
+
+.register-page .picture-container img {
+    height: 100%;
+}
+
+.register-form .submitButton, .register-form .social-register {
+    margin-right: auto;
+}
+
+.social-register {
+    margin-top: 20px;
+}
+
+.register-form .googleButton, .register-form .facebookButton {
+    height: 60px;
+    width: 40px;
+    background-color: white;
+    border: 1px solid #EEEEEE;
+    margin-right: 20px;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.googleButton img,
+.facebookButton img {
+    max-width: 100%;
+    /* Ensure the image doesn't exceed the button's width */
+    max-height: 100%;
+    /* Ensure the image doesn't exceed the button's height */
+}
+
+.register-form .social-register p {
+    margin-bottom: 20px;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+.register-form .error-message {
+    margin-right: auto;
+}
