@@ -7,6 +7,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
+import Root from "../../routes/root/root";
 import Home from "../../routes/home/home";
 import Login from "../../routes/login/login";
 import Register from "../../routes/register/register";
@@ -17,7 +18,8 @@ import ListForm from "../../routes/list-form/list-form";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Home />}>
+    <Route path="/" element={<Root />}>
+      <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="watchlist" element={<Watchlist />} />

@@ -17,6 +17,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
+    "date-fns": "^3.6.0",
     "formik": "^2.4.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,9 +29,9 @@
     "yup": "^1.4.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npx dotenvx run --env-file=.env.development -- react-scripts start",
     "build": "react-scripts build",
-    "server": "npx dotenvx run -- nodemon server/server.js",
+    "server": "npx dotenvx run --env-file=.env.development -- nodemon server/server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

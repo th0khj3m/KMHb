@@ -42,5 +42,6 @@ const authSlice = createSlice({
       });
   },
 });
+
 // Export reducer function by default
 export default authSlice.reducer;

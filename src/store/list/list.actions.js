@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addListAPI } from "../../apis/list-api";
+import { addListAPI } from "../../apis/list";
 
 export const addList = createAsyncThunk(
     'lists/addList', 

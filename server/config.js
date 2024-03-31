@@ -1,5 +1,4 @@
 const SESSION_SECRET = process.env.SESSION_SECRET;
-
 const SERVER_PORT = process.env.SERVER_PORT;
 
 const DB = {
@@ -10,4 +9,4 @@ const DB = {
     PORT: process.env.PGPORT
 }
 
-export { SERVER_PORT, DB, SESSION_SECRET}
+export { SERVER_PORT, DB, SESSION_SECRET }
