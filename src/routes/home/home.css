@@ -23,6 +23,7 @@
     width: 100%;
     position: relative;
     cursor: pointer;
+    pointer-events: auto;
 }
 
 .banner-film .poster {

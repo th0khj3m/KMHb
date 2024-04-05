@@ -4,16 +4,17 @@ import axios from "axios";
 import { apiUrl, apiKeyParams } from "../../api-config";
 
 export const fetchUpcomingMovies = createAsyncThunk(
-  "movie/fetchUpcomingMovies",
+  "movies/fetchUpcomingMovies",
   async (movie, thunkAPI) => {
     try {
-      const urlToFetch = `${apiUrl}/movie/upcoming${apiKeyParams}`;
+      const urlToFetch = `${apiUrl}/movie/upcoming${apiKeyParams}&page=1`;
       const response = await axios.get(urlToFetch);
-      return response.data.results; // Return array of upcoming movies
+      const upcomingMovies = response.data.results.slice(0, 10); //Fetch 10 movies
+      return {
+        upcomingMovies,
+      }; // Return array of upcoming movies
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
-
-

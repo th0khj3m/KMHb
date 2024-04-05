@@ -1,0 +1,32 @@
+.custom-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-container {
+    display: flex;
+    position: relative;
+    background-color: black; /* Set background color */
+    padding-top: 50px; /* Add padding */
+    border-radius: 10px; /* Add border radius */
+}
+
+.modal-container > button {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.modal-container > button:hover {
+    background-color: #141414; /* Remove hover effect */
+  }
+
+.embedded-video {
+    width: 1000px;
+    height: 500px;
+}

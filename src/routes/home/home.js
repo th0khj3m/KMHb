@@ -10,19 +10,30 @@ import { fetchUpcomingMovies } from "../../store/movie/movie.actions";
 import { fetchNewestTrailer } from "../../store/video/video.actions.js";
 import VideoModal from "../../components/video-modal/video-modal.js";
 
-import { selectMovies } from "../../store/movie/movie.reducers";
+import { selectUpcomingMovies } from "../../store/movie/movie.reducers";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const upcomingMovies = useSelector(selectMovies);
+  const upcomingMovies = Object.values(useSelector(selectUpcomingMovies));
+
+  // Store trailers for each movie in a map
+  const [trailers, setTrailers] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState(null);
 
   // Fetch data when the component mounts
   useEffect(() => {
-    dispatch(fetchUpcomingMovies());
+    dispatch(fetchUpcomingMovies()).unwrap();
   }, [dispatch]);
+
+  // Function to fetch the newest trailer for a movie
+  const fetchTrailer = async (movieId) => {
+    const response = await dispatch(fetchNewestTrailer(movieId)).unwrap();
+    setTrailers((prevTrailers) => ({
+      ...prevTrailers,
+      [movieId]: response.video,
+    }));
+  };
 
   // Function to get the backdrop and poster path for a movie
   const getBackdropAndPoster = (movie) => {
@@ -30,7 +41,6 @@ export default function Home() {
       return {
         backdrop: `https://image.tmdb.org/t/p/original${movie.backdrop_path}`,
         poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        movieId: movie.id, // use movie.id to fetch videos
       };
     }
     return null;
@@ -51,20 +61,10 @@ export default function Home() {
   };
 
   const handleWatchVideos = async (movieId) => {
-    try {
-      const {
-        payload: { videos },
-      } = await dispatch(fetchNewestTrailer(movieId));
-      console.log(videos);
-      setSelectedVideo();
-      setOpenModal(true);
-    } catch (err) {
-      throw err;
+    if (!trailers[movieId]) {
+      await fetchTrailer(movieId);
     }
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
+    setOpenModal(true);
   };
 
   return (
@@ -75,12 +75,8 @@ export default function Home() {
             <img
               src={getBackdropAndPoster(upcomingMovies[currentIndex]).backdrop}
               alt={upcomingMovies[currentIndex].title}
+              onClick={() => handleWatchVideos(upcomingMovies[currentIndex].id)}
               className="backdrop"
-              onClick={() =>
-                handleWatchVideos(
-                  getBackdropAndPoster(upcomingMovies[currentIndex]).movieId
-                )
-              }
             />
             <img
               src={getBackdropAndPoster(upcomingMovies[currentIndex]).poster}
@@ -104,7 +100,14 @@ export default function Home() {
           </section>
         )}
       </section>
-      <VideoModal open={openModal} handleClose={handleCloseModal} />
+
+      <VideoModal
+        open={openModal}
+        handleClose={() => setOpenModal(false)}
+        videoKey={trailers[upcomingMovies[currentIndex]?.id]?.key} // Pass the selected movie's trailer key
+        videoName={trailers[upcomingMovies[currentIndex]?.id]?.name} // Pass the selected movie's trailer name
+      />
+
       <section className="up-next-container">
         <h1> Up next </h1>
         <section></section>

@@ -9,8 +9,8 @@ import videoReducer from "./video/video.reducers";
 export default configureStore({
   reducer: {
     auth: authReducer,
-    movie: movieReducer,
-    video: videoReducer,
+    movies: movieReducer,
+    videos: videoReducer,
     list: listReducer,
   },
 });

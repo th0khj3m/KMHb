@@ -1,25 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchUpcomingMovies } from "./movie.actions";
 
+const initialState = {
+  upcomingMovies: {},
+  error: null,
+};
+
 const movieSlice = createSlice({
   name: "movies",
-  initialState: {
-    upcomingMovies: [],
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUpcomingMovies.pending, (state, action) => {})
       .addCase(fetchUpcomingMovies.fulfilled, (state, action) => {
-        state.upcomingMovies = action.payload;
-      })
-      .addCase(fetchUpcomingMovies.rejected, (state, action) => {
-        state.error = action.payload;
+        const { upcomingMovies } = action.payload;
+        upcomingMovies.forEach((movie) => {
+          const { id } = movie;
+          state.upcomingMovies[id] = movie;
+        });
       })
   },
 });
 
-export const selectMovies = (state) => state.movie.upcomingMovies;
+export const selectUpcomingMovies = (state) => state.movies.upcomingMovies;
 // Export reducer function by default
 export default movieSlice.reducer;
