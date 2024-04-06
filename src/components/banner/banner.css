@@ -26,19 +26,26 @@
     pointer-events: auto;
 }
 
+
 .banner-film .poster {
-    position: absolute; /* Position the poster absolutely */
-    bottom: 1; /* Adjust as needed */
-    left: 20%; /* Adjust as needed */
-    transform: translate(-80%, 120%); /* Adjust as needed */
-    width: 20%; /* Adjust the width of the poster */
-    z-index: 1; /* Make sure the poster is on top of the backdrop */
+    position: absolute;
+    /* Position the poster absolutely */
+    bottom: 1;
+    /* Adjust as needed */
+    left: 20%;
+    /* Adjust as needed */
+    transform: translate(-80%, 120%);
+    /* Adjust as needed */
+    width: 20%;
+    /* Adjust the width of the poster */
+    z-index: 1;
+    /* Make sure the poster is on top of the backdrop */
 }
 
-.banner-film .back-button, 
+.banner-film .back-button,
 .banner-film .next-button {
     position: absolute;
-    top: 50%;
+    top: 45%;
     transform: translateY(-70%);
     padding: 20px 10px;
     background-color: #3A3E29;
@@ -54,6 +61,17 @@
     right: 10px;
 }
 
+/* Banner poster section */
+
+.banner-poster-section {
+    display: flex;
+    width: 77%;
+    float: right;
+}
+
+.banner-poster-section span.movie-title {
+    font-size: 2em;
+}
 
 /* Up next section */
 .up-next-container h1 {
@@ -73,7 +91,7 @@
     padding: 10px;
 }
 
-.up-next-film > img {
+.up-next-film>img {
     width: 20%;
 }
 
@@ -82,14 +100,15 @@
     border: none;
     cursor: pointer;
     padding: 0;
-  }
+}
 
-  .play-button:hover .icon {
-    color: #41A58D; /* Change color of the icon on hover */
-  }
+.play-button:hover .icon {
+    color: #41A58D;
+    /* Change color of the icon on hover */
+}
 
 .up-next-infor .movie-title {
-    font-weight:500;
+    font-weight: 500;
     display: block;
     font-size: large;
 }
@@ -98,9 +117,14 @@
     padding-left: 10px;
 }
 
-.up-next-infor .movie-overview {
-    display: -webkit-box; /* Specifies how the element should be displayed */
-    -webkit-line-clamp: 1; /* Maximum number of lines of text before truncating */
-    -webkit-box-orient: vertical;/* Ensure the content flows vertically within the box*/
-    overflow: hidden; /* Hidden the overflow*/
+.up-next-infor .movie-overview, .banner-film-infor .movie-overview {
+    display: -webkit-box;
+    /* Specifies how the element should be displayed */
+    -webkit-line-clamp: 1;
+    /* Maximum number of lines of text before truncating */
+    -webkit-box-orient: vertical;
+    /* Ensure the content flows vertically within the box*/
+    overflow: hidden;
+    /* Hidden the overflow*/
+    text-overflow: ellipsis;
 }

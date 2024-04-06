@@ -84,6 +84,25 @@ export default function Banner() {
               alt={upcomingMovies[currentIndex].title}
               className="poster"
             />
+            <section className="banner-poster-section">
+                
+              <button className="play-button">
+                <PlayCircleOutlineIcon
+                  className="icon"
+                  style={{ fontSize: 96 }}
+                />
+              </button>
+
+              <section className="banner-film-infor">
+                <span className="movie-title">
+                  {upcomingMovies[currentIndex].title}
+                </span>
+                <span className="movie-overview">
+                  {upcomingMovies[currentIndex].overview}
+                </span>
+              </section>
+            </section>
+
             <Button
               className="back-button"
               onClick={handleBack}
@@ -124,10 +143,13 @@ export default function Banner() {
                     className="up-next-poster"
                   />
                   <section className="up-next-infor">
-                    <button className="play-button" >
-                      <PlayCircleOutlineIcon className="icon" fontSize="large" />
+                    <button className="play-button">
+                      <PlayCircleOutlineIcon
+                        className="icon"
+                        fontSize="large"
+                      />
                     </button>
-                    <span className = "movie-title"> {movie.title} </span>
+                    <span className="movie-title"> {movie.title} </span>
                     <span className="movie-overview"> {movie.overview}</span>
                   </section>
                 </section>
