@@ -1,13 +1,11 @@
-//Import the NavLink component
 import { Link } from "react-router-dom";
-import "./header.css";
 import Search from "../search/search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export default function Header() {
   return (
-    <header>
+    <header className = "root-header">
       <nav>
         <ul>
           <li className = "logo">

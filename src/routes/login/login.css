@@ -1,7 +1,5 @@
 .login-page {
     display: flex;
-    width: 100%;
-    align-items: center;
     align-items: stretch;
 }
 
@@ -74,10 +72,6 @@
 .login-form .credentials .active {
     color: #41A58D;
     text-decoration: none;
-}
-
-.login-page .picture-container img {
-    height: 100%;
 }
 
 .login-form .submitButton, .login-form .social-login {

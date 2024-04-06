@@ -5,7 +5,7 @@ import { apiUrl, apiKeyParams } from "../../api-config";
 
 export const fetchUpcomingMovies = createAsyncThunk(
   "movies/fetchUpcomingMovies",
-  async (movie, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       const urlToFetch = `${apiUrl}/movie/upcoming${apiKeyParams}&page=1`;
       const response = await axios.get(urlToFetch);

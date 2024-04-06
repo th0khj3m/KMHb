@@ -1,13 +1,11 @@
 footer {
-    display: flex;
-    text-align: center;
-    background-color: #41A58D;
-  }
-  
-footer .copyright {
-    color: black;
-    padding: 20px;
-    margin-top: auto;
-    width: 100%;
-    
-  }
+  display: flex;
+  justify-content: center;
+  background-color: #41A58D;
+  padding: 20px;
+  color: black;
+}
+
+footer p {
+  margin: 0 auto;
+}

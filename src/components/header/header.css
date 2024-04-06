@@ -1,24 +1,26 @@
-header {
+.root-header {
+    height: 58px;
+}
+
+.root-header nav ul {
     background-color: #41A58D;
-    padding: 10px;
-}
-
-nav ul {
     list-style: none;
-    display: flex; /* Make the list items flex items */
+    display: flex;
     align-items: center;
+    padding: 5px;
 }
 
-nav ul li:not(.logo) {
+.root-header nav ul li:not(.logo) {
     margin-right: 20px;
 }
 
-nav ul li:not(:first-child):not(.search-bar):hover {
-    background-color: #5EC1A2; /* Lighter shade of #41A58D */
+.root-header nav ul li:not(:first-child):not(.search-bar):hover {
+    background-color: #5EC1A2;
+    /* Lighter shade of #41A58D */
     border-radius: 6px;
-  }
+}
 
-.nav-link {
+.root-header .nav-link {
     display: flex;
     text-decoration: none;
     color: black;
@@ -26,28 +28,28 @@ nav ul li:not(:first-child):not(.search-bar):hover {
     padding: 10px;
 }
 
-.nav-link .logo-image {
+.root-header .nav-link .logo-image {
     width: 100px;
 }
 
-.search-bar {
+.root-header .search-bar {
     flex: 1;
 }
 
-.search-bar {
+.root-header .search-bar {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.search-input {
+.root-header .search-input {
     padding: 8px;
     border: none;
     border-radius: 5px;
     width: 100%;
 }
 
-.search-btn {
+.root-header .search-btn {
     position: absolute;
     background-color: transparent;
     border: none;
@@ -55,7 +57,7 @@ nav ul li:not(:first-child):not(.search-bar):hover {
     right: 3px;
 }
 
-.watchlist-image {
+.root-header .watchlist-image {
     width: 20px;
     height: auto;
 }
