@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import "./homepage-body.css";
 
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import {
+  Modal,
+  Box,
+  Button,
+  ToggleButton,
+  ToggleButtonGroup,
+  IconButton,
+  Typography,
+  Rating,
+} from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 const testMovie = {
   adult: false,
@@ -27,9 +37,17 @@ const sections = [{ title: "Trending" }, { title: "Latest" }];
 
 export default function Body() {
   const [timeframe, setTimeframe] = useState("day");
+  const [openModal, setOpenModal] = useState(false);
+  const [modalMovieIndex, setModalMovieIndex] = useState(null);
+  const [rating, setRating] = useState(0);
 
   const handleTimeframeChange = (event, newValue) => {
     setTimeframe(newValue);
+  };
+
+  const handleOpenRatingModal = () => {
+    setOpenModal(true);
+    setModalMovieIndex(testMovie.title);
   };
 
   return (
@@ -44,7 +62,7 @@ export default function Body() {
                 value={timeframe}
                 onChange={handleTimeframeChange}
                 className="toggle-button-group"
-                color="primary"
+                color="info"
               >
                 <ToggleButton value="day">Day</ToggleButton>
                 <ToggleButton value="week">Week</ToggleButton>
@@ -58,12 +76,48 @@ export default function Body() {
                   src={`https://image.tmdb.org/t/p/w500${testMovie.poster_path}`}
                   alt={testMovie.title}
                 />
+
+                <div className="rating-container">
+                  <StarIcon />
+                  <span>8.4</span>
+                  <IconButton onClick={() => handleOpenRatingModal()}>
+                    <StarBorderIcon />
+                  </IconButton>
+                </div>
+
                 <span className="movie-title">{testMovie.title}</span>
+                <Button>+ Watchlist </Button>
               </div>
             ))}
           </div>
         </section>
       ))}
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box className="modal-box">
+          <StarIcon className="rating-icon" sx={{ fontSize: 200 }} />
+          <Typography variant="body2" className="rating-value">
+            {rating}
+          </Typography>
+          <Typography
+            id="modal-title"
+            className="modal-title"
+            variant="h6"
+            component="h2"
+          >
+            RATE THIS
+          </Typography>
+          <Typography className="rating-title">{modalMovieIndex}</Typography>
+          <Rating
+            name="rating"
+            max={10}
+            precision={1}
+            size="large"
+            onChange={(event, newValue) => setRating(newValue)}
+            className="rating-stars"
+          />
+          <Button variant="contained">Rate</Button>
+        </Box>
+      </Modal>
     </>
   );
 }

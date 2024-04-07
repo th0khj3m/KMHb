@@ -12,8 +12,6 @@
     margin-left: 20px;
 }
 
-/* .toggle-button-group: */
-
 .film-container-wrapper {
     overflow-x: auto;
     /* Enable horizontal scrolling */
@@ -34,12 +32,97 @@
 }
 
 .film-container .movie-title {
+    margin-top: 10px;
     width: 100%;
     text-align: center;
+    font-weight: 600;
+}
+
+.film-container>button {
+    margin-top: 10px;
+    background-color: #2C2C2C;
+    color: #0DB597;
+    border-radius: 5px;
+}
+
+.film-container>button:hover {
+    background-color: rgba(13, 181, 151, 0.4);
+    /* Adjust the opacity (0.8 in this case) */
 }
 
 .film-container img {
     width: 100%;
     height: auto;
     border-radius: 8px;
+}
+
+/* Rating */
+.film-container .rating-container {
+    display: inline-flex;
+    align-items: center;
+}
+
+.rating-container span {
+    margin-right: 5px;
+    /* Add some space between the star icon and the rating */
+}
+
+.modal-box {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 4rem;
+    top: 50%;
+    left: 50%;
+    /* position: absolute; */
+    transform: translate(-50%, -50%);
+    width: 50%;
+    background-color: white;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.modal-box .rating-icon {
+    position: absolute;
+    left: 50%;
+    bottom: 35%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-box .rating-value {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -70%);
+    color: white;
+    font-size: 3rem;
+}
+
+.modal-box .modal-title {
+    font-size: 16px;
+    color: #0DB597;
+    font-weight: bold;
+
+}
+
+.modal-box .rating-title {
+    font-size: 1.3em;
+    margin-top: -10px;
+}
+
+.modal-box .rating-stars .MuiRating-iconFilled,
+.modal-box .rating-icon {
+    color: #0DB597;
+}
+
+.modal-box .rating-stars {
+    margin-bottom: 15px;
+}
+
+.modal-box>button {
+    width: 60%;
+    background-color: #1F1F1F;
+    color: #0DB597
 }

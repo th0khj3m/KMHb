@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Backdrop, Button } from "@mui/material";
+import { Modal, Button } from "@mui/material";
 import "./video-modal.css";
 
 const ModalComponent = ({ open, handleClose, videoKey, videoName }) => {
@@ -9,7 +9,7 @@ const ModalComponent = ({ open, handleClose, videoKey, videoName }) => {
       onClose={handleClose} // Keep the onClose handle for internal closign
       closeAfterTransition
       className="custom-modal"
-      slots={{ backdrop: (props) => <Backdrop {...props} onClick={() => {}} /> }} //
+      // slots={{ backdrop: (props) => <Backdrop {...props} onClick={() => {}} /> }} //Prevent user from clicking outside to close
     >
       <div className="modal-container">
         <Button onClick={handleClose} variant="contained">
