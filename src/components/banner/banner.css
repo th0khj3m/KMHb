@@ -26,7 +26,6 @@
     pointer-events: auto;
 }
 
-
 .banner-film .poster {
     position: absolute;
     /* Position the poster absolutely */
@@ -71,6 +70,7 @@
 
 .banner-poster-section span.movie-title {
     font-size: 2em;
+    font-weight: 500;
 }
 
 /* Up next section */

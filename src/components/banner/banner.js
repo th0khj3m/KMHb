@@ -20,6 +20,7 @@ export default function Banner() {
   // Store trailers for each movie in a map
   const [trailers, setTrailers] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [modalMovieIndex, setModalMovieIndex] = useState(0);
   const [openModal, setOpenModal] = useState(false);
 
   // Fetch data when the component mounts
@@ -61,10 +62,12 @@ export default function Banner() {
     });
   };
 
-  const handleWatchVideos = async (movieId) => {
+  const handleOpenModal = async (movieIndex) => {
+    const movieId = upcomingMovies[movieIndex].id;
     if (!trailers[movieId]) {
       await fetchTrailer(movieId);
     }
+    setModalMovieIndex(movieIndex);
     setOpenModal(true);
   };
 
@@ -76,7 +79,7 @@ export default function Banner() {
             <img
               src={getBackdropAndPoster(upcomingMovies[currentIndex]).backdrop}
               alt={upcomingMovies[currentIndex].title}
-              onClick={() => handleWatchVideos(upcomingMovies[currentIndex].id)}
+              onClick={() => handleOpenModal(currentIndex)}
               className="backdrop"
             />
             <img
@@ -85,8 +88,13 @@ export default function Banner() {
               className="poster"
             />
             <section className="banner-poster-section">
-                
-              <button className="play-button">
+
+              <button
+                className="play-button"
+                onClick={() =>
+                  handleOpenModal(currentIndex)
+                }
+              >
                 <PlayCircleOutlineIcon
                   className="icon"
                   style={{ fontSize: 96 }}
@@ -110,6 +118,7 @@ export default function Banner() {
             >
               <ArrowBackIosNew />
             </Button>
+
             <Button
               className="next-button"
               onClick={handleNext}
@@ -120,13 +129,6 @@ export default function Banner() {
           </section>
         )}
       </section>
-      <VideoModal
-        open={openModal}
-        handleClose={() => setOpenModal(false)}
-        videoKey={trailers[upcomingMovies[currentIndex]?.id]?.key} // Pass the selected movie's trailer key
-        videoName={trailers[upcomingMovies[currentIndex]?.id]?.name} // Pass the selected movie's trailer name
-      />
-
       <section className="up-next-container">
         <h1> Up next </h1>
         <section className="up-next-content">
@@ -139,11 +141,14 @@ export default function Banner() {
                 <section key={movie.id} className="up-next-film">
                   <img
                     src={getBackdropAndPoster(movie).poster}
-                    alt={upcomingMovies[currentIndex].title}
+                    alt={movie.title}
                     className="up-next-poster"
                   />
                   <section className="up-next-infor">
-                    <button className="play-button">
+                    <button
+                      className="play-button"
+                      onClick={() => handleOpenModal(movieIndex)}
+                    >
                       <PlayCircleOutlineIcon
                         className="icon"
                         fontSize="large"
@@ -156,6 +161,12 @@ export default function Banner() {
               );
             })}
         </section>
+        <VideoModal
+          open={openModal}
+          handleClose={() => setOpenModal(false)}
+          videoKey={trailers[upcomingMovies[modalMovieIndex]?.id]?.key} // Pass the selected movie's trailer key
+          videoName={trailers[upcomingMovies[modalMovieIndex]?.id]?.name} // Pass the selected movie's trailer name
+        />
       </section>
     </section>
   );
