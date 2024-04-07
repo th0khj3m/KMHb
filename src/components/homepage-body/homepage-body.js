@@ -1,18 +1,18 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./homepage-body.css";
 
+//MUI
 import {
-  Modal,
-  Box,
   Button,
   ToggleButton,
   ToggleButtonGroup,
   IconButton,
-  Typography,
-  Rating,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+
+import RatingModal from "../rating-modal/rating-modal";
 
 const testMovie = {
   adult: false,
@@ -39,7 +39,7 @@ export default function Body() {
   const [timeframe, setTimeframe] = useState("day");
   const [openModal, setOpenModal] = useState(false);
   const [modalMovieIndex, setModalMovieIndex] = useState(null);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState("?");
 
   const handleTimeframeChange = (event, newValue) => {
     setTimeframe(newValue);
@@ -72,10 +72,12 @@ export default function Body() {
           <div className="film-container-wrapper">
             {Array.from({ length: 10 }).map((_, filmIndex) => (
               <div className="film-container" key={filmIndex}>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${testMovie.poster_path}`}
-                  alt={testMovie.title}
-                />
+                <Link to = {`/`}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${testMovie.poster_path}`}
+                    alt={testMovie.title}
+                  />
+                </Link>
 
                 <div className="rating-container">
                   <StarIcon />
@@ -92,32 +94,16 @@ export default function Body() {
           </div>
         </section>
       ))}
-      <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <Box className="modal-box">
-          <StarIcon className="rating-icon" sx={{ fontSize: 200 }} />
-          <Typography variant="body2" className="rating-value">
-            {rating}
-          </Typography>
-          <Typography
-            id="modal-title"
-            className="modal-title"
-            variant="h6"
-            component="h2"
-          >
-            RATE THIS
-          </Typography>
-          <Typography className="rating-title">{modalMovieIndex}</Typography>
-          <Rating
-            name="rating"
-            max={10}
-            precision={1}
-            size="large"
-            onChange={(event, newValue) => setRating(newValue)}
-            className="rating-stars"
-          />
-          <Button variant="contained">Rate</Button>
-        </Box>
-      </Modal>
+      <RatingModal
+        openModal={openModal}
+        handleClose={() => {
+          setRating("?");
+          setOpenModal(false);
+        }}
+        modalMovieIndex={modalMovieIndex}
+        rating={rating}
+        handleRating = {(event, newValue) => setRating(newValue)}
+      />
     </>
   );
 }

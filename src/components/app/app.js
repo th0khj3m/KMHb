@@ -19,7 +19,7 @@ import ListForm from "../../routes/list-form/list-form";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
-      <Route path="home" element={<Home />} />
+      <Route index element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="watchlist" element={<Watchlist />} />

@@ -18,3 +18,16 @@ export const fetchUpcomingMovies = createAsyncThunk(
     }
   }
 );
+
+export const fetchTrendingMovies = createAsyncThunk(
+  "movies/fetchTrendingMovies", 
+  async (_, thunkAPI) => {
+    try {
+      
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+)
+
+
