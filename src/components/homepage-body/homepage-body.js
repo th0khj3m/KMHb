@@ -72,7 +72,7 @@ export default function Body() {
           <div className="film-container-wrapper">
             {Array.from({ length: 10 }).map((_, filmIndex) => (
               <div className="film-container" key={filmIndex}>
-                <Link to = {`/`}>
+                <Link to = {`/movies/${testMovie.id}`}>
                   <img
                     src={`https://image.tmdb.org/t/p/w500${testMovie.poster_path}`}
                     alt={testMovie.title}
