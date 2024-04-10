@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./homepage-body.css";
 
 //MUI
 import {
@@ -8,11 +7,14 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   IconButton,
+  Typography,
+  Box,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-import RatingModal from "../rating-modal/rating-modal";
+import RatingModal from "./rating-modal/rating-modal";
+import { Img } from "../routes/root";
 
 const testMovie = {
   adult: false,
@@ -53,46 +55,62 @@ export default function Body() {
   return (
     <>
       {sections.map((section, index) => (
-        <section className="homepage-body" key={index}>
-          <div className="content-section">
-            <h2> {`${section.title}`} </h2>
+        <Box key={index} mt="30px" ml="35px">
+          <Box display="flex" alignItems={"center"} mb="20px">
+            <Typography variant="h4" component={"h2"}>
+              {`${section.title}`}
+            </Typography>
             {index === 0 && (
               <ToggleButtonGroup
                 exclusive
                 value={timeframe}
                 onChange={handleTimeframeChange}
-                className="toggle-button-group"
+                sx={{ ml: "20px" }}
                 color="info"
               >
                 <ToggleButton value="day">Day</ToggleButton>
                 <ToggleButton value="week">Week</ToggleButton>
               </ToggleButtonGroup>
             )}
-          </div>
-          <div className="film-container-wrapper">
+          </Box>
+
+          <Box display="flex" gap="10px" overflow={"auto"} pb="20px" mb="20px" >
             {Array.from({ length: 10 }).map((_, filmIndex) => (
-              <div className="film-container" key={filmIndex}>
-                <Link to = {`/movies/${testMovie.id}`}>
-                  <img
+              <Box
+                display="flex"
+                flexDirection="column"
+                width="15%"
+                flexGrow="0"
+                flexShrink="0"
+                flexBasis="auto"
+                key={filmIndex}
+              >
+                <Link to={`/movies/${testMovie.id}`}>
+                  <Img
                     src={`https://image.tmdb.org/t/p/w500${testMovie.poster_path}`}
                     alt={testMovie.title}
                   />
                 </Link>
 
-                <div className="rating-container">
+                <Box display={"flex"} alignItems={"center"}>
                   <StarIcon />
-                  <span>8.4</span>
-                  <IconButton onClick={() => handleOpenRatingModal()}>
+                  <Typography ml={"3px"}>8.4</Typography>
+                  <IconButton onClick={() => handleOpenRatingModal()} sx={{ml: "15px"}}>
                     <StarBorderIcon />
                   </IconButton>
-                </div>
+                </Box>
 
-                <span className="movie-title">{testMovie.title}</span>
-                <Button>+ Watchlist </Button>
-              </div>
+                <Typography fontWeight={"bold"} mb={"20px"}>{testMovie.title}</Typography>
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#2C2C2C", color: "#0DB597", "&:hover": {bgcolor: "rgba(13, 181, 151, 0.4)"} }}
+                >
+                  + Watchlist{" "}
+                </Button>
+              </Box>
             ))}
-          </div>
-        </section>
+          </Box>
+        </Box>
       ))}
       <RatingModal
         openModal={openModal}
@@ -102,7 +120,7 @@ export default function Body() {
         }}
         modalMovieIndex={modalMovieIndex}
         rating={rating}
-        handleRating = {(event, newValue) => setRating(newValue)}
+        handleRating={(event, newValue) => setRating(newValue)}
       />
     </>
   );

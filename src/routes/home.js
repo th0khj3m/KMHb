@@ -1,8 +1,7 @@
 import React from "react";
-import "./home.css";
 
-import Banner from "../../components/banner/banner";
-import Body from "../../components/homepage-body/homepage-body";
+import Banner from "../components/banner/banner";
+import Body from "../components/home-body";
 
 export default function Home() {
   return (
