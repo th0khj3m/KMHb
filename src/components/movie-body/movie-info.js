@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Box, Grid, Paper, Divider, Chip } from "@mui/material";
+import { Typography, Box, Grid, Paper, Divider, Chip, Container } from "@mui/material";
 import { Star } from "@mui/icons-material";
 import { Link } from "@mui/material";
 import { Img } from "../../routes/root";
@@ -10,6 +10,7 @@ export default function MovieDetailsInfo({ movie }) {
   } = movie;
 
   return (
+    <Container maxWidth="xl">
       <Grid container spacing={10} pt={"30px"}> 
         <Grid item md={8}>
           <Box>
@@ -74,7 +75,7 @@ export default function MovieDetailsInfo({ movie }) {
                 </Typography>
                 <Box display={"flex"} mb={"15px"} alignItems={"center"}>
                   <Chip
-                    icon={<Star color="primary" />}
+                    icon={<Star color="common.white" />}
                     label={movie.vote_average}
                     sx={{ color: "white", bgcolor: "#0DB597" }}
                   />
@@ -150,5 +151,6 @@ export default function MovieDetailsInfo({ movie }) {
           </Box>
         </Grid>
       </Grid>
+      </Container>
   );
 }
