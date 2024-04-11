@@ -110,12 +110,12 @@ export default function Banner() {
               sx={{
                 position: "absolute",
                 bottom: "10%",
-                transform: "translate(40%, 50%)",
+                transform: "translate(20%, 50%)",
                 width: "20%",
                 zIndex: 1,
               }}
             />
-            <Box sx={{ display: "flex", width: "70%", float: "right" }}>
+            <Box sx={{ display: "flex", width: "74%", float: "right" }}>
               <Button
                 sx={{
                   background: "none",
@@ -151,7 +151,7 @@ export default function Banner() {
                 border: "1px solid white",
               }}
             >
-              <ArrowBackIosNew />
+              <ArrowBackIosNew sx={{ color: "white" }} />
             </IconButton>
 
             <IconButton
@@ -167,7 +167,7 @@ export default function Banner() {
                 border: "1px solid white",
               }}
             >
-              <ArrowForwardIos />
+              <ArrowForwardIos sx={{ color: "white" }} />
             </IconButton>
           </Box>
         )}
@@ -186,7 +186,13 @@ export default function Banner() {
         >
           Up next
         </Typography>
-        <Box sx={{ backgroundColor: "linear-gradient(to bottom, #D9D9D9, #FFFFFF)", ml: 1, mt: 1 }}>
+        <Box
+          sx={{
+            background: "linear-gradient(to bottom, #D9D9D9, #FFFFFF)",
+            ml: 1,
+            mt: 1,
+          }}
+        >
           {upcomingMovies.length > 0 &&
             Array.from({ length: 3 }).map((_, index) => {
               const movieIndex =
@@ -212,13 +218,11 @@ export default function Banner() {
                         className="play-button"
                         onClick={() => handleOpenModal(movieIndex)}
                         sx={{
-                        
                           background: "none",
                           // justifyItems: "flex-start",
                           cursor: "pointer",
                           // border: "1px solid black",
                           p: 0,
-
                         }}
                       >
                         <PlayButton fontSize="large" sx={{ mr: "auto" }} />
