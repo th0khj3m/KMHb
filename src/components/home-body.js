@@ -13,7 +13,7 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-import RatingModal from "./rating-modal/rating-modal";
+import RatingModal from "./modal/rating-modal";
 import { Img } from "../routes/root";
 
 const testMovie = {

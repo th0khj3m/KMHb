@@ -1,19 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Button } from "@mui/material";
-import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import { Grid, Button, Box, Typography, IconButton } from "@mui/material";
+import { styled } from "@mui/system";
+import {
+  ArrowBackIosNew,
+  ArrowForwardIos,
+  PlayCircleOutline,
+} from "@mui/icons-material";
+import { Img } from "../../routes/root.js";
 
 import { fetchUpcomingMovies } from "../../store/movie/movie.actions";
 import { fetchNewestTrailer } from "../../store/video/video.actions.js";
 import { selectUpcomingMovies } from "../../store/movie/movie.reducers";
 
-import VideoModal from "../../components/video-modal/video-modal.js";
-import "./banner.css";
+import VideoModal from "../modal/video-modal.js";
 
 export default function Banner() {
+  const MovieOverview = styled(Typography)({
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 1,
+    WebkitBoxOrient: "vertical",
+    color: "#666", // Use a lighter shade of black
+  });
+
+  const PlayButton = styled(PlayCircleOutline)(({ theme }) => ({
+    color: "black",
+    "&:hover": {
+      color: theme.palette.main,
+    },
+  }));
+
   const dispatch = useDispatch();
   const upcomingMovies = Object.values(useSelector(selectUpcomingMovies));
 
@@ -72,102 +91,162 @@ export default function Banner() {
   };
 
   return (
-    <section className="banner-container">
-      <section className="banner-content">
+    <Grid container>
+      <Grid item md="8">
         {upcomingMovies.length > 0 && (
-          <section className="banner-film">
-            <img
+          <Box position={"relative"}>
+            <Img
               src={getBackdropAndPoster(upcomingMovies[currentIndex]).backdrop}
               alt={upcomingMovies[currentIndex].title}
               onClick={() => handleOpenModal(currentIndex)}
-              className="backdrop"
+              sx={{
+                cursor: "pointer",
+                pointerEvents: "auto",
+              }}
             />
-            <img
+            <Img
               src={getBackdropAndPoster(upcomingMovies[currentIndex]).poster}
               alt={upcomingMovies[currentIndex].title}
-              className="poster"
+              sx={{
+                position: "absolute",
+                bottom: "10%",
+                transform: "translate(40%, 50%)",
+                width: "20%",
+                zIndex: 1,
+              }}
             />
-            <section className="banner-poster-section">
-
-              <button
-                className="play-button"
-                onClick={() =>
-                  handleOpenModal(currentIndex)
-                }
+            <Box sx={{ display: "flex", width: "70%", float: "right" }}>
+              <Button
+                sx={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  p: 0,
+                }}
+                onClick={() => handleOpenModal(currentIndex)}
               >
-                <PlayCircleOutlineIcon
-                  className="icon"
-                  style={{ fontSize: 96 }}
-                />
-              </button>
+                <PlayButton sx={{ fontSize: "96px" }} />
+              </Button>
 
-              <section className="banner-film-infor">
-                <span className="movie-title">
+              <Box sx={{ ml: 2, mt: 1 }}>
+                <Typography variant="h4">
                   {upcomingMovies[currentIndex].title}
-                </span>
-                <span className="movie-overview">
+                </Typography>
+                <MovieOverview>
                   {upcomingMovies[currentIndex].overview}
-                </span>
-              </section>
-            </section>
+                </MovieOverview>
+              </Box>
+            </Box>
 
-            <Button
+            <IconButton
               className="back-button"
               onClick={handleBack}
-              variant="contained"
+              sx={{
+                position: "absolute",
+                top: "45%",
+                left: "10px",
+                transform: "translateY(-70%)",
+                backgroundColor: "#3A3E29",
+                opacity: 0.5,
+                border: "1px solid white",
+              }}
             >
               <ArrowBackIosNew />
-            </Button>
+            </IconButton>
 
-            <Button
+            <IconButton
               className="next-button"
               onClick={handleNext}
-              variant="contained"
+              sx={{
+                position: "absolute",
+                top: "45%",
+                right: "10px",
+                transform: "translateY(-70%)",
+                backgroundColor: "#3A3E29",
+                opacity: 0.5,
+                border: "1px solid white",
+              }}
             >
               <ArrowForwardIos />
-            </Button>
-          </section>
+            </IconButton>
+          </Box>
         )}
-      </section>
-      <section className="up-next-container">
-        <h1> Up next </h1>
-        <section className="up-next-content">
+      </Grid>
+
+      <Grid item md="4">
+        <Typography
+          variant="h2"
+          sx={{
+            color: "#00E5C6",
+            fontWeight: "bold",
+            fontSize: "1.5em",
+            ml: 1,
+            mt: 1,
+          }}
+        >
+          Up next
+        </Typography>
+        <Box sx={{ backgroundColor: "linear-gradient(to bottom, #D9D9D9, #FFFFFF)", ml: 1, mt: 1 }}>
           {upcomingMovies.length > 0 &&
             Array.from({ length: 3 }).map((_, index) => {
               const movieIndex =
                 (currentIndex + index + 1) % upcomingMovies.length;
               const movie = upcomingMovies[movieIndex];
               return (
-                <section key={movie.id} className="up-next-film">
-                  <img
-                    src={getBackdropAndPoster(movie).poster}
-                    alt={movie.title}
-                    className="up-next-poster"
-                  />
-                  <section className="up-next-infor">
-                    <button
-                      className="play-button"
-                      onClick={() => handleOpenModal(movieIndex)}
+                <Grid container key={movie.id} p="10px">
+                  <Grid item md="3">
+                    <Img
+                      src={getBackdropAndPoster(movie).poster}
+                      alt={movie.title}
+                    />
+                  </Grid>
+                  <Grid item md="9">
+                    <Box
+                      pl="15px"
+                      display={"flex"}
+                      flexDirection={"column"}
+                      alignItems={"start"}
+                      ml={"auto"}
                     >
-                      <PlayCircleOutlineIcon
-                        className="icon"
-                        fontSize="large"
-                      />
-                    </button>
-                    <span className="movie-title"> {movie.title} </span>
-                    <span className="movie-overview"> {movie.overview}</span>
-                  </section>
-                </section>
+                      <Button
+                        className="play-button"
+                        onClick={() => handleOpenModal(movieIndex)}
+                        sx={{
+                        
+                          background: "none",
+                          // justifyItems: "flex-start",
+                          cursor: "pointer",
+                          // border: "1px solid black",
+                          p: 0,
+
+                        }}
+                      >
+                        <PlayButton fontSize="large" sx={{ mr: "auto" }} />
+                      </Button>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontWeight: 500,
+                          display: "block",
+                          fontSize: "large",
+                        }}
+                      >
+                        {movie.title}
+                      </Typography>
+                      <MovieOverview>{movie.overview}</MovieOverview>
+                    </Box>
+                  </Grid>
+                </Grid>
               );
             })}
-        </section>
+        </Box>
         <VideoModal
           open={openModal}
           handleClose={() => setOpenModal(false)}
           videoKey={trailers[upcomingMovies[modalMovieIndex]?.id]?.key} // Pass the selected movie's trailer key
           videoName={trailers[upcomingMovies[modalMovieIndex]?.id]?.name} // Pass the selected movie's trailer name
         />
-      </section>
-    </section>
+      </Grid>
+    </Grid>
   );
 }

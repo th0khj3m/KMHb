@@ -5,11 +5,10 @@ import { Box, Container, Typography } from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 export const Img = styled("img")({
-  margin: "auto",
   display: "block",
+  margin: "auto",
   maxWidth: "100%",
   maxHeight: "100%",
-  borderRadius: "6px",
 });
 
 export const WhiteTypography = styled(Typography)({

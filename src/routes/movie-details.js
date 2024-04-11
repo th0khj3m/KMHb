@@ -1,6 +1,6 @@
 import React from "react";
-import MovieDetailsBanner from "../components/movie-body/movie-banner";
-import MovieDetailsInfo from "../components/movie-body/movie-info";
+import MovieDetailsBanner from "../components/movie-details-body/movie-details-banner";
+import MovieDetailsInfo from "../components/movie-details-body/movie-details-info";
 
 const testMovie = {
   adult: false,
