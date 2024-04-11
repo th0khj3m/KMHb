@@ -10,9 +10,9 @@ import {
 } from "@mui/icons-material";
 import { Img } from "../../routes/root.js";
 
-import { fetchUpcomingMovies } from "../../store/movie/movie.actions";
+import { fetchUpcomingMovies } from "../../store/movie/movie.actions.js";
 import { fetchNewestTrailer } from "../../store/video/video.actions.js";
-import { selectUpcomingMovies } from "../../store/movie/movie.reducers";
+import { selectUpcomingMovies } from "../../store/movie/movie.reducers.js";
 
 import VideoModal from "../modal/video-modal.js";
 
@@ -92,7 +92,7 @@ export default function Banner() {
 
   return (
     <Grid container>
-      <Grid item md="8">
+      <Grid item md={8}>
         {upcomingMovies.length > 0 && (
           <Box position={"relative"}>
             <Img
@@ -173,7 +173,7 @@ export default function Banner() {
         )}
       </Grid>
 
-      <Grid item md="4">
+      <Grid item md={4}>
         <Typography
           variant="h2"
           sx={{
@@ -200,13 +200,13 @@ export default function Banner() {
               const movie = upcomingMovies[movieIndex];
               return (
                 <Grid container key={movie.id} p="10px">
-                  <Grid item md="3">
+                  <Grid item md={3}>
                     <Img
                       src={getBackdropAndPoster(movie).poster}
                       alt={movie.title}
                     />
                   </Grid>
-                  <Grid item md="9">
+                  <Grid item md={9}>
                     <Box
                       pl="15px"
                       display={"flex"}
@@ -219,9 +219,7 @@ export default function Banner() {
                         onClick={() => handleOpenModal(movieIndex)}
                         sx={{
                           background: "none",
-                          // justifyItems: "flex-start",
                           cursor: "pointer",
-                          // border: "1px solid black",
                           p: 0,
                         }}
                       >

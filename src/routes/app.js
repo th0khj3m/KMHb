@@ -5,16 +5,16 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import Root from "../routes/root.js";
-import Home from "../routes/home.js";
-import Login from "../routes/login/login";
-import Register from "../routes/register/register";
-import Watchlist from "../routes/watchlist.js";
-import MovieDetails from "../routes/movie-details.js";
-import CastDetails from "../routes/cast";
-import Lists from "../routes/lists.js";
-import List from "../routes/list-details.js";
-import ListForm from "../routes/list-form/list-form";
+import Root from "./root.js";
+import Home from "./home.js";
+import Login from "./login/login.js";
+import Register from "./register/register.js";
+import Watchlist from "./watchlist.js";
+import MovieDetails from "./movie-details.js";
+import CastDetails from "./cast-details.js";
+import Lists from "./lists.js";
+import List from "./list-details.js";
+import ListForm from "./list-form/list-form.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

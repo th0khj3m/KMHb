@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Box, Grid, Paper, Divider, Chip, Container } from "@mui/material";
 import { Star } from "@mui/icons-material";
-import { Link } from "@mui/material";
+import { Link } from "react-router-dom";
 import { Img } from "../../routes/root";
 
 export default function MovieDetailsInfo({ movie }) {
@@ -33,7 +33,7 @@ export default function MovieDetailsInfo({ movie }) {
                     flexBasis: "auto",
                   }}
                 >
-                  <Link to={`/casts/${cast.id}`}>
+                  <Link to={`/casts/${cast[0].id}`}>
                     <Img
                       src={`https://image.tmdb.org/t/p/w500${cast[0].profile_path}`}
                       alt="hehe"

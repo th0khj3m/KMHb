@@ -1,7 +1,7 @@
 import React from "react";
 
-import Banner from "../components/banner/banner";
-import Body from "../components/home-body";
+import Banner from "../components/home/home-banner";
+import Body from "../components/home/home-body";
 
 export default function Home() {
   return (

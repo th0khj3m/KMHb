@@ -13,8 +13,8 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-import RatingModal from "./modal/rating-modal";
-import { Img } from "../routes/root";
+import RatingModal from "../modal/rating-modal";
+import { Img } from "../../routes/root";
 
 const testMovie = {
   adult: false,
@@ -74,15 +74,13 @@ export default function Body() {
             )}
           </Box>
 
-          <Box display="flex" gap="10px" overflow={"auto"} pb="20px" mb="20px" >
+          <Box display="flex" gap="10px" overflow={"auto"} pb="20px" mb="20px">
             {Array.from({ length: 10 }).map((_, filmIndex) => (
               <Box
                 display="flex"
                 flexDirection="column"
                 width="15%"
-                flexGrow="0"
                 flexShrink="0"
-                flexBasis="auto"
                 key={filmIndex}
               >
                 <Link to={`/movies/${testMovie.id}`}>
@@ -95,17 +93,27 @@ export default function Body() {
                 <Box display={"flex"} alignItems={"center"}>
                   <StarIcon />
                   <Typography ml={"3px"}>8.4</Typography>
-                  <IconButton onClick={() => handleOpenRatingModal()} sx={{ml: "15px"}}>
+                  <IconButton
+                    onClick={() => handleOpenRatingModal()}
+                    sx={{ ml: "15px" }}
+                  >
                     <StarBorderIcon />
                   </IconButton>
                 </Box>
 
-                <Typography fontWeight={"bold"} mb={"20px"}>{testMovie.title}</Typography>
+                <Typography fontWeight={"bold"} mb={"20px"}>
+                  {testMovie.title}
+                </Typography>
+
                 <Button
                   variant="contained"
-                  sx={{ bgcolor: "#2C2C2C", color: "#0DB597", "&:hover": {bgcolor: "rgba(13, 181, 151, 0.4)"} }}
+                  sx={{
+                    bgcolor: "#2C2C2C",
+                    color: "#0DB597",
+                    "&:hover": { bgcolor: "rgba(13, 181, 151, 0.4)" },
+                  }}
                 >
-                  + Watchlist{" "}
+                  + Watchlist
                 </Button>
               </Box>
             ))}

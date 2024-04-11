@@ -43,9 +43,9 @@ const theme = createTheme({
 export default function Root() {
   return (
     <ThemeProvider theme={theme}>
-      <Box display="flex" flexDirection={"column"}>
+      <Box display="flex" flexDirection={"column"} sx = {{ minHeight: "100vh"}}>
         <Header />
-        <Container sx={{ flexGrow: "1" }} maxWidth="xl" disableGutters>
+        <Container sx={{ flexGrow: 1 }} maxWidth="xl" disableGutters>
           <Outlet />
         </Container>
         <Footer />
