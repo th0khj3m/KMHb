@@ -6,14 +6,11 @@ import {
   Button,
   ToggleButton,
   ToggleButtonGroup,
-  IconButton,
   Typography,
   Box,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-import RatingModal from "../modal/rating-modal";
+import MovieRating from "../movie-rating";
 import { Img } from "../../routes/root";
 
 const testMovie = {
@@ -39,17 +36,9 @@ const sections = [{ title: "Trending" }, { title: "Latest" }];
 
 export default function Body() {
   const [timeframe, setTimeframe] = useState("day");
-  const [openModal, setOpenModal] = useState(false);
-  const [modalMovieIndex, setModalMovieIndex] = useState(null);
-  const [rating, setRating] = useState("?");
 
   const handleTimeframeChange = (event, newValue) => {
     setTimeframe(newValue);
-  };
-
-  const handleOpenRatingModal = () => {
-    setOpenModal(true);
-    setModalMovieIndex(testMovie.title);
   };
 
   return (
@@ -74,7 +63,7 @@ export default function Body() {
             )}
           </Box>
 
-          <Box display="flex" gap="10px" overflow={"auto"} pb="20px" mb="20px">
+          <Box display="flex" gap="20px" overflow={"auto"} pb="20px" mb="20px">
             {Array.from({ length: 10 }).map((_, filmIndex) => (
               <Box
                 display="flex"
@@ -87,19 +76,11 @@ export default function Body() {
                   <Img
                     src={`https://image.tmdb.org/t/p/w500${testMovie.poster_path}`}
                     alt={testMovie.title}
+                    sx={{ borderRadius: "8px" }}
                   />
                 </Link>
 
-                <Box display={"flex"} alignItems={"center"}>
-                  <StarIcon />
-                  <Typography ml={"3px"}>8.4</Typography>
-                  <IconButton
-                    onClick={() => handleOpenRatingModal()}
-                    sx={{ ml: "15px" }}
-                  >
-                    <StarBorderIcon />
-                  </IconButton>
-                </Box>
+                <MovieRating movie={testMovie.title}/>
 
                 <Typography fontWeight={"bold"} mb={"20px"}>
                   {testMovie.title}
@@ -120,16 +101,6 @@ export default function Body() {
           </Box>
         </Box>
       ))}
-      <RatingModal
-        openModal={openModal}
-        handleClose={() => {
-          setRating("?");
-          setOpenModal(false);
-        }}
-        modalMovieIndex={modalMovieIndex}
-        rating={rating}
-        handleRating={(event, newValue) => setRating(newValue)}
-      />
     </>
   );
 }

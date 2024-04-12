@@ -45,7 +45,7 @@ export default function RatingModal({
             position: "absolute",
             left: "50%",
             top: 0,
-            transform: "translate(-50%, -70%)",
+            transform: "translate(-50%, -100%)",
             color: "white",
             fontSize: "3rem",
           }}

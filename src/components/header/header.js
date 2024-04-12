@@ -1,11 +1,13 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import Search from "../search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { AppBar, Toolbar, IconButton, Typography, Container, Box } from '@mui/material';
 
 export default function Header() {
   return (
-    <header className = "root-header">
+    <Box component="header" className = "root-header">
       <nav>
         <ul>
           <li className = "logo">
@@ -47,6 +49,6 @@ export default function Header() {
           </li>
         </ul>
       </nav>
-    </header>
+    </Box>
   );
 }

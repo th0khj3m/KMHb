@@ -1,6 +1,6 @@
 import Header from "../components/header/header";
 import { Outlet } from "react-router-dom";
-import Footer from "../components/footer/footer";
+import Footer from "../components/footer";
 import { Box, Container, Typography } from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 

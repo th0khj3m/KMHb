@@ -10,6 +10,7 @@ import Home from "./home.js";
 import Login from "./login/login.js";
 import Register from "./register/register.js";
 import Watchlist from "./watchlist.js";
+import Movies from "./movies.js";
 import MovieDetails from "./movie-details.js";
 import CastDetails from "./cast-details.js";
 import Lists from "./lists.js";
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="watchlist" element={<Watchlist />} />
+      <Route path="movies" element={<Movies />} />
       <Route path="movies/:movieId" element={<MovieDetails />} />
       <Route path="casts/:castId" element={<CastDetails />} />
       <Route path="lists" element={<Lists />} />
