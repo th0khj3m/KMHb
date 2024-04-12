@@ -12,6 +12,7 @@ import Register from "./register/register.js";
 import Watchlist from "./watchlist.js";
 import Movies from "./movies.js";
 import MovieDetails from "./movie-details.js";
+import Reviews from "./reviews.js";
 import CastDetails from "./cast-details.js";
 import Lists from "./lists.js";
 import List from "./list-details.js";
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
       <Route path="watchlist" element={<Watchlist />} />
       <Route path="movies" element={<Movies />} />
       <Route path="movies/:movieId" element={<MovieDetails />} />
+      <Route path="movies/:movieId/reviews" element={<Reviews/>} />
       <Route path="casts/:castId" element={<CastDetails />} />
       <Route path="lists" element={<Lists />} />
       <Route path="lists/:title" element={<List />} />

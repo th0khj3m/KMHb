@@ -1,4 +1,4 @@
-import Header from "../components/header/header";
+import Header from "../components/header";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/footer";
 import { Box, Container, Typography } from "@mui/material";
@@ -36,7 +36,7 @@ const theme = createTheme({
     },
     details_banner: {
       color: "#fff"
-    }
+    },
   },
 });
 

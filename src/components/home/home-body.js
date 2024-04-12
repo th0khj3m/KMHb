@@ -44,7 +44,7 @@ export default function Body() {
   return (
     <>
       {sections.map((section, index) => (
-        <Box key={index} mt="30px" ml="35px">
+        <Box key={index} mt="50px" ml="35px">
           <Box display="flex" alignItems={"center"} mb="20px">
             <Typography variant="h4" component={"h2"}>
               {`${section.title}`}

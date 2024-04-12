@@ -36,12 +36,11 @@ export default function Banner() {
   const ArrowButton = styled(IconButton)({
     position: "absolute",
     top: "45%",
-    left: "10px",
     transform: "translateY(-70%)",
     backgroundColor: "#3A3E29",
     opacity: 0.5,
     border: "1px solid white",
-  })
+  });
 
   const dispatch = useDispatch();
   const upcomingMovies = Object.values(useSelector(selectUpcomingMovies));
@@ -148,36 +147,24 @@ export default function Banner() {
               </Box>
             </Box>
 
-            <IconButton
+            <ArrowButton
               onClick={handleBack}
               sx={{
-                position: "absolute",
-                top: "45%",
                 left: "10px",
-                transform: "translateY(-70%)",
-                backgroundColor: "#3A3E29",
-                opacity: 0.5,
-                border: "1px solid white",
               }}
             >
               <ArrowBackIosNew sx={{ color: "white" }} />
-            </IconButton>
+            </ArrowButton>
 
-            <IconButton
+            <ArrowButton
               className="next-button"
               onClick={handleNext}
               sx={{
-                position: "absolute",
-                top: "45%",
                 right: "10px",
-                transform: "translateY(-70%)",
-                backgroundColor: "#3A3E29",
-                opacity: 0.5,
-                border: "1px solid white",
               }}
             >
               <ArrowForwardIos sx={{ color: "white" }} />
-            </IconButton>
+            </ArrowButton>
           </Box>
         )}
       </Grid>
