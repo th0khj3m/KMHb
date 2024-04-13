@@ -1,5 +1,13 @@
 import React from "react";
-import { Typography, Box, Grid, Paper, Divider, Chip, Container } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Grid,
+  Paper,
+  Divider,
+  Chip,
+  Container,
+} from "@mui/material";
 import { Star } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { Img } from "../../routes/root";
@@ -11,7 +19,7 @@ export default function MovieDetailsInfo({ movie }) {
 
   return (
     <Container maxWidth="xl">
-      <Grid container spacing={10} pt={"30px"}> 
+      <Grid container spacing={10} pt={"30px"}>
         <Grid item md={8}>
           <Box>
             <Typography variant="h5" fontWeight="600" mb="15px" component="h2">
@@ -99,7 +107,11 @@ export default function MovieDetailsInfo({ movie }) {
                 </Typography>
               </Box>
             </Paper>
-            <Typography fontWeight={"600"}>Read all reviews</Typography>
+            <Link to="reviews" style={{ textDecoration: "none" }}>
+              <Typography color="black" fontWeight={"600"}>
+                Read all reviews
+              </Typography>
+            </Link>
           </Box>
 
           <Divider />
@@ -151,6 +163,6 @@ export default function MovieDetailsInfo({ movie }) {
           </Box>
         </Grid>
       </Grid>
-      </Container>
+    </Container>
   );
 }
