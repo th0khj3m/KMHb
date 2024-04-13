@@ -4,14 +4,14 @@ import { Modal, Box, Button, Typography, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 
 export default function RatingModal({
-  openModal,
+  isOpen,
   handleClose,
   modalMovieIndex,
   rating,
   handleRating,
 }) {
   return (
-    <Modal open={openModal} onClose={handleClose}>
+    <Modal open={isOpen} onClose={handleClose}>
       <Box
         sx={{
           display: "flex",
@@ -45,7 +45,7 @@ export default function RatingModal({
             position: "absolute",
             left: "50%",
             top: 0,
-            transform: "translate(-50%, -100%)",
+            transform: "translate(-50%, -70%)",
             color: "white",
             fontSize: "3rem",
           }}

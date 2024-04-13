@@ -34,7 +34,7 @@ const testMovie = {
 
 const sections = [{ title: "Trending" }, { title: "Latest" }];
 
-export default function Body() {
+export default function HomeBody() {
   const [timeframe, setTimeframe] = useState("day");
 
   const handleTimeframeChange = (event, newValue) => {
@@ -80,7 +80,7 @@ export default function Body() {
                   />
                 </Link>
 
-                <MovieRating movie={testMovie.title}/>
+                <MovieRating movie={testMovie.title} />
 
                 <Typography fontWeight={"bold"} mb={"20px"}>
                   {testMovie.title}

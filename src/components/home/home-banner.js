@@ -16,7 +16,7 @@ import { selectUpcomingMovies } from "../../store/movie/movie.reducers.js";
 
 import VideoModal from "../modal/video-modal.js";
 
-export default function Banner() {
+export default function HomeBanner() {
   const MovieOverview = styled(Typography)({
     overflow: "hidden",
     textOverflow: "ellipsis",

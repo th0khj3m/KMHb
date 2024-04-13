@@ -11,8 +11,64 @@ import {
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { Star, Create as CreateIcon } from "@mui/icons-material";
+import ReviewModal from "../components/modal/review-modal";
+import { useModal } from "../hooks/useModal";
+
+const testMovie = {
+  adult: false,
+  backdrop_path: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+  id: 693134,
+  title: "Dune: Part Two",
+  original_language: "en",
+  original_title: "Dune: Part Two",
+  overview:
+    "Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the known universe, Paul endeavors to prevent a terrible future only he can foresee.",
+  poster_path: "/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+  budget: 190000000,
+  media_type: "movie",
+  popularity: 986.406,
+  revenue: 660000000,
+  runtime: 167,
+  status: "Released",
+  release_date: "2024-02-27",
+  video: false,
+  vote_average: 8.359,
+  vote_count: 2466,
+  key: "6czYOLR3tBg",
+  genres: [
+    {
+      id: 878,
+      name: "Science Fiction",
+    },
+    {
+      id: 12,
+      name: "Adventure",
+    },
+  ],
+  casts: {
+    cast: [
+      {
+        adult: false,
+        gender: 2,
+        id: 1190668,
+        known_for_department: "Acting",
+        name: "Timothée Chalamet",
+        original_name: "Timothée Chalamet",
+        popularity: 125.345,
+        profile_path: "/BE2sdjpgsa2rNTFa66f7upkaOP.jpg",
+        cast_id: 2,
+        character: "Paul Atreides",
+        credit_id: "5e959c45955c6500159f1c98",
+        order: 0,
+      },
+    ],
+  },
+};
 
 export default function Reviews() {
+  const { openModal, handleOpenModal, handleCloseModal, modalIndex } =
+    useModal();
+
   return (
     <Container maxWidth="xl">
       <Grid container mt="30px">
@@ -20,14 +76,22 @@ export default function Reviews() {
           <Button
             variant="contained"
             startIcon={<CreateIcon />}
-            sx={{ bgcolor: "black", fontWeight: "bold", borderRadius: "20px" }}
+            onClick={() => handleOpenModal(testMovie)}
+            sx={{
+              bgcolor: "black",
+              fontWeight: "bold",
+              borderRadius: "20px",
+              "&:hover": {
+                bgcolor: "#333",
+              },
+            }}
           >
             WRITE REVIEW
           </Button>
         </Grid>
         <Grid item md={9}>
           {Array.from({ length: 4 }).map((index) => (
-            <Paper elevation={3} sx={{ mb: 4 }}>
+            <Paper elevation={3} sx={{ mb: 4 }} key={index}>
               <Box p={"15px"}>
                 <Grid container ml={"-8px"}>
                   <Grid item>
@@ -42,7 +106,7 @@ export default function Reviews() {
                   <Grid item>
                     <Box display={"flex"} flexDirection={"column"}>
                       <Typography fontWeight={"bold"} fontSize={"20px"}>
-                        A review by user
+                        Title
                       </Typography>
                       <Box display={"flex"} alignItems={"center"} gap={"10px"}>
                         <Chip
@@ -77,6 +141,13 @@ export default function Reviews() {
           ))}
         </Grid>
       </Grid>
+      {openModal && (
+        <ReviewModal
+          isOpen={openModal}
+          handleClose={handleCloseModal}
+          modalMovieIndex={modalIndex}
+        />
+      )}
     </Container>
   );
 }
