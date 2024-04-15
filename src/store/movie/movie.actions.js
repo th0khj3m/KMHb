@@ -34,4 +34,19 @@ export const fetchTrendingMovies = createAsyncThunk(
   }
 )
 
+export const fetchPopularMovies = createAsyncThunk(
+  "movies/fetchPopularMovies", 
+  async (_, thunkAPI) => {
+    try {
+      const urlToFetch = `${apiUrl}/movie/popular${apiKeyParams}&page=1`;
+      const response = await axios.get(urlToFetch);
+      return {
+        popularMovies: response.data.results
+      };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+)
+
 

@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUpcomingMovies } from "./movie.actions";
-import { fetchTrendingMovies } from "./movie.actions";
+import {
+  fetchUpcomingMovies,
+  fetchTrendingMovies,
+  fetchPopularMovies,
+} from "./movie.actions";
 
 const initialState = {
   upcomingMovies: {},
   trendingMovies: {},
+  popularMovies: {},
   loading: false,
   error: null,
 };
@@ -16,6 +20,10 @@ const movieSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTrendingMovies.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPopularMovies.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -31,6 +39,13 @@ const movieSlice = createSlice({
         trendingMovies.forEach((movie) => {
           const { id } = movie;
           state.trendingMovies[id] = movie;
+        });
+      })
+      .addCase(fetchPopularMovies.fulfilled, (state, action) => {
+        const { popularMovies } = action.payload;
+        popularMovies.forEach((movie) => {
+          const { id } = movie;
+          state.popularMovies[id] = movie;
         });
       });
   },
