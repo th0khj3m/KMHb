@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  Container,
   Typography,
   Divider,
   Grid,
   Box,
-  Rating,
   Paper,
   Button,
   FormControl,
@@ -20,6 +18,7 @@ import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
 import { Img, ModalContainer } from "../../routes/root";
+import useRating from "../../hooks/useRating";
 
 const testMovies = [
   {
@@ -41,7 +40,9 @@ const testMovies = [
   },
 ];
 
-export default function ReviewModal({ isOpen, handleClose, modalMovieIndex }) {
+export default function ReviewModal() {
+  const { ratingComponent, rating } = useRating();
+
   const validationSchema = Yup.object().shape({
     headline: Yup.string().required("Headline is required."),
     content: Yup.string()
@@ -57,7 +58,7 @@ export default function ReviewModal({ isOpen, handleClose, modalMovieIndex }) {
 
   const ErrorDisplay = ({ error, touched }) => {
     return error && touched ? (
-      <FormHelperText>
+      <FormHelperText sx={{ mt: "10px" }}>
         <Box display="flex" alignItems="center">
           <InputAdornment position="start">
             <ErrorIcon color="error" />
@@ -71,7 +72,7 @@ export default function ReviewModal({ isOpen, handleClose, modalMovieIndex }) {
   };
 
   return (
-    <ModalContainer maxWidth="sm" >
+    <ModalContainer maxWidth="sm">
       <Paper elevation={4} sx={{ borderRadius: "10px", p: "15px" }}>
         <Stack sx={{ bgcolor: "#f3f3f3" }} divider={<Divider />}>
           <Grid container>
@@ -92,16 +93,12 @@ export default function ReviewModal({ isOpen, handleClose, modalMovieIndex }) {
           </Grid>
           <Typography p={"5px"}>YOUR RATING</Typography>
         </Stack>
-        <Rating
-          name="rating"
-          max={10}
-          precision={1}
-          size="large"
-          // onChange={handleRating}
-          sx={{ marginBottom: "15px", color: "main" }}
-        />
-        <Box display={"flex"} flexDirection={"column"} >
-          <Typography bgcolor={"#f3f3f3"}>YOUR REVIEW</Typography>
+        <Box display={"flex"} mt="10px">
+          {ratingComponent}
+          <Typography ml={"5px"} mt="5px">{rating}</Typography>
+        </Box>
+        <Box display={"flex"} flexDirection={"column"} gap={"10px"}>
+          <Typography bgcolor={"#f3f3f3"} p={"5px"}>YOUR REVIEW</Typography>
           <Formik
             initialValues={{
               headline: "",
@@ -143,7 +140,12 @@ export default function ReviewModal({ isOpen, handleClose, modalMovieIndex }) {
                     id="content-helper-text"
                   />
                 </FormControl>
-                <Button type="submit" fullWidth>
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mt: "30px" }}
+                >
                   Submit
                 </Button>
               </Form>
