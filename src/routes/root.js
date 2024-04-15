@@ -11,13 +11,24 @@ export const Img = styled("img")({
   maxHeight: "100%",
 });
 
+export const ModalContainer = styled(Container)({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "100%",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+});
+
 export const WhiteTypography = styled(Typography)({
   color: "#fff",
 });
 
 const theme = createTheme({
   palette: {
-    main: "#0DB597"
+    main: "#0DB597",
   },
   components: {
     MuiDivider: {
@@ -35,7 +46,7 @@ const theme = createTheme({
       color: "#41A58D", // Your desired color for release date
     },
     details_banner: {
-      color: "#fff"
+      color: "#fff",
     },
   },
 });
@@ -43,7 +54,7 @@ const theme = createTheme({
 export default function Root() {
   return (
     <ThemeProvider theme={theme}>
-      <Box display="flex" flexDirection={"column"} sx = {{ minHeight: "100vh"}}>
+      <Box display="flex" flexDirection={"column"} sx={{ minHeight: "100vh" }}>
         <Header />
         <Container sx={{ flexGrow: 1 }} maxWidth="xl" disableGutters>
           <Outlet />
