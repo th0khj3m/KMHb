@@ -9,7 +9,7 @@ export default function ModalRender({
 }) {
   return (
     <Modal open={isOpen} onClose={handleClose}>
-        <Component {...modalProps}/>
+      <Component {...modalProps} />
     </Modal>
   );
 }

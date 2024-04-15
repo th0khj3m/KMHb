@@ -4,6 +4,13 @@ import Footer from "../components/footer";
 import { Box, Container, Typography } from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
+export const clampStyles = {
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
+  WebkitLineClamp: 2, // Limit to 2 lines
+};
+
 export const Img = styled("img")({
   display: "block",
   margin: "auto",
