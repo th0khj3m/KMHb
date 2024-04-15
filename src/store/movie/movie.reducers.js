@@ -5,6 +5,7 @@ import { fetchTrendingMovies } from "./movie.actions";
 const initialState = {
   upcomingMovies: {},
   trendingMovies: {},
+  loading: false,
   error: null,
 };
 
@@ -14,6 +15,10 @@ const movieSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchTrendingMovies.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchUpcomingMovies.fulfilled, (state, action) => {
         const { upcomingMovies } = action.payload;
         upcomingMovies.forEach((movie) => {
@@ -24,13 +29,12 @@ const movieSlice = createSlice({
       .addCase(fetchTrendingMovies.fulfilled, (state, action) => {
         const { trendingMovies } = action.payload;
         trendingMovies.forEach((movie) => {
-          const {id} = movie;
+          const { id } = movie;
           state.trendingMovies[id] = movie;
-        })
-      })
+        });
+      });
   },
 });
 
 export const selectUpcomingMovies = (state) => state.movies.upcomingMovies;
-export const selectTrendingMovies = (state) => state.movies.trendingMovies;
 export default movieSlice.reducer;
