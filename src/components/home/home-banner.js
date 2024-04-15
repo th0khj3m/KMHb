@@ -10,9 +10,9 @@ import {
 } from "@mui/icons-material";
 import { Img } from "../../routes/root.js";
 
-import { fetchUpcomingMovies } from "../../store/movie/movie.actions.js";
+import { fetchUpcomingMovies } from "../../store/movies/movies.actions.js";
 import { fetchNewestTrailer } from "../../store/video/video.actions.js";
-import { selectUpcomingMovies } from "../../store/movie/movie.reducers.js";
+import { selectUpcomingMovies } from "../../store/movies/movies.reducers.js";
 
 import VideoModal from "../modal/video-modal.js";
 

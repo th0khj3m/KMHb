@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import MovieDetailsBanner from "../components/movie-details-body/movie-details-banner";
 import MovieDetailsInfo from "../components/movie-details-body/movie-details-info";
+import { useParams } from "react-router-dom";
+import { fetchMovieDetails } from "../store/movie/movie.actions";
 
 const testMovie = {
   adult: false,
@@ -54,10 +57,30 @@ const testMovie = {
 };
 
 export default function MovieDetailsContent() {
+  const dispatch = useDispatch();
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const response = await dispatch(fetchMovieDetails(movieId)).unwrap();
+        setMovie(response.movieDetails);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchMovie();
+  }, [movieId, dispatch]);
+
   return (
     <>
-      <MovieDetailsBanner movie={testMovie} />
-      <MovieDetailsInfo movie={testMovie} />
+      {movie && ( // Check if movie is not null before rendering
+        <>
+          <MovieDetailsBanner movie={movie} />
+          <MovieDetailsInfo movie={movie} />
+        </>
+      )}
     </>
   );
-}
+};

@@ -15,7 +15,7 @@ import { clampStyles } from "../../routes/root";
 import {
   fetchPopularMovies,
   fetchTrendingMovies,
-} from "../../store/movie/movie.actions";
+} from "../../store/movies/movies.actions";
 
 import RatingBox from "../rating-box";
 import { Img } from "../../routes/root";
@@ -51,14 +51,13 @@ export default function HomeBody() {
           popularMovies: popular.popularMovies,
         }));
 
-        handleLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, [handleLoading, dispatch, timeframe]);
+  }, [dispatch, timeframe]);
 
   return (
     <>
