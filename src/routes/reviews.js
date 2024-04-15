@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { Star, Create as CreateIcon } from "@mui/icons-material";
+import ModalRender from "../components/modal-render";
 import ReviewModal from "../components/modal/review-modal";
-import { useModal } from "../hooks/useModal";
+import useModal from "../hooks/useModal";
 
 const testMovie = {
   adult: false,
@@ -142,10 +143,13 @@ export default function Reviews() {
         </Grid>
       </Grid>
       {openModal && (
-        <ReviewModal
+        <ModalRender
           isOpen={openModal}
           handleClose={handleCloseModal}
-          modalMovieIndex={modalIndex}
+          Component={ReviewModal}
+          modalProps={{
+            modalMovieIndex: modalIndex
+          }}
         />
       )}
     </Container>

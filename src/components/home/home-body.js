@@ -10,7 +10,7 @@ import {
   Box,
 } from "@mui/material";
 
-import MovieRating from "../movie-rating";
+import RatingBox from "../rating-box";
 import { Img } from "../../routes/root";
 
 const testMovie = {
@@ -80,7 +80,7 @@ export default function HomeBody() {
                   />
                 </Link>
 
-                <MovieRating movie={testMovie.title} />
+                <RatingBox movie={testMovie.title} />
 
                 <Typography fontWeight={"bold"} mb={"20px"}>
                   {testMovie.title}

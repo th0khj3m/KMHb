@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // Custom hook for modal handling
-export function useModal() {
+export default function useModal() {
   const [openModal, setOpenModal] = useState(false);
   const [modalIndex, setModalIndex] = useState(null);
 
@@ -13,7 +13,6 @@ export function useModal() {
   const handleCloseModal = () => {
     setOpenModal(false);
     setModalIndex(null);
-    // Optionally reset rating state here if needed
   };
 
   return {
