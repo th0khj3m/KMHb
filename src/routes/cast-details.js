@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-
 import {
   Grid,
   Box,
@@ -7,23 +6,21 @@ import {
   Container,
   IconButton,
   Stack,
-  Link as MuiLink
+  Link as MuiLink,
 } from "@mui/material";
 import { Facebook, Twitter, Instagram } from "@mui/icons-material";
-
 import { useParams, Link } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { fetchCastDetails } from "../store/cast/cast.actions";
-
 import { Img } from "./root";
+import { clampStyles } from "./root";
 
 export default function CastDetails() {
   const dispatch = useDispatch();
   const { castId } = useParams();
   const cast = useSelector((state) => state.cast.castDetails);
   const { movieImages, movieCredits, externalIds } = cast || {};
+  const filteredCast = movieCredits?.cast.filter((movie) => movie.poster_path); // Filter movies with valid poster_path
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,7 +65,7 @@ export default function CastDetails() {
                     key={detail.title}
                     component={MuiLink}
                     href={`https://www.${socialLink}.com/${key}`}
-                    // target="_blank"
+                    target="_blank"
                   >
                     {socialLink === "facebook" && <Facebook fontSize="large" />}
                     {socialLink === "instagram" && (
@@ -122,27 +119,34 @@ export default function CastDetails() {
                 Known for
               </Typography>
               <Box display="flex" mt="5px" gap={"10px"} overflow={"auto"}>
-                {movieCredits?.cast.map((movie, index) => (
-                  <Box
-                    key={index}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    borderWidth={1}
-                    flexShrink={0}
-                    textAlign={"center"}
-                    width={"15%"}
-                    gap={"10px"}
-                  >
-                    <Link to={`/movies/${movie.id}`}>
-                      <Img
-                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                        alt={movie.title}
-                        sx={{ borderRadius: "8px" }}
-                      />
-                    </Link>
-                    <Typography mb={3}>{movie.title}</Typography>{" "}
-                  </Box>
-                ))}
+                {filteredCast &&
+                  filteredCast.map((movie, index) => (
+                    <Box
+                      key={index}
+                      display={"flex"}
+                      flexDirection={"column"}
+                      borderWidth={1}
+                      flexShrink={0}
+                      textAlign={"center"}
+                      width={"15%"}
+                      gap={"10px"}
+                    >
+                      <Link to={`/movies/${movie.id}`}>
+                        <Img
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          sx={{ borderRadius: "8px" }}
+                        />
+                      </Link>
+                      <Typography
+                        mb={3}
+                        variant="body2"
+                        sx={{ ...clampStyles, flexGrow: 1 }}
+                      >
+                        {movie.title}
+                      </Typography>
+                    </Box>
+                  ))}
               </Box>
             </Box>
             <Box>

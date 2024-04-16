@@ -1,12 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Search from "./search";
-import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Box,
+  LinearProgress,
+} from "@mui/material";
 import { BookmarkAdd, Menu } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { Img } from "../routes/root";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  const moviesIsLoading = useSelector((state) => state.movies.loading); 
+  const movieIsLoading = useSelector((state) => state.movie.loading);
+  const castIsLoading = useSelector((state) => state.cast.loading);
+  const isLoading = moviesIsLoading || movieIsLoading || castIsLoading;
+
   const MenuItemLink = styled(Link)({
     textDecoration: "none",
     color: "black",
@@ -16,13 +29,22 @@ export default function Header() {
     padding: "10px",
     ":hover": {
       backgroundColor: "#5EC1A2",
-      borderRadius: "6px"
+      borderRadius: "6px",
     },
   });
 
   return (
     <Box component="header">
-      <AppBar position="static">
+      <AppBar position="fixed">
+        {isLoading && (
+          <Box
+            sx={{
+              width: "100%",
+            }}
+          >
+            <LinearProgress color="success" />
+          </Box>
+        )}
         <Toolbar
           sx={{
             display: "flex",

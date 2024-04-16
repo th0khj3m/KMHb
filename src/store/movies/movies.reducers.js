@@ -19,12 +19,17 @@ const moviesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchUpcomingMovies.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchUpcomingMovies.fulfilled, (state, action) => {
         const { upcomingMovies } = action.payload;
         upcomingMovies.forEach((movie) => {
           const { id } = movie;
           state.upcomingMovies[id] = movie;
         });
+        state.loading = false;
       })
       .addCase(fetchTrendingMovies.pending, (state) => {
         state.loading = true;
@@ -36,6 +41,7 @@ const moviesSlice = createSlice({
           const { id } = movie;
           state.trendingMovies[id] = movie;
         });
+        state.loading = false;
       })
       .addCase(fetchPopularMovies.pending, (state) => {
         state.loading = true;
@@ -47,6 +53,7 @@ const moviesSlice = createSlice({
           const { id } = movie;
           state.popularMovies[id] = movie;
         });
+        state.loading = false;
       });
   },
 });

@@ -14,13 +14,6 @@ import { Img } from "../../routes/root";
 
 export default function MovieDetailsInfo({ movie }) {
   const { casts } = movie;
-  // return <>
-  //   {casts.cast.map(cast => (
-  //     <li>
-  //       {cast.name}
-  //     </li>
-  //   ))}
-  // </>;
   return (
     <Container maxWidth="xl">
       <Grid container spacing={10} pt={"30px"}>

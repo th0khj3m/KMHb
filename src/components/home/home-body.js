@@ -46,7 +46,6 @@ export default function HomeBody() {
           ...prevState,
           popularMovies: popular.popularMovies,
         }));
-
       } catch (error) {
         console.log(error);
       }
