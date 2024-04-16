@@ -30,36 +30,37 @@ export default function MovieDetailsInfo({ movie }) {
               Top billed cast
             </Typography>
             <Box display="flex" gap="15px" overflow="auto">
-              {casts && casts.cast.map((cast, index) => (
-                <Paper
-                  elevation={3}
-                  key={index}
-                  sx={{
-                    width: "20%",
-                    borderRadius: "6px",
-                    mb: "20px",
-                    display: "flex",
-                    flexDirection: "column",
-                    flexGrow: "0",
-                    flexShrink: "0",
-                    flexBasis: "auto",
-                  }}
-                >
-                  <Link to={`/casts/${cast.id}`}>
-                    <Img
-                      src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
-                      alt="hehe"
-                    />
-                  </Link>
+              {casts &&
+                casts.cast.map((cast, index) => (
+                  <Paper
+                    elevation={3}
+                    key={index}
+                    sx={{
+                      width: "20%",
+                      borderRadius: "6px",
+                      mb: "20px",
+                      display: "flex",
+                      flexDirection: "column",
+                      flexGrow: "0",
+                      flexShrink: "0",
+                      flexBasis: "auto",
+                    }}
+                  >
+                    <Link to={`/casts/${cast.id}`}>
+                      <Img
+                        src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
+                        alt="hehe"
+                      />
+                    </Link>
 
-                  <Box p="10px">
-                    <Typography sx={{ fontWeight: "bold" }}>
-                      {cast.name}
-                    </Typography>
-                    <Typography>{cast.character}</Typography>
-                  </Box>
-                </Paper>
-              ))}
+                    <Box p="10px">
+                      <Typography sx={{ fontWeight: "bold" }}>
+                        {cast.name}
+                      </Typography>
+                      <Typography>{cast.character}</Typography>
+                    </Box>
+                  </Paper>
+                ))}
             </Box>
             <Typography fontWeight="bold" my="20px">
               Full cast & crew
@@ -137,34 +138,40 @@ export default function MovieDetailsInfo({ movie }) {
           <Divider />
         </Grid>
         <Grid item md={3} m="15px">
-          <Box display="flex" flexDirection="column" gap="10px">
-            <Typography variant="h5" component="h2" fontWeight="bold">
-              Details
-            </Typography>
-            <Box>
-              <Typography fontWeight="bold">Release date</Typography>
-              <Typography variant="details_info">
-                {movie.release_date}
+          {movie && (
+            <Box display="flex" flexDirection="column" gap="10px">
+              <Typography variant="h5" component="h2" fontWeight="bold">
+                Details
               </Typography>
+              <Box>
+                <Typography fontWeight="bold">Release date</Typography>
+                <Typography variant="details_info">
+                  {movie?.release_date}
+                </Typography>
+              </Box>
+              <Divider />
+              <Box>
+                <Typography fontWeight="bold">Original Language</Typography>
+                <Typography variant="details_info">
+                  {movie?.original_language}
+                </Typography>
+              </Box>
+              <Divider />
+              <Box>
+                <Typography fontWeight="bold">Budget</Typography>
+                <Typography variant="details_info">
+                  ${movie?.budget?.toLocaleString()}
+                </Typography>
+              </Box>
+              <Divider />
+              <Box>
+                <Typography fontWeight="bold">Revenue</Typography>
+                <Typography variant="details_info">
+                  ${movie?.revenue?.toLocaleString()}
+                </Typography>
+              </Box>
             </Box>
-            <Divider />
-            <Box>
-              <Typography fontWeight="bold">Original Language</Typography>
-              <Typography variant="details_info">
-                {movie.original_language}
-              </Typography>
-            </Box>
-            <Divider />
-            <Box>
-              <Typography fontWeight="bold">Budget</Typography>
-              <Typography variant="details_info">${movie.budget.toLocaleString()}</Typography>
-            </Box>
-            <Divider />
-            <Box>
-              <Typography fontWeight="bold">Revenue</Typography>
-              <Typography variant="details_info">${movie.revenue.toLocaleString()}</Typography>
-            </Box>
-          </Box>
+          )}
         </Grid>
       </Grid>
     </Container>

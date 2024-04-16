@@ -6,6 +6,7 @@ import authReducers from "./auth/auth.reducers";
 import moviesReducers from "./movies/movies.reducers";
 import movieReducers from "./movie/movie.reducers";
 import videoReducers from "./video/video.reducers";
+import castReducers from "./cast/cast.reducers";
 
 export default configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export default configureStore({
     movies: moviesReducers,
     movie: movieReducers,
     video: videoReducers,
+    cast: castReducers,
     list: listReducers,
   },
 });

@@ -89,7 +89,7 @@ export default function HomeBody() {
                   display="flex"
                   flexDirection="column"
                   width="15%"
-                  flexShrink="0"
+                  flexShrink={0}
                 >
                   <Link to={`/movies/${movie.id}`}>
                     <Img

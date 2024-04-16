@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CircularProgress, Box } from "@mui/material";
+import { LinearProgress, Box } from "@mui/material";
 
 const useLoading = () => {
   const [isLoading, setIsLoading] = useState(true); // Add loading state
@@ -19,7 +19,7 @@ const useLoading = () => {
             minHeight: "100vh",
           }}
         >
-          <CircularProgress variant="determinate" color="success" />
+          <LinearProgress variant="determinate" color="success" />
         </Box>
       )
     );
