@@ -7,7 +7,7 @@ export default class UserModel {
     try {
       // Generate SQL statement
       const statement = pgp.helpers.insert(data, null, "users") + "RETURNING *";
-      
+
       // Execute SQL statement
       const result = await db.query(statement);
 
@@ -46,6 +46,24 @@ export default class UserModel {
 
       // Execute SQL statement
       const result = await db.query(statement, [email]);
+
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+
+      return null;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findOneById(id) {
+    try {
+      // Generate SQL statement
+      const statement = `SELECT * FROM users WHERE id = $1`;
+
+      // Execute SQL statement
+      const result = await db.query(statement, [id]);
 
       if (result.rows?.length) {
         return result.rows[0];

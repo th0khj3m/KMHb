@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { login, register } from "../../apis/auth";
 
+export const checkLoginStatus = createAsyncThunk(
+  
+)
+
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials, thunkAPI) => {

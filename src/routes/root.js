@@ -16,7 +16,6 @@ export const Img = styled("img")({
   margin: "auto",
   maxWidth: "100%",
   maxHeight: "100%",
-  aspectRatio: "16/9"
 });
 
 export const ModalContainer = styled(Container)({

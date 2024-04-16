@@ -24,10 +24,19 @@ export default (app, passport) => {
     }
   );
 
+  router.get('/logout', async (req, res) => {
+    req.logout();
+    req.status(200).send("Logged out succesfully");
+  })
+
   router.post("/register", async (req, res, next) => {
     try {
       const { username, password, email } = req.body;
-      const response = await AuthServiceInstance.register({username, password, email});
+      const response = await AuthServiceInstance.register({
+        username,
+        password,
+        email,
+      });
       res.status(200).send(response);
     } catch (err) {
       next(err);

@@ -30,7 +30,7 @@
   "scripts": {
     "start": "npx dotenvx run -- react-scripts start",
     "build": "react-scripts build",
-    "server": "npx dotenvx run --env-file=.env.development -- nodemon server/server.js",
+    "server": "npx dotenvx run -- nodemon server/server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
