@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchNewestTrailer } from "./video.actions";
 
 const videoSlice = createSlice({
-  name: "videos",
+  name: "video",
   initialState: {
     newestTrailer: {},
     error: null,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Chip, Box, Grid, Container } from "@mui/material";
+import { Typography, Divider, Chip, Box, Grid, Container } from "@mui/material";
 import { WhiteTypography } from "../../routes/root";
 import StarIcon from "@mui/icons-material/Star";
 import { StarBorder } from "@mui/icons-material";
@@ -10,8 +10,35 @@ export default function MovieDetailsBanner({ movie }) {
   const movieYear = movie?.release_date?.split("-")[0];
   const hours = Math.floor(movie.runtime / 60) ?? 0;
   const minutes = movie.runtime % 60 ?? 0;
-  const movieCertification =
-    movie.releaseDates?.results[0]?.release_dates[0]?.certification || "PG";
+  const usRelease = movie.releaseDates?.results.find(
+    (result) => result.iso_3166_1 === "US"
+  );
+  const movieCertification = usRelease?.release_dates[0]?.certification ?? "PG";
+  const movieKey = movie.newestTrailer?.key;
+  
+  const getDirector = () => {
+    if (movie && movie.casts && movie.casts.crew) {
+      const director = movie.casts.crew.find(
+        (crewMember) =>
+          crewMember.department === "Directing" && crewMember.job === "Director"
+      );
+      return director ? director.name : "Director Not Found";
+    }
+    return "Director Not Found";
+  };
+
+  // Function to get the writers of the movie
+  const getWriters = () => {
+    if (movie && movie.casts && movie.casts.crew) {
+      const writers = movie.casts.crew.filter(
+        (crewMember) => crewMember.department === "Writing"
+      );
+      return writers.length > 0
+        ? writers.map((writer) => writer.name).join(", ")
+        : "Writers Not Found";
+    }
+    return "Writers Not Found";
+  };
 
   return (
     <>
@@ -75,11 +102,14 @@ export default function MovieDetailsBanner({ movie }) {
               alt={movie.title}
               width="20%"
             />
-            <iframe
-              src={`https://www.youtube.com/embed/${movie.key}`}
-              title={movie.title}
-              style={{ flex: 1 }}
-            />
+            {movieKey && (
+              <iframe
+                src={`https://www.youtube.com/embed/${movieKey}`}
+                title={movie.title}
+                style={{ flex: 1 }}
+              />
+            )}
+            {/* 
             <Box>
               <Box
                 sx={{
@@ -98,7 +128,7 @@ export default function MovieDetailsBanner({ movie }) {
                   ml: "5px",
                 }}
               />
-            </Box>
+            </Box> */}
           </Box>
 
           <Box
@@ -138,7 +168,9 @@ export default function MovieDetailsBanner({ movie }) {
               >
                 Director
               </WhiteTypography>
-              <WhiteTypography>Director's name</WhiteTypography>
+              <Typography variant="h6" color={"main"}>
+                {getDirector()}
+              </Typography>
             </Box>
             <Divider />
             <Box sx={{ display: "flex", alignItems: "center", mb: "20px" }}>
@@ -150,7 +182,9 @@ export default function MovieDetailsBanner({ movie }) {
               >
                 Writers
               </WhiteTypography>
-              <WhiteTypography>Writer's name</WhiteTypography>
+              <Typography variant="h6" color={"main"}>
+                {getWriters()}
+              </Typography>
             </Box>
           </Box>
         </Container>

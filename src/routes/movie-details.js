@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MovieDetailsBanner from "../components/movie-details-body/movie-details-banner";
 import MovieDetailsInfo from "../components/movie-details-body/movie-details-info";
@@ -72,13 +72,11 @@ export default function MovieDetailsContent() {
     fetchMovie();
   }, [movieId, dispatch]);
 
-  // Access movie details from the store
-
   return (
     <>
       {movie && ( // Check if movie is not null before rendering
         <>
-          <MovieDetailsBanner movie={movie} />
+          <MovieDetailsBanner movie={movie}/>
           <MovieDetailsInfo movie={testMovie} />
         </>
       )}

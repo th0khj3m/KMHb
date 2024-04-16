@@ -5,7 +5,7 @@ import { parseISO, compareDesc } from "date-fns";
 import { apiUrl, apiKeyParams } from "../../api-config";
 
 export const fetchNewestTrailer = createAsyncThunk(
-    "videos/fetchNewestTrailer",
+    "video/fetchNewestTrailer",
     async (movieId, thunkAPI) => {
       try {
         const urlToFetch = `${apiUrl}/movie/${movieId}/videos${apiKeyParams}`;

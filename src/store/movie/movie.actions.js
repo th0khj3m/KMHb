@@ -23,11 +23,18 @@ export const fetchMovieDetails = createAsyncThunk(
       const releaseDatesResponse = await axios.get(releaseDatesUrl);
       const releaseDates = releaseDatesResponse.data;
 
+      // Fetch newest trailer
+      const newestTrailerResponse = await thunkAPI.dispatch(
+        fetchNewestTrailer(movieId)
+      );
+      const newestTrailer = newestTrailerResponse.payload.video;
+
       return {
         movieDetails: {
           ...movieDetails,
           casts,
           releaseDates,
+          newestTrailer,
         },
       };
     } catch (err) {

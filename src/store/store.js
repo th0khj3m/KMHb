@@ -12,7 +12,7 @@ export default configureStore({
     auth: authReducers,
     movies: moviesReducers,
     movie: movieReducers,
-    videos: videoReducers,
+    video: videoReducers,
     list: listReducers,
   },
 });

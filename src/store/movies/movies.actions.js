@@ -7,7 +7,7 @@ export const fetchUpcomingMovies = createAsyncThunk(
   "movies/fetchUpcomingMovies",
   async (_, thunkAPI) => {
     try {
-      const urlToFetch = `${apiUrl}/movie/upcoming${apiKeyParams}${apiRequestParams}`;
+      const urlToFetch = `${apiUrl}/movie/upcoming${apiKeyParams}`;
       const response = await axios.get(urlToFetch);
       const upcomingMovies = response.data.results.slice(0, 10); //Fetch 10 movies
       return {
