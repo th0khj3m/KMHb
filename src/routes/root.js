@@ -36,6 +36,9 @@ export const WhiteTypography = styled(Typography)({
 const theme = createTheme({
   palette: {
     main: "#0DB597",
+    secondary: {
+      main: "#000"
+    },
   },
   components: {
     MuiDivider: {

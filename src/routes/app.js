@@ -1,4 +1,5 @@
 import {
+  Navigate,
   Route,
   RouterProvider,
   createBrowserRouter,
@@ -17,6 +18,7 @@ import CastDetails from "./cast-details.js";
 import Lists from "./lists.js";
 import List from "./list-details.js";
 import ListForm from "./list-form/list-form.js";
+import PrivateRoute from "../components/private-route.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +26,6 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-      <Route path="watchlist" element={<Watchlist />} />
       {/* <Route path="movies" element={<Movies />}> */}
       <Route path="movies/:movieId" element={<MovieDetails />}>
         <Route path="reviews" element={<Reviews />} />
@@ -34,6 +35,12 @@ const router = createBrowserRouter(
       <Route path="lists" element={<Lists />} />
       <Route path="lists/:title" element={<List />} />
       <Route path="lists/create" element={<ListForm />} />
+
+      <Route path="watchlist" element={<PrivateRoute />}>
+        <Route element={<Watchlist />} />
+      </Route>
+
+      <Route path="*" element={<Navigate to="/" />} />
     </Route>
   )
 );

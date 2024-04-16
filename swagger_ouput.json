@@ -78,6 +78,16 @@
         }
       }
     },
+    "/api/auth/logged_in": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/lists/": {
       "get": {
         "description": "",

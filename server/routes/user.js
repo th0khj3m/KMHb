@@ -6,13 +6,6 @@ const UserServiceInstance = new UserService();
 export default (app) => {
   app.use("/api/users", router);
 
-  const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect("/login");
-  };
-
   router.get("/:userId", async (req, res, next) => {
     try {
       const { userId } = req.params;

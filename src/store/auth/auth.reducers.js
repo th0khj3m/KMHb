@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, registerUser } from "./auth.actions.js";
+import { loginUser, registerUser, checkLoginStatus } from "./auth.actions.js";
 
 const authSlice = createSlice({
   name: "auth",
@@ -11,35 +11,25 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(checkLoginStatus.fulfilled, (state, action) => {
+        const { isAuthenticated } = action.payload;
+        state.isAuthenticated = isAuthenticated;
+      })
       .addCase(loginUser.pending, (state, action) => {
-        state.user = null;
         state.isAuthenticated = false;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isAuthenticated = true;
-        state.error = null;
+        const { isAuthenticated } = action.payload;
+        state.isAuthenticated = isAuthenticated;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.user = null;
         state.isAuthenticated = false;
         state.error = action.payload;
       })
-      .addCase(registerUser.pending, (state, action) => {
-        state.user = null;
-        state.error = null;
-      })
-      .addCase(registerUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isAuthenticated = true;
-        state.error = null;
-      })
-      .addCase(registerUser.rejected, (state, action) => {
-        state.user = null;
-        state.isAuthenticated = false;
-        state.error = action.payload;
-      });
+      .addCase(registerUser.pending, (state, action) => {})
+      .addCase(registerUser.fulfilled, (state, action) => {})
+      .addCase(registerUser.rejected, (state, action) => {});
   },
 });
 

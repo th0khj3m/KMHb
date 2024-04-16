@@ -8,14 +8,16 @@ import {
   Typography,
   Box,
   LinearProgress,
+  Stack
 } from "@mui/material";
-import { BookmarkAdd, Menu } from "@mui/icons-material";
+import { BookmarkAdd, Menu, AccountCircle } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { Img } from "../routes/root";
 import { useSelector } from "react-redux";
 
 export default function Header() {
-  const moviesIsLoading = useSelector((state) => state.movies.loading); 
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const moviesIsLoading = useSelector((state) => state.movies.loading);
   const movieIsLoading = useSelector((state) => state.movie.loading);
   const castIsLoading = useSelector((state) => state.cast.loading);
   const isLoading = moviesIsLoading || movieIsLoading || castIsLoading;
@@ -83,10 +85,18 @@ export default function Header() {
             <BookmarkAdd />
             <Typography fontWeight={"bold"}>Watchlist</Typography>
           </MenuItemLink>
-
-          <MenuItemLink to="/login">
-            <Typography fontWeight={"bold"}>Sign In</Typography>
-          </MenuItemLink>
+          {isAuthenticated ? (
+            <Stack direction="row" alignItems={"center"}>
+              <Typography color={"black"} fontWeight={"bold"}>  </Typography>
+              <IconButton size="large">
+                <AccountCircle color="secondary" />
+              </IconButton>
+            </Stack>
+          ) : (
+            <MenuItemLink to="/login">
+              <Typography fontWeight={"bold"}>Sign In</Typography>
+            </MenuItemLink>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
