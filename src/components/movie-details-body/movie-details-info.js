@@ -13,10 +13,14 @@ import { Link } from "react-router-dom";
 import { Img } from "../../routes/root";
 
 export default function MovieDetailsInfo({ movie }) {
-  const {
-    casts: { cast },
-  } = movie;
-
+  const { casts } = movie;
+  // return <>
+  //   {casts.cast.map(cast => (
+  //     <li>
+  //       {cast.name}
+  //     </li>
+  //   ))}
+  // </>;
   return (
     <Container maxWidth="xl">
       <Grid container spacing={10} pt={"30px"}>
@@ -26,7 +30,7 @@ export default function MovieDetailsInfo({ movie }) {
               Top billed cast
             </Typography>
             <Box display="flex" gap="15px" overflow="auto">
-              {Array.from({ length: 9 }).map((_, index) => (
+              {casts && casts.cast.map((cast, index) => (
                 <Paper
                   elevation={3}
                   key={index}
@@ -41,18 +45,18 @@ export default function MovieDetailsInfo({ movie }) {
                     flexBasis: "auto",
                   }}
                 >
-                  <Link to={`/casts/${cast[0].id}`}>
+                  <Link to={`/casts/${cast.id}`}>
                     <Img
-                      src={`https://image.tmdb.org/t/p/w500${cast[0].profile_path}`}
+                      src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
                       alt="hehe"
                     />
                   </Link>
 
                   <Box p="10px">
                     <Typography sx={{ fontWeight: "bold" }}>
-                      {cast[0].name}
+                      {cast.name}
                     </Typography>
-                    <Typography>{cast[0].character}</Typography>
+                    <Typography>{cast.character}</Typography>
                   </Box>
                 </Paper>
               ))}
@@ -153,12 +157,12 @@ export default function MovieDetailsInfo({ movie }) {
             <Divider />
             <Box>
               <Typography fontWeight="bold">Budget</Typography>
-              <Typography variant="details_info">${movie.budget}</Typography>
+              <Typography variant="details_info">${movie.budget.toLocaleString()}</Typography>
             </Box>
             <Divider />
             <Box>
               <Typography fontWeight="bold">Revenue</Typography>
-              <Typography variant="details_info">${movie.revenue}</Typography>
+              <Typography variant="details_info">${movie.revenue.toLocaleString()}</Typography>
             </Box>
           </Box>
         </Grid>

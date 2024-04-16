@@ -8,6 +8,8 @@ import {
   IconButton,
   Link,
 } from "@mui/material";
+import { useParams } from "react-router-dom";
+
 import { Facebook, Twitter, Instagram } from "@mui/icons-material";
 import { Img } from "./root";
 
@@ -88,6 +90,7 @@ const cast = {
 };
 
 export default function CastDetails() {
+  const { castId } = useParams(); 
   const { movie_credits } = cast;
   const { images } = cast;
 
