@@ -19,7 +19,6 @@ import {
 
 import RatingBox from "../rating-box";
 import { Img } from "../../routes/root";
-import useLoading from "../../hooks/useLoading";
 
 const sections = [{ title: "Trending" }, { title: "Popular" }];
 
@@ -30,8 +29,6 @@ export default function HomeBody() {
     trendingMovies: [],
     popularMovies: [],
   });
-
-  const { handleLoading } = useLoading();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +42,6 @@ export default function HomeBody() {
         }));
 
         const popular = await dispatch(fetchPopularMovies()).unwrap();
-        console.log(popular);
         setMovies((prevState) => ({
           ...prevState,
           popularMovies: popular.popularMovies,

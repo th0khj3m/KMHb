@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchMovieDetails } from "./movie.actions";
 
 const initialState = {
+  movieDetails: {},
   loading: false,
   error: null,
 };
@@ -17,12 +18,13 @@ const movieSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMovieDetails.fulfilled, (state, action) => {
-        const { movieDetails, movieId } = action.payload;
-        state[movieId] = movieDetails;
+        const { movieDetails } = action.payload;
+        state.movieDetails = movieDetails;
+        state.loading = false;
       })
       .addCase(fetchMovieDetails.rejected, (state, action) => {
-        state.error = action.payload;
         state.loading = false;
+        state.error = action.payload;
       });
   },
 });

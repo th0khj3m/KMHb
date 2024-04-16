@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import MovieDetailsBanner from "../components/movie-details-body/movie-details-banner";
 import MovieDetailsInfo from "../components/movie-details-body/movie-details-info";
 import { useParams } from "react-router-dom";
@@ -59,13 +59,12 @@ const testMovie = {
 export default function MovieDetailsContent() {
   const dispatch = useDispatch();
   const { movieId } = useParams();
-  const [movie, setMovie] = useState(null);
+  const movie = useSelector((state) => state.movie.movieDetails);
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await dispatch(fetchMovieDetails(movieId)).unwrap();
-        setMovie(response.movieDetails);
+        await dispatch(fetchMovieDetails(movieId)).unwrap();
       } catch (err) {
         console.log(err);
       }
@@ -73,14 +72,16 @@ export default function MovieDetailsContent() {
     fetchMovie();
   }, [movieId, dispatch]);
 
+  // Access movie details from the store
+
   return (
     <>
       {movie && ( // Check if movie is not null before rendering
         <>
           <MovieDetailsBanner movie={movie} />
-          <MovieDetailsInfo movie={movie} />
+          <MovieDetailsInfo movie={testMovie} />
         </>
       )}
     </>
   );
-};
+}
