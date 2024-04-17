@@ -4,7 +4,6 @@ import { loginUser, registerUser, checkLoginStatus } from "./auth.actions.js";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
     isAuthenticated: false,
     error: null,
   },

@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 
 export default function Header() {
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
   const moviesIsLoading = useSelector((state) => state.movies.loading);
   const movieIsLoading = useSelector((state) => state.movie.loading);
   const castIsLoading = useSelector((state) => state.cast.loading);
@@ -36,7 +37,7 @@ export default function Header() {
   });
 
   return (
-    <Box component="header">
+    <Box component="header" mt={8}>
       <AppBar position="fixed">
         {isLoading && (
           <Box

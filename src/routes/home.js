@@ -5,9 +5,9 @@ import HomeBody from "../components/home/home-body";
 
 export default function Home() {
   return (
-    <section className="page-content">
+    <>
       <HomeBanner />
       <HomeBody />
-    </section>
+    </>
   );
 }

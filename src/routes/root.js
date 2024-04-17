@@ -1,7 +1,7 @@
 import Header from "../components/header";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/footer";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 export const clampStyles = {
@@ -32,6 +32,31 @@ export const ModalContainer = styled(Container)({
 export const WhiteTypography = styled(Typography)({
   color: "#fff",
 });
+
+export const MediaLoginButton = styled(Button)({
+  height: "60px",
+  width: "40px",
+  backgroundColor: "white",
+  border: "1px solid #EEEEEE",
+  mr: "20px",
+  borderRadius: "20px",
+  py: "10px",
+  px: "20px",
+  "&:hover": {
+    backgroundColor: "#EEEEEE",
+  },
+});
+
+export const AuthButton = styled(Button)({
+  padding: "10px 20px",
+  backgroundColor: "#01C6AC",
+  color: "white",
+  cursor: "pointer",
+  transition: "background-color 0.3s ease",
+  font: "16px",
+  width: "300px",
+  borderRadius: "20px",
+})
 
 const theme = createTheme({
   palette: {
@@ -71,7 +96,9 @@ export default function Root() {
         alignItems={"center"}
       >
         <Header />
-        <Outlet />
+        <Container component={"main"} maxWidth="xl" disableGutters>
+          <Outlet />
+        </Container>
         <Footer />
       </Box>
     </ThemeProvider>

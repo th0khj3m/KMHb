@@ -8,8 +8,8 @@ import {
 
 import Root from "./root.js";
 import Home from "./home.js";
-import Login from "./login/login.js";
-import Register from "./register/register.js";
+import Login from "./login.js";
+import Register from "./register.js";
 import Watchlist from "./watchlist.js";
 import Movies from "./movies.js";
 import MovieDetails from "./movie-details.js";
