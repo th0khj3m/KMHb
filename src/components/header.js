@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "./search";
 import {
@@ -8,20 +8,38 @@ import {
   Typography,
   Box,
   LinearProgress,
-  Stack
+  Button,
 } from "@mui/material";
 import { BookmarkAdd, Menu, AccountCircle } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { Img } from "../routes/root";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import ProfileMenu from "./profile-menu";
+import { logoutUser } from "../store/auth/auth.actions";
 
 export default function Header() {
+  const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const moviesIsLoading = useSelector((state) => state.movies.loading);
   const movieIsLoading = useSelector((state) => state.movie.loading);
   const castIsLoading = useSelector((state) => state.cast.loading);
   const isLoading = moviesIsLoading || movieIsLoading || castIsLoading;
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
 
   const MenuItemLink = styled(Link)({
     textDecoration: "none",
@@ -87,12 +105,34 @@ export default function Header() {
             <Typography fontWeight={"bold"}>Watchlist</Typography>
           </MenuItemLink>
           {isAuthenticated ? (
-            <Stack direction="row" alignItems={"center"}>
-              <IconButton size="large">
+            <>
+              <Button
+                sx={{
+                  textTransform: "none",
+                  display: "flex",
+                  gap: "4px",
+                  alignItems: "center",
+                  padding: "10px",
+                  ":hover": {
+                    backgroundColor: "#5EC1A2",
+                    borderRadius: "6px",
+                  },
+                }}
+                color="inherit"
+                onClick={handleClick}
+              >
                 <AccountCircle color="secondary" />
-              </IconButton>
-              <Typography color={"black"} fontWeight={"bold"}>{user.username}</Typography>
-            </Stack>
+                <Typography color={"black"} fontWeight={"bold"} ml={1} sx={{}}>
+                  {user.username}
+                </Typography>
+              </Button>
+              <ProfileMenu
+                anchorEl={anchorEl}
+                open={open}
+                handleClose={handleClose}
+                handleLogout={handleLogout}
+              />
+            </>
           ) : (
             <MenuItemLink to="/login">
               <Typography fontWeight={"bold"}>Sign In</Typography>

@@ -20,6 +20,15 @@ export const register = async (credentials) => {
   }
 };
 
+// Api interface for logout
+export const logout = async () => {
+  try {
+    await API.get("auth/logout");
+  } catch (err) {
+    throw err;
+  }
+}
+
 export const isLoggedIn = async () => {
   try {
     const response = await API.get("auth/logged_in");

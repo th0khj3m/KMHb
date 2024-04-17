@@ -56,6 +56,9 @@ export const AuthButton = styled(Button)({
   font: "16px",
   width: "300px",
   borderRadius: "20px",
+  "&:hover": {
+    backgroundColor: "#00A099",
+  },
 })
 
 const theme = createTheme({

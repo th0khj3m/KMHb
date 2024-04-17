@@ -26,9 +26,14 @@ export default (app, passport) => {
     }
   );
 
-  router.get("/logout", async (req, res) => {
-    req.logout();
-    req.status(200).send("Logged out succesfully");
+  router.get("/logout", async (req, res, next) => {
+    try {
+      req.logout(() => {
+        res.status(200).send("Logged out successfully");
+      });
+    } catch (err) {
+      next(err);
+    }
   });
 
   router.post("/register", async (req, res, next) => {
