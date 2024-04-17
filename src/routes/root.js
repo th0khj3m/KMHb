@@ -37,7 +37,7 @@ const theme = createTheme({
   palette: {
     main: "#0DB597",
     secondary: {
-      main: "#000"
+      main: "#000",
     },
   },
   components: {
@@ -64,11 +64,14 @@ const theme = createTheme({
 export default function Root() {
   return (
     <ThemeProvider theme={theme}>
-      <Box display="flex" flexDirection={"column"} sx={{ minHeight: "100vh" }}>
+      <Box
+        display={"grid"}
+        gridTemplateRows={"auto 1fr auto"}
+        minHeight={"100vh"}
+        alignItems={"center"}
+      >
         <Header />
-        <Container sx={{ flexGrow: 1 }} maxWidth="xl" disableGutters>
-          <Outlet />
-        </Container>
+        <Outlet />
         <Footer />
       </Box>
     </ThemeProvider>
