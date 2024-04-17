@@ -19,8 +19,7 @@ export default (app, passport) => {
           username,
           password,
         });
-        req.session.user = user;
-        res.status(200).send(req.session.user);
+        res.status(200).send(user);
       } catch (err) {
         next(err); //Forward the error to error handling middleware
       }
@@ -48,16 +47,13 @@ export default (app, passport) => {
 
   router.get("/logged_in", async (req, res, next) => {
     try {
-      if (req.session.user) {
-        const user = await UserServiceInstance.get({ id: req.session.user.id });
-        res.status(200).send({
-          isLoggedIn: true,
-          user,
-        });
-      } else {
-        // If user session does not exist, send back isLoggedIn: false
-        res.status(200).send({ isLoggedIn: false });
-      }
+      const { id } = req.user;
+
+      const user = await UserServiceInstance.get({ id });
+      res.status(200).send({
+        isLoggedIn: true,
+        user,
+      });
     } catch (err) {
       next(err);
     }
