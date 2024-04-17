@@ -28,7 +28,7 @@
     "yup": "^1.4.0"
   },
   "scripts": {
-    "start": "npx dotenvx run -- react-scripts start",
+    "start": "set PORT=3006 && npx dotenvx run -- react-scripts start",
     "build": "react-scripts build",
     "server": "npx dotenvx run -- nodemon server/server.js",
     "test": "react-scripts test",

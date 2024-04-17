@@ -6,10 +6,8 @@ export const checkLoginStatus = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await isLoggedIn();
-      return {
-        user: response.user,
-        isAuthenticated: response.isLoggedIn,
-      };
+      console.log(response);
+      return response;
     } catch (err) {
       throw thunkAPI.rejectWithValue(err.response.data);
     }

@@ -88,10 +88,10 @@ export default function Header() {
           </MenuItemLink>
           {isAuthenticated ? (
             <Stack direction="row" alignItems={"center"}>
-              <Typography color={"black"} fontWeight={"bold"}>  </Typography>
               <IconButton size="large">
                 <AccountCircle color="secondary" />
               </IconButton>
+              <Typography color={"black"} fontWeight={"bold"}>{user.username}</Typography>
             </Stack>
           ) : (
             <MenuItemLink to="/login">

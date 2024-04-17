@@ -5,6 +5,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { checkLoginStatus } from "../store/auth/auth.actions.js";
 
 import Root from "./root.js";
 import Home from "./home.js";
@@ -46,6 +49,16 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const dispatch = useDispatch();
+
+  // Load user
+  useEffect(() => {
+    async function isLoggedIn() {
+      await dispatch(checkLoginStatus());
+    }
+    isLoggedIn();
+  }, [dispatch]);
+
   return <RouterProvider router={router} />;
 }
 

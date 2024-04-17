@@ -15,11 +15,12 @@ export default (app, passport) => {
     async (req, res, next) => {
       try {
         const { username, password } = req.body;
-        const response = await AuthServiceInstance.login({
+        const user = await AuthServiceInstance.login({
           username,
           password,
         });
-        res.status(200).send(response);
+        req.session.user = user;
+        res.status(200).send(req.session.user);
       } catch (err) {
         next(err); //Forward the error to error handling middleware
       }
@@ -47,12 +48,16 @@ export default (app, passport) => {
 
   router.get("/logged_in", async (req, res, next) => {
     try {
-      const { id } = req.user;
-      const user = await UserServiceInstance.get({ id });
-      res.status(200).send({
-        isLoggedIn: true,
-        user,
-      });
+      if (req.session.user) {
+        const user = await UserServiceInstance.get({ id: req.session.user.id });
+        res.status(200).send({
+          isLoggedIn: true,
+          user,
+        });
+      } else {
+        // If user session does not exist, send back isLoggedIn: false
+        res.status(200).send({ isLoggedIn: false });
+      }
     } catch (err) {
       next(err);
     }
