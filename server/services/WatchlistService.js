@@ -1,5 +1,6 @@
 import createError from "http-errors";
 import WatchlistModel from "../models/watchlist.js";
+import WatchlistMoviesModel from "../models/watchlist-movies.js";
 
 export default class WatchlistService {
   async create(data) {
@@ -12,5 +13,15 @@ export default class WatchlistService {
     } catch (err) {
       throw err;
     }
+  }
+
+  async loadMovies(user_id) {
+    try {
+      //Load watchlist based on ID
+      const watchlist = await WatchlistModel.findOneByUser(user_id);
+      const movies = await WatchlistMoviesModel.find(watchlist.id);
+      watchlist.movies = movies;
+      return watchlist;
+    } catch (err) {}
   }
 }

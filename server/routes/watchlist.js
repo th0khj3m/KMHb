@@ -9,6 +9,10 @@ export default async (app) => {
 
   router.get("/", async (req, res, next) => {
     try {
+      const { id } = req.user;
+      const response = await WatchlistServiceInstance.loadMovies(id);
+
+      res.status(200).send(response);
 
     } catch (err) {
       next(err);
