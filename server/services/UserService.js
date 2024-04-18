@@ -1,5 +1,4 @@
 import createError from "http-errors";
-
 import UserModel from "../models/user.js";
 const UserModelInstance = new UserModel();
 

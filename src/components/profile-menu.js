@@ -1,7 +1,12 @@
 import React from "react";
-import { Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem, Divider } from "@mui/material";
 
-export default function ProfileMenu({anchorEl, open, handleClose, handleLogout}) {
+export default function ProfileMenu({
+  anchorEl,
+  open,
+  handleClose,
+  handleLogout,
+}) {
   return (
     <Menu
       anchorEl={anchorEl}
@@ -41,6 +46,7 @@ export default function ProfileMenu({anchorEl, open, handleClose, handleLogout})
       <MenuItem>Watchlist</MenuItem>
       <MenuItem>Ratings</MenuItem>
       <MenuItem>Lists</MenuItem>
+      <Divider />
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
