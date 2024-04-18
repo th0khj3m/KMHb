@@ -3,9 +3,18 @@ import ReviewModel from "../models/review.js";
 const ReviewModelInstance = new ReviewModel();
 
 export default class ReviewService {
-  async list() {
+  async create(data) {
     try {
-      const reviews = await ReviewModelInstance.find();
+        const reviews = await ReviewModelInstance.create(data);
+        return reviews;
+    } catch (err) {
+        throw err;
+    }
+  }
+
+  async list(movie_id) {
+    try {
+      const reviews = await ReviewModelInstance.find(movie_id);
       return reviews;
     } catch (err) {
       throw err;
@@ -24,11 +33,21 @@ export default class ReviewService {
     }
   }
 
-  async update(id) {
-    
+  async update(id, data) {
+    try {
+      const review = await ReviewModelInstance.update(id, data);
+      return review;
+    } catch (err) {
+      throw err;
+    }
   }
 
   async remove(id) {
-
+    try {
+      const review = await ReviewModelInstance.remove(id);
+      return review;
+    } catch (err) {
+      throw err;
+    }
   }
 }

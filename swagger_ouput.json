@@ -173,7 +173,7 @@
         }
       }
     },
-    "/api/reviews/": {
+    "/": {
       "get": {
         "description": "",
         "responses": {
@@ -194,7 +194,7 @@
                 "title": {
                   "example": "any"
                 },
-                "description": {
+                "content": {
                   "example": "any"
                 }
               }
@@ -208,7 +208,7 @@
         }
       }
     },
-    "/api/reviews/{reviewId}": {
+    "/{reviewId}": {
       "get": {
         "description": "",
         "parameters": [

@@ -22,11 +22,11 @@ export default class ReviewModel {
     }
   }
 
-  async find() {
+  async find(movie_id) {
     try {
       const statement = `SELECT *
-                         FROM reviews`;
-      const result = await db.query(statement, []);
+                         FROM reviews WHERE movie_id = $1`;
+      const result = await db.query(statement, [movie_id]);
       if (result.rows?.length) {
         return result.rows[0];
       }
@@ -36,11 +36,11 @@ export default class ReviewModel {
     }
   }
 
-  async findOne(id) {
+  async findOne(user_id, movie_id) {
     try {
       const statement = `SELECT *
-        FROM reviews WHERE id = $1`;
-      const result = await db.query(statement, [id]);
+        FROM reviews WHERE user_id = $1 AND movie_id = $2`;
+      const result = await db.query(statement, [user_id, movie_id]);
       if (result.rows?.length) {
         return result.rows[0];
       }
