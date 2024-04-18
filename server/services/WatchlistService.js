@@ -22,6 +22,32 @@ export default class WatchlistService {
       const movies = await WatchlistMoviesModel.find(watchlist.id);
       watchlist.movies = movies;
       return watchlist;
-    } catch (err) {}
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async addMovie(user_id, movie_id) {
+    try {
+      const watchlist = await WatchlistModel.findOneByUser(user_id);
+      const movie = await WatchlistMoviesModel.create({
+        watchlist_id: watchlist.id,
+        movie_id,
+      });
+      return movie;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async removeMovie(user_id, movie_id) {
+    try {
+      // Remove movie by id
+      const watchlist = await WatchlistModel.findOneByUser(user_id);
+      const movie = await WatchlistMoviesModel.delete(watchlist.id, movie_id);
+      return movie;
+    } catch (err) {
+      throw err;
+    }
   }
 }
