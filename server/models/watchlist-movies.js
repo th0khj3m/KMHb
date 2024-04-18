@@ -11,7 +11,7 @@ export default class WatchlistMoviesModel {
 
       const result = await db.query(statement, [watchlist_id]);
       if (result.rows?.length) {
-        return result.rows;
+        return result.rows[0];
       }
       return [];
     } catch (err) {

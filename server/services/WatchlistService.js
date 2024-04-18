@@ -17,8 +17,11 @@ export default class WatchlistService {
 
   async loadMovies(user_id) {
     try {
-      //Load watchlist based on ID
+      // Load watchlist based on ID
       const watchlist = await WatchlistModel.findOneByUser(user_id);
+      if (!watchlist) {
+        throw createError(404, "Watchlist not found");
+      }
       const movies = await WatchlistMoviesModel.find(watchlist.id);
       watchlist.movies = movies;
       return watchlist;
@@ -30,6 +33,9 @@ export default class WatchlistService {
   async addMovie(user_id, movie_id) {
     try {
       const watchlist = await WatchlistModel.findOneByUser(user_id);
+      if (!watchlist) {
+        throw createError(404, "Watchlist not found");
+      }
       const movie = await WatchlistMoviesModel.create({
         watchlist_id: watchlist.id,
         movie_id,
@@ -44,7 +50,13 @@ export default class WatchlistService {
     try {
       // Remove movie by id
       const watchlist = await WatchlistModel.findOneByUser(user_id);
+      if (!watchlist) {
+        throw createError(404, "Watchlist not found");
+      }
       const movie = await WatchlistMoviesModel.delete(watchlist.id, movie_id);
+      if (!movie) {
+        throw createError(404, "Movie not found in watchlist");
+      }
       return movie;
     } catch (err) {
       throw err;
