@@ -5,7 +5,7 @@ import WatchlistService from "../services/WatchlistService.js";
 const WatchlistServiceInstance = new WatchlistService();
 
 export default (app) => {
-  app.use("/api/watchlist", router);
+  app.use("/api/user/watchlist", router);
 
   router.get("/", async (req, res, next) => {
     try {

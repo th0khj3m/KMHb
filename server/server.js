@@ -5,7 +5,7 @@ import loaders from "./loaders/index.js";
 
 //Swagger UI and document
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "../swagger_ouput.json" assert { type: "json" };
+import swaggerDocument from "./swagger_ouput.json" assert { type: "json" };
 
 async function startServer() {
   // Load all application

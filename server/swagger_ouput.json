@@ -173,27 +173,9 @@
         }
       }
     },
-    "/api/user/ratings": {
+    "/api/rating/": {
       "get": {
         "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/movies/{movieId}/rate": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "movieId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -304,7 +286,7 @@
         }
       }
     },
-    "/api/user/watchlist/": {
+    "/api/watchlist/": {
       "get": {
         "description": "",
         "responses": {
@@ -322,7 +304,7 @@
         }
       }
     },
-    "/api/user/watchlist/movies/{movieId}": {
+    "/api/watchlist/movies/{movieId}": {
       "post": {
         "description": "",
         "parameters": [
