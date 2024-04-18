@@ -7,11 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
-  "nodemonConfig": {
-    "ignore": [
-      "swagger_ouput.json"
-    ]
-  },
   "keywords": [],
   "author": "Nguyen Tho Khiem",
   "license": "ISC",

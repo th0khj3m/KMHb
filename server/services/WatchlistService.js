@@ -33,6 +33,7 @@ export default class WatchlistService {
   async addMovie(user_id, movie_id) {
     try {
       const watchlist = await WatchlistModel.findOneByUser(user_id);
+      console.log(watchlist);
       if (!watchlist) {
         throw createError(404, "Watchlist not found");
       }

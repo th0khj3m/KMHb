@@ -11,7 +11,7 @@ export default async (app) => {
 
   // Load passport middleware in intialized Express app
   const passport = await passportLoader(expressApp);
-
+  
   // Load API route handlers
   routeLoader(app, passport);
   

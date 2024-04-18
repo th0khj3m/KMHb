@@ -44,7 +44,7 @@ export default class ReviewService {
 
   async remove(id) {
     try {
-      const review = await ReviewModelInstance.remove(id);
+      const review = await ReviewModelInstance.delete(id);
       return review;
     } catch (err) {
       throw err;
