@@ -1,9 +1,17 @@
 import React from "react";
-import { Container, Box, Paper, Stack, Typography } from "@mui/material";
+import {
+  Container,
+  Box,
+  Paper,
+  Stack,
+  Typography,
+  IconButton,
+} from "@mui/material";
 import { Img } from "./root";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import RatingBox from "../components/rating-box";
 import { format } from "date-fns";
+import { HighlightOff } from "@mui/icons-material";
 
 const testMovie = {
   adult: false,
@@ -110,15 +118,23 @@ export default function Watchlist() {
               </Box>
             </Grid>
             <Grid display={"flex"} item md={10} alignItems={"center"}>
-              <Stack gap={2}>
+              <Stack gap={1}>
                 <Box>
                   <Typography variant="h5" fontWeight={"bold"} component={"h2"}>
                     {testMovie.title}
                   </Typography>
                   <Typography color={"#66667D"}>{formattedDate}</Typography>
-                <RatingBox />
+                  <RatingBox />
                 </Box>
                 <Typography fontSize={"18px"}>{testMovie.overview}</Typography>
+                <Box mt={1}>
+                  <IconButton disableRipple sx={{ p: 0 }}>
+                    <HighlightOff fontSize="large" />
+                  </IconButton>
+                  <Typography ml={1} component={"span"}>
+                    Remove
+                  </Typography>
+                </Box>
               </Stack>
             </Grid>
           </Grid>
