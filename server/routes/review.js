@@ -1,5 +1,5 @@
 import express from "express";
-const router = express.Router({ mergeParams: true });
+const router = express.Router({mergeParams: true});
 import ReviewService from "../services/ReviewService.js";
 const ReviewServiceInstance = new ReviewService();
 

@@ -35,9 +35,7 @@
     "eject": "react-scripts eject"
   },
   "nodemonConfig": {
-    "ignore": [
-      "swagger_ouput.json"
-    ]
+    "ignore": ["server/swagger_output.json"]
   },
   "eslintConfig": {
     "extends": [

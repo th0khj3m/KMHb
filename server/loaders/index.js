@@ -16,7 +16,7 @@ export default async (app) => {
   routeLoader(app, passport);
   
   // Load Swagger
-  swaggerLoader();
+  await swaggerLoader();
 
   // Error Handler
   app.use((err, req, res, next) => {

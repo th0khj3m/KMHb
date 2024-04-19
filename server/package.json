@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx dotenvx run -- nodemon server.js"
   },
+  "nodemonConfig": {
+    "ignore": "swagger_output.json"
+  },
   "keywords": [],
   "author": "Nguyen Tho Khiem",
   "license": "ISC",
