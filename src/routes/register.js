@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import "./register.css";
 
 import { Form, Formik, Field } from "formik";
 import {
@@ -11,6 +10,7 @@ import {
   Box,
   Typography,
   FormControl,
+  Alert
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
@@ -25,6 +25,7 @@ export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -34,11 +35,12 @@ export default function Register() {
     try {
       // Set submitting state to true to indicate form submission is in progress
       setSubmitting(true);
-      navigate("/login");
       await dispatch(registerUser(credentials)).unwrap();
+      navigate("/login");
       // Reset the form after successful registration
       resetForm();
     } catch (err) {
+      setError(err.message);
     } finally {
       // Set submitting state to false after register attempt is completed (whether success or failure)
       setSubmitting(false);
@@ -137,7 +139,11 @@ export default function Register() {
                     required
                   />
                 </FormControl>
-
+                {error && (
+                  <Alert severity="error" sx={{ mr: "auto", mt: 3 }}>
+                    {error}
+                  </Alert>
+                )}
                 <AuthButton
                   type="submit"
                   variant="contained"

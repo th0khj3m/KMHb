@@ -9,6 +9,7 @@ import {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
+    loading: false,
     isAuthenticated: false,
     error: null,
   },
@@ -20,20 +21,27 @@ const authSlice = createSlice({
         state.isAuthenticated = isLoggedIn;
       })
       .addCase(loginUser.pending, (state, action) => {
-        state.isAuthenticated = false;
-        state.error = null;
+        state.loading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         const { isAuthenticated } = action.payload;
         state.isAuthenticated = isAuthenticated;
+        state.loading = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.isAuthenticated = false;
         state.error = action.payload;
+        state.loading = false;
       })
-      .addCase(registerUser.pending, (state, action) => {})
-      .addCase(registerUser.fulfilled, (state, action) => {})
-      .addCase(registerUser.rejected, (state, action) => {})
+      .addCase(registerUser.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.isAuthenticated = false;
         state.error = null;

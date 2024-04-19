@@ -20,7 +20,7 @@ export default async (app) => {
   RoleModel.createDefaultRoles();
   
   // Load Swagger
-  await swaggerLoader();
+  swaggerLoader();
 
   // Error Handler
   app.use((err, req, res, next) => {

@@ -11,7 +11,6 @@ export default (app) => {
     try {
       const { id } = req.user;
       const response = await WatchlistServiceInstance.loadMovies(id);
-
       res.status(200).send(response);
     } catch (err) {
       next(err);

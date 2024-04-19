@@ -9,17 +9,17 @@ const __dirname = dirname(__filename);
 // Combine path construction in a single line
 const outputFile = join(__dirname, "..", "swagger_output.json");
 
-const endpointsFiles = ["./routes/review.js"]; // All routes are in 'routes' directory
+const endpointsFiles = ["./routes/*.js"]; // All routes are in 'routes' directory
 
 const options = {
   info: {
-    title: "haha",
+    title: "KMHb",
     description: "COMP1686 Final Year Project using PERN stack",
   },
   host: "localhost:4000",
   schemes: ["https"],
 };
 
-export default async () => {
+export default () => {
   swaggerAutogen(outputFile, endpointsFiles, options);
 };
