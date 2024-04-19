@@ -3,6 +3,7 @@ import expressLoader from './express.js';
 import routeLoader from "../routes/index.js"
 import swaggerLoader from "./swagger.js";
 import passportLoader from './passport.js';
+import RoleModel from '../models/role.js';
 
 export default async (app) => {
 
@@ -14,6 +15,9 @@ export default async (app) => {
   
   // Load API route handlers
   routeLoader(app, passport);
+
+  // Load roles
+  RoleModel.createDefaultRoles();
   
   // Load Swagger
   await swaggerLoader();
