@@ -96,7 +96,6 @@ export default function Root() {
         display={"grid"}
         gridTemplateRows={"auto 1fr auto"}
         minHeight={"100vh"}
-        alignItems={"center"}
       >
         <Header />
         <Container component={"main"} maxWidth="xl" disableGutters>

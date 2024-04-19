@@ -39,9 +39,9 @@ const router = createBrowserRouter(
       <Route path="lists/:title" element={<List />} />
       <Route path="lists/create" element={<ListForm />} />
 
-      <Route path="watchlist" element={<PrivateRoute />}>
-        <Route element={<Watchlist />} />
-      </Route>
+      {/* <Route path="watchlist" element={<PrivateRoute />}> */}
+        <Route path="watchlist" element={<Watchlist />} />
+      {/* </Route> */}
 
       <Route path="*" element={<Navigate to="/" />} />
     </Route>
