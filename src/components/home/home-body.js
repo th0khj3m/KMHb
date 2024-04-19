@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 //MUI
 import {
-  Button,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
   Box,
+  Button,
 } from "@mui/material";
+import { Check as CheckIcon, Add as AddIcon } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { clampStyles } from "../../routes/root";
 
 import {
@@ -19,11 +21,18 @@ import {
 
 import RatingBox from "../rating-box";
 import { Img } from "../../routes/root";
+import { addMovie } from "../../store/watchlist/watchlist.actions";
 
 const sections = [{ title: "Trending" }, { title: "Popular" }];
 
 export default function HomeBody() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { loading: addMovieIsLoading, actionSuccess } = useSelector(
+    (state) => state.watchlist
+  );
+
   const [timeframe, setTimeframe] = useState("day");
   const [movies, setMovies] = useState({
     trendingMovies: [],
@@ -53,6 +62,10 @@ export default function HomeBody() {
 
     fetchData();
   }, [dispatch, timeframe]);
+
+  const handleAddToWatchlist = async (movieId) => {
+    await dispatch(addMovie(movieId));
+  };
 
   return (
     <>
@@ -107,17 +120,40 @@ export default function HomeBody() {
                   >
                     {movie.title}
                   </Typography>
-
-                  <Button
-                    variant="contained"
-                    sx={{
-                      bgcolor: "#2C2C2C",
-                      color: "#0DB597",
-                      "&:hover": { bgcolor: "rgba(13, 181, 151, 0.4)" },
-                    }}
-                  >
-                    + Watchlist
-                  </Button>
+                  {isAuthenticated ? (
+                    addMovieIsLoading && !actionSuccess ? (
+                      <LoadingButton
+                        onClick={() => handleAddToWatchlist(movie.id)}
+                        loading={addMovieIsLoading}
+                        variant="contained"
+                        loadingPosition="start"
+                        startIcon={<AddIcon />}
+                        disabled
+                        sx={{
+                          bgcolor: "#2C2C2C",
+                          color: "#0DB597",
+                          "&:hover": { bgcolor: "rgba(13, 181, 151, 0.4)" },
+                        }}
+                      >
+                        <Typography component={"span"}>Watchlist</Typography>
+                      </LoadingButton>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        onClick={() => handleAddToWatchlist(movie.id)}
+                        startIcon={<CheckIcon />}
+                      >
+                        Watchlist
+                      </Button>
+                    )
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={() => navigate("/login")}
+                    >
+                      + Watchlist
+                    </Button>
+                  )}
                 </Box>
               )
             )}

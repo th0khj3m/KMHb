@@ -20,6 +20,10 @@ const authSlice = createSlice({
         const { isLoggedIn } = action.payload;
         state.isAuthenticated = isLoggedIn;
       })
+      .addCase(checkLoginStatus.rejected, (state, action) => {
+        state.error = action.payload;
+        state.isAuthenticated = false;
+      })
       .addCase(loginUser.pending, (state, action) => {
         state.loading = true;
       })
