@@ -5,34 +5,21 @@ const watchlistSlice = createSlice({
   name: "watchlist",
   initialState: {
     movies: [],
-    loading: false,
     error: null,
-    actionSuccess: false
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(loadWatchlist.pending, (state, action) => {
-        state.loading = true;
-      })
+      .addCase(loadWatchlist.pending, (state, action) => {})
       .addCase(loadWatchlist.fulfilled, (state, action) => {
         state.movies = action.payload;
-        state.loading = false;
       })
-      .addCase(addMovie.pending, (state, action) => {
-        state.loading = true;
-      })
+      .addCase(addMovie.pending, (state, action) => {})
       .addCase(addMovie.fulfilled, (state, action) => {
         state.movies.push(action.payload);
-        state.loading = false;
-        state.actionSuccess = true;
       })
-      .addCase(removeMovie.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(removeMovie.fulfilled, (state, action) => {
-        state.loading = false;
-      });
+      .addCase(removeMovie.pending, (state, action) => {})
+      .addCase(removeMovie.fulfilled, (state, action) => {});
   },
 });
 

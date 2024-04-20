@@ -20,7 +20,7 @@ export const addToWatchlist = async (movieId) => {
 
 export const removeFromWatchlist = async (movieId) => {
   try {
-    const response = await API.post(`/movies/${movieId}`);
+    const response = await API.delete(`/movies/${movieId}`);
     return response.data;
   } catch (err) {
     throw err.response.data;

@@ -20,7 +20,7 @@ import {
 
 import RatingBox from "../rating-box";
 import { Img } from "../../routes/root";
-import { addMovie } from "../../store/watchlist/watchlist.actions";
+import { addMovie, removeMovie } from "../../store/watchlist/watchlist.actions";
 import { loadWatchlist } from "../../store/watchlist/watchlist.actions";
 
 const sections = [{ title: "Trending" }, { title: "Popular" }];
@@ -35,8 +35,8 @@ export default function HomeBody() {
     trendingMovies: [],
     popularMovies: [],
   });
-  const [loadingMovie, setLoadingMovie] = useState({});
   const watchlistMovies = useSelector((state) => state.watchlist.movies);
+  const [loadingMovie, setLoadingMovie] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,6 +67,11 @@ export default function HomeBody() {
   }, [dispatch, timeframe, isAuthenticated]);
 
   const handleAddToWatchlist = async (movieId) => {
+    // Check if the movie is already in the watchlist
+    const isMovieInWatchlist = watchlistMovies.some(
+      (watchlistMovie) => watchlistMovie.movie_id === movieId
+    );
+
     // Set loading state of the specific movie to true
     setLoadingMovie((prevState) => ({
       ...prevState,
@@ -74,7 +79,11 @@ export default function HomeBody() {
     }));
 
     try {
-      await dispatch(addMovie(movieId));
+      if (isMovieInWatchlist) {
+        await dispatch(removeMovie(movieId))
+      } else {
+        await dispatch(addMovie(movieId));
+      }
 
       // Set loading state of the specific movie to false on success
       setLoadingMovie((prevState) => ({

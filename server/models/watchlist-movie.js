@@ -34,7 +34,7 @@ export default class WatchlistMovieModel {
     }
   }
 
-  async delete(watchlist_id, movie_id) {
+  async delete({watchlist_id, movie_id}) {
     try {
       const statement = `DELETE FROM watchlists_movies WHERE watchlist_id = $1 AND movie_id = $2 RETURNING *`;
       const result = await db.query(statement, [watchlist_id, movie_id]);
