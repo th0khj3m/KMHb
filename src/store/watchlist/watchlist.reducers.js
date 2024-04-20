@@ -19,7 +19,12 @@ const watchlistSlice = createSlice({
         state.movies.push(action.payload);
       })
       .addCase(removeMovie.pending, (state, action) => {})
-      .addCase(removeMovie.fulfilled, (state, action) => {});
+      .addCase(removeMovie.fulfilled, (state, action) => {
+        const index = state.movies.findIndex(
+          (movie) => movie.movie_id === action.payload.movie_id
+        ); //Find index of movie removed in movies
+        state.movies.splice(index, 1); //Remove
+      });
   },
 });
 
