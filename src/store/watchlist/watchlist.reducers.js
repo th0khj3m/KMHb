@@ -6,13 +6,17 @@ const watchlistSlice = createSlice({
   initialState: {
     movies: [],
     error: null,
+    loading: false,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(loadWatchlist.pending, (state, action) => {})
+      .addCase(loadWatchlist.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(loadWatchlist.fulfilled, (state, action) => {
         state.movies = action.payload;
+        state.loading = false;
       })
       .addCase(addMovie.pending, (state, action) => {})
       .addCase(addMovie.fulfilled, (state, action) => {

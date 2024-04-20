@@ -24,7 +24,9 @@ export default function Header() {
   const moviesIsLoading = useSelector((state) => state.movies.loading);
   const movieIsLoading = useSelector((state) => state.movie.loading);
   const castIsLoading = useSelector((state) => state.cast.loading);
-  const isLoading = moviesIsLoading || movieIsLoading || castIsLoading;
+  const watchlistIsLoading = useSelector((state) => state.watchlist.loading);
+  const isLoading =
+    moviesIsLoading || movieIsLoading || castIsLoading || watchlistIsLoading;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);

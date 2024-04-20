@@ -18,8 +18,7 @@ const movieSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMovieDetails.fulfilled, (state, action) => {
-        const { movieDetails } = action.payload;
-        state.movieDetails = movieDetails;
+        state.movieDetails = action.payload;
         state.loading = false;
       })
       .addCase(fetchMovieDetails.rejected, (state, action) => {

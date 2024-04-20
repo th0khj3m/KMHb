@@ -22,19 +22,22 @@ import RatingBox from "../rating-box";
 import { Img } from "../../routes/root";
 import { addMovie, removeMovie } from "../../store/watchlist/watchlist.actions";
 import { loadWatchlist } from "../../store/watchlist/watchlist.actions";
+import useLoadWatchlist from "../../hooks/useLoadWatchlist";
 
 const sections = [{ title: "Trending" }, { title: "Popular" }];
 
 export default function HomeBody() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
 
   const [timeframe, setTimeframe] = useState("day");
   const [movies, setMovies] = useState({
     trendingMovies: [],
     popularMovies: [],
   });
+
+  useLoadWatchlist();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const watchlistMovies = useSelector((state) => state.watchlist.movies);
   const [loadingMovie, setLoadingMovie] = useState({});
 
@@ -80,7 +83,7 @@ export default function HomeBody() {
 
     try {
       if (isMovieInWatchlist) {
-        await dispatch(removeMovie(movieId))
+        await dispatch(removeMovie(movieId));
       } else {
         await dispatch(addMovie(movieId));
       }
