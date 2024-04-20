@@ -82,7 +82,7 @@ export default function Watchlist() {
                             fontWeight={"bold"}
                             component={"h2"}
                           >
-                            {movie.title}
+                            {movie?.title}
                           </Typography>
                           <Typography color={"#66667D"}>
                             {format(
@@ -90,7 +90,7 @@ export default function Watchlist() {
                               "MMMM d, yyyy"
                             )}
                           </Typography>
-                          <RatingBox />
+                          {/* <RatingBox /> */}
                         </Box>
                         <Typography fontSize={"18px"}>
                           {movie.overview}

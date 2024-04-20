@@ -12,9 +12,27 @@ export default class RatingService {
     }
   }
 
+  async get(data) {
+    try {
+      const rating = await RatingModelInstance.findOneByUser(data);
+      return rating;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async rate(data) {
     try {
       const rating = await RatingModelInstance.create(data);
+      return rating;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateRating(data) {
+    try {
+      const rating = await RatingModelInstance.update(data);
       return rating;
     } catch (err) {
       throw err;

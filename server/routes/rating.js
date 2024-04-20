@@ -16,12 +16,42 @@ export default (app) => {
     }
   });
 
+  router.get("/movies/:movieId", async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const { movieId } = req.params;
+      const response = await RatingServiceInstance.get({
+        user_id: id,
+        movie_id: movieId,
+      });
+      res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.post("/movies/:movieId/rate", async (req, res, next) => {
     try {
       const { id } = req.user;
       const { movieId } = req.params;
       const { rating } = req.body;
       const response = await RatingServiceInstance.rate({
+        user_id: id,
+        movie_id: movieId,
+        rating,
+      });
+      res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.put("/movies/:movieId", async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const { movieId } = req.params;
+      const { rating } = req.body;
+      const response = await RatingServiceInstance.updateRating({
         user_id: id,
         movie_id: movieId,
         rating,
@@ -45,6 +75,4 @@ export default (app) => {
       next(err);
     }
   });
-
-
 };
