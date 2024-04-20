@@ -6,7 +6,7 @@ export default class WatchlistMovieModel {
   async create(data) {
     try {
       const statement =
-        pgp.helpers.insert(data, null, "watchlists") + "RETURNING *";
+        pgp.helpers.insert(data, null, "watchlists_movies") + "RETURNING *";
       const result = await db.query(statement);
       if (result.rows?.length) {
         return result.rows[0];

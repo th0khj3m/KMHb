@@ -21,6 +21,7 @@ import {
 import RatingBox from "../rating-box";
 import { Img } from "../../routes/root";
 import { addMovie } from "../../store/watchlist/watchlist.actions";
+import { loadWatchlist } from "../../store/watchlist/watchlist.actions";
 
 const sections = [{ title: "Trending" }, { title: "Popular" }];
 
@@ -35,7 +36,7 @@ export default function HomeBody() {
     popularMovies: [],
   });
   const [loadingMovie, setLoadingMovie] = useState({});
-  const [successMovie, setSuccessMovie] = useState({});
+  const watchlistMovies = useSelector((state) => state.watchlist.movies);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,13 +54,17 @@ export default function HomeBody() {
           ...prevState,
           popularMovies: popular.popularMovies,
         }));
+
+        if (isAuthenticated) {
+          await dispatch(loadWatchlist());
+        }
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, [dispatch, timeframe]);
+  }, [dispatch, timeframe, isAuthenticated]);
 
   const handleAddToWatchlist = async (movieId) => {
     // Set loading state of the specific movie to true
@@ -76,25 +81,12 @@ export default function HomeBody() {
         ...prevState,
         [movieId]: false,
       }));
-
-      // Set success state of the specific movie to true on success
-      setSuccessMovie((prevState) => ({
-        ...prevState,
-        [movieId]: true,
-      }));
     } catch (error) {
       // Set loading state of the specific movie to false on error
       setLoadingMovie((prevState) => ({
         ...prevState,
         [movieId]: false,
       }));
-
-      // Set success state of the specific movie to false on error
-      setSuccessMovie((prevState) => ({
-        ...prevState,
-        [movieId]: false,
-      }));
-
       console.log(error);
     }
   };
@@ -153,7 +145,9 @@ export default function HomeBody() {
                     {movie.title}
                   </Typography>
                   {isAuthenticated ? (
-                    successMovie[movie.id] ? (
+                    watchlistMovies.find(
+                      (watchlistMovie) => watchlistMovie.movie_id === movie.id
+                    ) ? (
                       <WatchlistButton
                         variant="contained"
                         onClick={() => handleAddToWatchlist(movie.id)}

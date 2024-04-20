@@ -6,7 +6,7 @@ export const loadWatchlist = createAsyncThunk(
   async (movieId, thunkAPI) => {
     try {
       const response = await fetchWatchlist(movieId);
-      return response;
+      return response.movies;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
     }
