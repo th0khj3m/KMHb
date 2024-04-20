@@ -9,9 +9,9 @@ export const fetchRatings = async () => {
   }
 };
 
-export const addToRatings = async (movieId, rating) => {
+export const addToRatings = async ({movieId, rating}) => {
   try {
-    const response = await API.post(`ratings/movies/${movieId}/rate`, rating);
+    const response = await API.post(`ratings/movies/${movieId}/rate`, {rating});
     return response.data;
   } catch (err) {
     throw err.response.data;

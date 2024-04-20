@@ -8,6 +8,7 @@ import movieReducers from "./movie/movie.reducers";
 import videoReducers from "./video/video.reducers";
 import castReducers from "./cast/cast.reducers";
 import watchlistReducers from "./watchlist/watchlist.reducers";
+import ratingReducers from "./rating/rating.reducers";
 
 export default configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export default configureStore({
     video: videoReducers,
     cast: castReducers,
     watchlist: watchlistReducers,
+    rating: ratingReducers
   },
 });

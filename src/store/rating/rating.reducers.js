@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loadRatings, addRating, removeRating } from "./rating.actions";
 
-const watchlistSlice = createSlice({
+const ratingSlice = createSlice({
   name: "rating",
   initialState: {
     ratings: [],
@@ -33,4 +33,4 @@ const watchlistSlice = createSlice({
 });
 
 // Export reducer function by default
-export default watchlistSlice.reducer;
+export default ratingSlice.reducer;

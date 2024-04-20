@@ -15,9 +15,9 @@ export const loadRatings = createAsyncThunk(
 
 export const addRating = createAsyncThunk(
   "rating/addRating",
-  async (movieId, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await addToRatings(movieId);
+      const response = await addToRatings(data);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);

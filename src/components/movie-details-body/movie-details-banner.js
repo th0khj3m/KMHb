@@ -5,7 +5,6 @@ import StarIcon from "@mui/icons-material/Star";
 import { StarBorder } from "@mui/icons-material";
 
 export default function MovieDetailsBanner({ movie }) {
-  console.log(movie)
   const movieYear = movie?.release_date?.split("-")[0];
   const hours = Math.floor(movie.runtime / 60) ?? 0;
   const minutes = movie?.runtime % 60 ?? 0;

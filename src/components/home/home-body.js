@@ -147,7 +147,7 @@ export default function HomeBody() {
                     />
                   </Link>
 
-                  <RatingBox movie={movie.title} />
+                  <RatingBox movie={{movieTitle: movie.title, movieId: movie.id}} />
 
                   <Typography
                     fontWeight="bold"
