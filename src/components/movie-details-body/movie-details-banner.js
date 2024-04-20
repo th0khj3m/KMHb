@@ -5,10 +5,11 @@ import StarIcon from "@mui/icons-material/Star";
 import { StarBorder } from "@mui/icons-material";
 
 export default function MovieDetailsBanner({ movie }) {
+  console.log(movie)
   const movieYear = movie?.release_date?.split("-")[0];
   const hours = Math.floor(movie.runtime / 60) ?? 0;
-  const minutes = movie.runtime % 60 ?? 0;
-  const usRelease = movie.releaseDates?.results.find(
+  const minutes = movie?.runtime % 60 ?? 0;
+  const usRelease = movie?.releaseDates?.results.find(
     (result) => result.iso_3166_1 === "US"
   );
   const movieCertification = usRelease?.release_dates[0]?.certification ?? "PG";

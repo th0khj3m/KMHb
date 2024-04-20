@@ -18,9 +18,7 @@ import Movies from "./movies.js";
 import MovieDetails from "./movie-details.js";
 import Reviews from "./reviews.js";
 import CastDetails from "./cast-details.js";
-import Lists from "./lists.js";
-import List from "./list-details.js";
-import ListForm from "./list-form/list-form.js";
+
 import PrivateRoute from "../components/private-route.js";
 
 const router = createBrowserRouter(
@@ -35,12 +33,9 @@ const router = createBrowserRouter(
       </Route>
       {/* </Route> */}
       <Route path="casts/:castId" element={<CastDetails />} />
-      <Route path="lists" element={<Lists />} />
-      <Route path="lists/:title" element={<List />} />
-      <Route path="lists/create" element={<ListForm />} />
 
       {/* <Route path="watchlist" element={<PrivateRoute />}> */}
-        <Route path="watchlist" element={<Watchlist />} />
+      <Route path="watchlist" element={<Watchlist />} />
       {/* </Route> */}
 
       <Route path="*" element={<Navigate to="/" />} />

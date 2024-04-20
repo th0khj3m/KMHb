@@ -1,5 +1,6 @@
 import React from "react";
 import { Menu, MenuItem, Divider } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileMenu({
   anchorEl,
@@ -7,6 +8,7 @@ export default function ProfileMenu({
   handleClose,
   handleLogout,
 }) {
+  const navigate = useNavigate();
   return (
     <Menu
       anchorEl={anchorEl}
@@ -43,9 +45,8 @@ export default function ProfileMenu({
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem>Watchlist</MenuItem>
+      <MenuItem onClick={() => navigate("/watchlist")}>Watchlist</MenuItem>
       <MenuItem>Ratings</MenuItem>
-      <MenuItem>Lists</MenuItem>
       <Divider />
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>

@@ -25,8 +25,8 @@ export default function Watchlist() {
 
   useEffect(() => {
     if (!watchlistMovies) return; // Early exit if watchlistMovies is not yet available
-    const watchListMovieIds = watchlistMovies?.map((movie) => movie.movie_id);
-    watchListMovieIds.forEach((movieId) => {
+    const watchlistMovieIds = watchlistMovies?.map((movie) => movie.movie_id);
+    watchlistMovieIds.forEach((movieId) => {
       dispatch(fetchMovieDetails(movieId))
         .unwrap()
         .then((movieDetails) => {

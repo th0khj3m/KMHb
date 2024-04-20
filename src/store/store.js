@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 // Import reducers
-import listReducers from "./list/list.reducers";
 import authReducers from "./auth/auth.reducers";
 import userReducers from "./user/user.reducers";
 import moviesReducers from "./movies/movies.reducers";
@@ -19,6 +18,5 @@ export default configureStore({
     video: videoReducers,
     cast: castReducers,
     watchlist: watchlistReducers,
-    list: listReducers,
   },
 });
