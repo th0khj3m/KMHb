@@ -8,11 +8,10 @@ import {
   ToggleButtonGroup,
   Typography,
   Box,
-  Button,
 } from "@mui/material";
 import { Check as CheckIcon, Add as AddIcon } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { clampStyles } from "../../routes/root";
+import { WatchlistButton, clampStyles } from "../../routes/root";
 
 import {
   fetchPopularMovies,
@@ -29,15 +28,14 @@ export default function HomeBody() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const { loading: addMovieIsLoading, actionSuccess } = useSelector(
-    (state) => state.watchlist
-  );
 
   const [timeframe, setTimeframe] = useState("day");
   const [movies, setMovies] = useState({
     trendingMovies: [],
     popularMovies: [],
   });
+  const [loadingMovie, setLoadingMovie] = useState({});
+  const [successMovie, setSuccessMovie] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +62,41 @@ export default function HomeBody() {
   }, [dispatch, timeframe]);
 
   const handleAddToWatchlist = async (movieId) => {
-    await dispatch(addMovie(movieId));
+    // Set loading state of the specific movie to true
+    setLoadingMovie((prevState) => ({
+      ...prevState,
+      [movieId]: true,
+    }));
+
+    try {
+      await dispatch(addMovie(movieId));
+
+      // Set loading state of the specific movie to false on success
+      setLoadingMovie((prevState) => ({
+        ...prevState,
+        [movieId]: false,
+      }));
+
+      // Set success state of the specific movie to true on success
+      setSuccessMovie((prevState) => ({
+        ...prevState,
+        [movieId]: true,
+      }));
+    } catch (error) {
+      // Set loading state of the specific movie to false on error
+      setLoadingMovie((prevState) => ({
+        ...prevState,
+        [movieId]: false,
+      }));
+
+      // Set success state of the specific movie to false on error
+      setSuccessMovie((prevState) => ({
+        ...prevState,
+        [movieId]: false,
+      }));
+
+      console.log(error);
+    }
   };
 
   return (
@@ -121,14 +153,21 @@ export default function HomeBody() {
                     {movie.title}
                   </Typography>
                   {isAuthenticated ? (
-                    addMovieIsLoading && !actionSuccess ? (
+                    successMovie[movie.id] ? (
+                      <WatchlistButton
+                        variant="contained"
+                        onClick={() => handleAddToWatchlist(movie.id)}
+                        startIcon={<CheckIcon />}
+                      >
+                        Watchlist
+                      </WatchlistButton>
+                    ) : (
                       <LoadingButton
                         onClick={() => handleAddToWatchlist(movie.id)}
-                        loading={addMovieIsLoading}
+                        loading={loadingMovie[movie.id]}
                         variant="contained"
                         loadingPosition="start"
                         startIcon={<AddIcon />}
-                        disabled
                         sx={{
                           bgcolor: "#2C2C2C",
                           color: "#0DB597",
@@ -137,22 +176,15 @@ export default function HomeBody() {
                       >
                         <Typography component={"span"}>Watchlist</Typography>
                       </LoadingButton>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        onClick={() => handleAddToWatchlist(movie.id)}
-                        startIcon={<CheckIcon />}
-                      >
-                        Watchlist
-                      </Button>
                     )
                   ) : (
-                    <Button
+                    <WatchlistButton
                       variant="contained"
+                      startIcon={<AddIcon />}
                       onClick={() => navigate("/login")}
                     >
-                      + Watchlist
-                    </Button>
+                      Watchlist
+                    </WatchlistButton>
                   )}
                 </Box>
               )

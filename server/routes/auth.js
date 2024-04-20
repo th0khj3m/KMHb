@@ -4,6 +4,8 @@ import AuthService from "../services/AuthService.js";
 const AuthServiceInstance = new AuthService();
 import UserService from "../services/UserService.js";
 const UserServiceInstance = new UserService();
+import WatchlistService from "../services/WatchlistService.js";
+const WatchlistServiceInstance = new WatchlistService();
 
 export default (app, passport) => {
   app.use("/api/auth", router);
@@ -39,11 +41,12 @@ export default (app, passport) => {
   router.post("/register", async (req, res, next) => {
     try {
       const { username, password, email } = req.body;
-      await AuthServiceInstance.register({
+      const user = await AuthServiceInstance.register({
         username,
         password,
         email,
       });
+      await WatchlistServiceInstance.create(user.id);
       res.status(200).send();
     } catch (err) {
       next(err);
@@ -53,7 +56,6 @@ export default (app, passport) => {
   router.get("/logged_in", async (req, res, next) => {
     try {
       const { id } = req.user;
-
       const user = await UserServiceInstance.get({ id });
       res.status(200).send({
         isLoggedIn: true,

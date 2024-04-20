@@ -26,6 +26,7 @@ export default function RatingBox({ movie }) {
         handleClose={handleCloseModal}
         Component={RatingModal}
         modalProps={{
+          movie,
           rating,
           handleRating,
         }}

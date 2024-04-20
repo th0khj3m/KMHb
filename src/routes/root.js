@@ -59,7 +59,13 @@ export const AuthButton = styled(Button)({
   "&:hover": {
     backgroundColor: "#00A099",
   },
-})
+});
+
+export const WatchlistButton = styled(Button)({
+  backgroundColor: "#2C2C2C",
+  color: "#0DB597",
+  "&:hover": { backgroundColor: "rgba(13, 181, 151, 0.4)" },
+});
 
 const theme = createTheme({
   palette: {

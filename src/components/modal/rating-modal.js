@@ -4,7 +4,7 @@ import { Box, Button, Typography, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 
 export default function RatingModal({
-  modalMovieIndex,
+  movie,
   rating,
   handleRating,
 }) {
@@ -42,7 +42,7 @@ export default function RatingModal({
             position: "absolute",
             left: "50%",
             top: 0,
-            transform: "translate(-50%, -100%)",
+            transform: "translate(-50%, -70%)",
             color: "white",
             fontSize: "3rem",
           }}
@@ -58,7 +58,7 @@ export default function RatingModal({
           RATE THIS
         </Typography>
         <Typography sx={{ fontSize: "1.3em", marginTop: "-10px" }}>
-          {modalMovieIndex}
+          {movie}
         </Typography>
         <Rating
           name="rating"
