@@ -4,9 +4,9 @@ import RatingService from "../services/RatingService.js";
 const RatingServiceInstance = new RatingService();
 
 export default (app) => {
-  app.use("/api", router);
+  app.use("/api/ratings", router);
 
-  router.get("/user/ratings", async (req, res, next) => {
+  router.get("/", async (req, res, next) => {
     try {
       const { id } = req.user;
       const response = await RatingServiceInstance.loadRatings(id);
@@ -20,7 +20,7 @@ export default (app) => {
     try {
       const { id } = req.user;
       const { movieId } = req.params;
-      const rating = req.body;
+      const { rating } = req.body;
       const response = await RatingServiceInstance.rate({
         user_id: id,
         movie_id: movieId,
@@ -31,4 +31,20 @@ export default (app) => {
       next(err);
     }
   });
+
+  router.delete("/movies/:movieId", async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const { movieId } = req.params;
+      const response = await RatingServiceInstance.removeRating({
+        user_id: id,
+        movie_id: movieId,
+      });
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+
 };

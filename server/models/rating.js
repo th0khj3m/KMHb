@@ -30,7 +30,21 @@ export default class RatingModel {
       }
 
       return [];
-    } catch (err) { 
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async delete({ user_id, movie_id }) {
+    try {
+      const statement = `DELETE FROM ratings WHERE user_id = $1 AND movie_id = $2 RETURNING *`;
+      const result = await db.query(statement, [user_id, movie_id]);
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+
+      return null;
+    } catch (err) {
       throw err;
     }
   }

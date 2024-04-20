@@ -1,23 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addToWatchlist, fetchWatchlist, removeFromWatchlist } from "../../apis/watchlist";
+import { addToRatings, fetchRatings, removeFromRatings } from "../../apis/rating";
 
-export const loadWatchlist = createAsyncThunk(
-  "watchlist/fetchWatchlist",
+export const loadRatings = createAsyncThunk(
+  "rating/fetchRatings",
   async (movieId, thunkAPI) => {
     try {
-      const response = await fetchWatchlist(movieId);
-      return response.movies;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
-    }
-  }
-);
-
-export const addMovie = createAsyncThunk(
-  "watchlist/addMovie",
-  async (movieId, thunkAPI) => {
-    try {
-      const response = await addToWatchlist(movieId);
+      const response = await fetchRatings(movieId);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
@@ -25,11 +13,23 @@ export const addMovie = createAsyncThunk(
   }
 );
 
-export const removeMovie = createAsyncThunk(
-  "watchlist/removeMovie",
+export const addRating = createAsyncThunk(
+  "rating/addRating",
   async (movieId, thunkAPI) => {
     try {
-      const response = await removeFromWatchlist(movieId);
+      const response = await addToRatings(movieId);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const removeRating = createAsyncThunk(
+  "rating/removeRating",
+  async (movieId, thunkAPI) => {
+    try {
+      const response = await removeFromRatings(movieId);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);

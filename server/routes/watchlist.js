@@ -5,9 +5,9 @@ import WatchlistService from "../services/WatchlistService.js";
 const WatchlistServiceInstance = new WatchlistService();
 
 export default (app) => {
-  app.use("/api", router);
+  app.use("/api/watchlist", router);
 
-  router.get("/user/watchlist", async (req, res, next) => {
+  router.get("/", async (req, res, next) => {
     try {
       const { id } = req.user;
       const response = await WatchlistServiceInstance.loadMovies(id);
