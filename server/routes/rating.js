@@ -30,7 +30,7 @@ export default (app) => {
     }
   });
 
-  router.post("/movies/:movieId/rate", async (req, res, next) => {
+  router.post("/movies/:movieId", async (req, res, next) => {
     try {
       const { id } = req.user;
       const { movieId } = req.params;

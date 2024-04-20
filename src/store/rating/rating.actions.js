@@ -1,5 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addToRatings, fetchRatings, getSpecificRating, removeFromRatings } from "../../apis/rating";
+import {
+  addToRatings,
+  fetchRatings,
+  getSpecificRating,
+  removeFromRatings,
+  updateUserRating,
+} from "../../apis/rating";
 
 export const loadRatings = createAsyncThunk(
   "rating/fetchRatings",
@@ -30,6 +36,18 @@ export const addRating = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await addToRatings(data);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateRating = createAsyncThunk(
+  "rating/updateRating",
+  async (movieId, thunkAPI) => {
+    try {
+      const response = await updateUserRating(movieId);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);

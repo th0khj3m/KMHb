@@ -23,6 +23,7 @@ import { Img } from "../../routes/root";
 import { addMovie, removeMovie } from "../../store/watchlist/watchlist.actions";
 import { loadWatchlist } from "../../store/watchlist/watchlist.actions";
 import useLoadWatchlist from "../../hooks/useLoadWatchlist";
+import { loadRatings } from "../../store/rating/rating.actions";
 
 const sections = [{ title: "Trending" }, { title: "Popular" }];
 
@@ -39,6 +40,7 @@ export default function HomeBody() {
   useLoadWatchlist();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const watchlistMovies = useSelector((state) => state.watchlist.movies);
+  const ratingMovies = useSelector((state) => state.rating.ratings);
   const [loadingMovie, setLoadingMovie] = useState({});
 
   useEffect(() => {
@@ -60,6 +62,7 @@ export default function HomeBody() {
 
         if (isAuthenticated) {
           await dispatch(loadWatchlist());
+          await dispatch(loadRatings());
         }
       } catch (error) {
         console.log(error);
@@ -147,7 +150,16 @@ export default function HomeBody() {
                     />
                   </Link>
 
-                  <RatingBox movie={{movieTitle: movie.title, movieId: movie.id}} />
+                  <RatingBox
+                    movie={{
+                      movieRating: Math.round(movie.vote_average * 10) / 10,
+                      movieTitle: movie.title,
+                      movieId: movie.id,
+                      userRating: ratingMovies.find(
+                        (rating) => rating.movie_id === movie.id
+                      )?.rating
+                    }}
+                  />
 
                   <Typography
                     fontWeight="bold"

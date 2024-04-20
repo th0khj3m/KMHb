@@ -69,6 +69,9 @@ export const WatchlistButton = styled(Button)({
 
 const theme = createTheme({
   palette: {
+    primary: {
+      main: "#0DB597",
+    },
     main: "#0DB597",
     secondary: {
       main: "#000",

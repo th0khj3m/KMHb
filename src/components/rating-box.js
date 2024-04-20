@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Box, Typography, IconButton } from "@mui/material";
+import React from "react";
+import { Box, Typography, IconButton, Button, Stack } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
@@ -8,28 +8,30 @@ import ModalRender from "./modal-render";
 import RatingModal from "./modal/rating-modal";
 import useRating from "../hooks/useRating";
 
-export default function RatingBox({ movie: {movieTitle, movieId} }) {
+export default function RatingBox({
+  movie: { movieRating, movieTitle, movieId, userRating },
+}) {
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const { rating, handleRatingChange, handleRatingConfirm } = useRating();
-
-  // useEffect(() => {
-  //   // Fetch user rating on component mount or rating change
-  //   const fetchRating = async () => {
-  //     const userRating = await getUserRating(movieId); // Replace with your logic
-  //     setUserRating(userRating);
-  //   };
-
-  //   fetchRating();
-  // }, [movieId, rating]);
 
   return (
     <>
       <Box display={"flex"} alignItems={"center"}>
-        <StarIcon />
-        <Typography ml={"3px"}>8.4</Typography>
-        <IconButton onClick={() => handleOpenModal(movieId)} sx={{ ml: "15px" }}>
-          <StarBorderIcon />
-        </IconButton>
+        <Stack direction={"row"} display={"flex"} alignItems={"center"}>
+          <StarIcon fontSize="small" />
+          <Typography ml={"3px"}>{movieRating}</Typography>
+        </Stack>
+        <Box ml={3}>
+          {userRating ? (
+            <Button size="large" startIcon={<StarIcon color="primary" />}>
+              {userRating}
+            </Button>
+          ) : (
+            <IconButton onClick={() => handleOpenModal(movieId)}>
+              <StarBorderIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Box>
       </Box>
       <ModalRender
         isOpen={openModal}
@@ -41,7 +43,7 @@ export default function RatingBox({ movie: {movieTitle, movieId} }) {
           rating,
           handleRatingChange,
           handleRatingConfirm,
-          handleCloseModal
+          handleCloseModal,
         }}
       />
     </>
