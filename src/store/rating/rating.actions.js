@@ -8,10 +8,10 @@ import {
 } from "../../apis/rating";
 
 export const loadRatings = createAsyncThunk(
-  "rating/fetchRatings",
-  async (movieId, thunkAPI) => {
+  "rating/loadRatings",
+  async (_, thunkAPI) => {
     try {
-      const response = await fetchRatings(movieId);
+      const response = await fetchRatings();
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);

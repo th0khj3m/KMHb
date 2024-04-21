@@ -18,6 +18,8 @@ import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
 import { Img, ModalContainer } from "../../routes/root";
+import { useDispatch } from "react-redux";
+import { addReview } from "../../store/review/review.actions";
 
 const testMovies = [
   {
@@ -39,20 +41,34 @@ const testMovies = [
   },
 ];
 
-export default function ReviewModal() {
+export default function ReviewModal({ movieId, handleCloseModal }) {
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object().shape({
-    headline: Yup.string().required("Headline is required."),
+    title: Yup.string().required("Title is required."),
     content: Yup.string()
       .required("Review is required")
-      .when("submit", {
-        is: true,
-        then: Yup.string().min(
-          600,
-          "Sorry, your review is too short. It needs to contain at least 600 characters"
-        ),
-      }),
+      .min(
+        50,
+        "Sorry, your review is too short. It needs to contain at least 50 characters"
+      ),
   });
+
+  const handleSubmit = async (values, { setSubmitting, setStatus }) => {
+    try {
+      dispatch(addReview({ movieId, data: values }));
+      setStatus({ success: true }); // Set Formik status for success feedback
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      setStatus({
+        error:
+          error.message || "An error occurred while submitting your review.",
+      }); // Set Formik status for error feedback
+    } finally {
+      setSubmitting(false); // Reset submitting state in any case
+    }
+  };
 
   const ErrorDisplay = ({ error, touched }) => {
     return error && touched ? (
@@ -89,34 +105,36 @@ export default function ReviewModal() {
               </Stack>
             </Grid>
           </Grid>
-          <Typography p={"5px"}>YOUR RATING</Typography>
         </Stack>
         <Box display={"flex"} mt="10px">
           <Typography ml={"5px"} mt="5px"></Typography>
         </Box>
         <Box display={"flex"} flexDirection={"column"} gap={"10px"}>
-          <Typography bgcolor={"#f3f3f3"} p={"5px"}>YOUR REVIEW</Typography>
+          <Typography bgcolor={"#f3f3f3"} p={"5px"}>
+            YOUR REVIEW
+          </Typography>
           <Formik
             initialValues={{
-              headline: "",
-              review: "",
+              title: "",
+              content: "",
             }}
             validationSchema={validationSchema}
+            onSubmit={handleSubmit}
           >
             {({ errors, touched }) => (
               <Form>
                 <FormControl fullWidth sx={{ mb: 2 }}>
                   <Field
                     as={OutlinedInput}
-                    id="headline"
-                    name="headline"
-                    placeholder="Write a headline for your review here"
+                    id="title"
+                    name="title"
+                    placeholder="Write a title for your review here"
                     required
                   />
                   <ErrorDisplay
-                    error={errors.headline}
-                    touched={touched.headline}
-                    id="headline-helper-text"
+                    error={errors.title}
+                    touched={touched.title}
+                    id="title-helper-text"
                   />
                 </FormControl>
 

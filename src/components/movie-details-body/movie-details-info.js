@@ -105,7 +105,7 @@ export default function MovieDetailsInfo({ movie }) {
                 </Typography>
               </Box>
             </Paper>
-            <Link to="/reviews" style={{ textDecoration: "none" }}>
+            <Link to={`/movies/${movie.id}/reviews`} style={{ textDecoration: "none" }}>
               <Typography color="black" fontWeight={"600"}>
                 Read all reviews
               </Typography>

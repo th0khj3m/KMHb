@@ -32,7 +32,6 @@ export default (app) => {
       const { id } = req.user;
       const { movieId } = req.params;
       const { title, content } = req.body;
-
       const response = await ReviewServiceInstance.create({
         user_id: id,
         movie_id: movieId,

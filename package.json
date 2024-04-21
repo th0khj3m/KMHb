@@ -35,6 +35,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "server/swagger_output.json"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

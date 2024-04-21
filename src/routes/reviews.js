@@ -14,6 +14,8 @@ import { Star, Create as CreateIcon } from "@mui/icons-material";
 import ModalRender from "../components/modal-render";
 import ReviewModal from "../components/modal/review-modal";
 import useModal from "../hooks/useModal";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const testMovie = {
   adult: false,
@@ -67,21 +69,33 @@ const testMovie = {
 };
 
 export default function Reviews() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { movieId } = useParams();
   const { openModal, handleOpenModal, handleCloseModal, modalIndex } =
     useModal();
 
+  const handleClick = () => {
+    if (!isAuthenticated) {
+      navigate("/login"); // Redirect to login if not authenticated
+      return; // Prevent further execution for non-authenticated users
+    }
+    handleOpenModal(movieId); // Open modal for authenticated users
+  };
+
   return (
     <Container maxWidth="xl">
-      <Grid container mt="30px">
+      <Grid container mt={4}>
         <Grid item md={3} textAlign={"center"}>
           <Button
             variant="contained"
             startIcon={<CreateIcon />}
-            onClick={() => handleOpenModal(testMovie)}
+            onClick={handleClick}
             sx={{
               bgcolor: "black",
               fontWeight: "bold",
               borderRadius: "20px",
+              color: "main",
               "&:hover": {
                 bgcolor: "#333",
               },
@@ -148,7 +162,8 @@ export default function Reviews() {
           handleClose={handleCloseModal}
           Component={ReviewModal}
           modalProps={{
-            modalMovieIndex: modalIndex
+            movieId: modalIndex,
+            handleCloseModal
           }}
         />
       )}
