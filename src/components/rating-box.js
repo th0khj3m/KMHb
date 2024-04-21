@@ -6,7 +6,11 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import useModal from "../hooks/useModal";
 import ModalRender from "./modal-render";
 import RatingModal from "./modal/rating-modal";
-import { addRating, updateRating } from "../store/rating/rating.actions";
+import {
+  addRating,
+  removeRating,
+  updateRating,
+} from "../store/rating/rating.actions";
 import { useDispatch } from "react-redux";
 
 export default function RatingBox({
@@ -14,7 +18,7 @@ export default function RatingBox({
 }) {
   const dispatch = useDispatch();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
-  const [rating, setRating] = useState(movieRating); // Initial state
+  const [rating, setRating] = useState("?"); // Initial state
 
   useEffect(() => {
     if (userRating) {
@@ -34,6 +38,12 @@ export default function RatingBox({
   const handleRatingUpdate = (movieId) => {
     dispatch(updateRating({ movieId, rating }));
     setRating("?");
+  };
+
+  const handleRatingRemove = (movieId) => {
+    dispatch(removeRating(movieId));
+    setRating("?");
+    handleCloseModal();
   };
 
   return (
@@ -71,6 +81,7 @@ export default function RatingBox({
           handleRatingChange,
           handleRatingConfirm,
           handleRatingUpdate,
+          handleRatingRemove,
           handleCloseModal,
         }}
       />
