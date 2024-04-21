@@ -18,6 +18,7 @@ import Movies from "./movies.js";
 import MovieDetails from "./movie-details.js";
 import Reviews from "./reviews.js";
 import CastDetails from "./cast-details.js";
+import Ratings from "./ratings.js";
 
 import PrivateRoute from "../components/private-route.js";
 
@@ -31,13 +32,14 @@ const router = createBrowserRouter(
       <Route path="movies/:movieId" element={<MovieDetails />}>
         <Route path="reviews" element={<Reviews />} />
       </Route>
+
       {/* </Route> */}
       <Route path="casts/:castId" element={<CastDetails />} />
 
       {/* <Route path="watchlist" element={<PrivateRoute />}> */}
       <Route path="watchlist" element={<Watchlist />} />
       {/* </Route> */}
-
+      <Route path="ratings" element={<Ratings />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Route>
   )

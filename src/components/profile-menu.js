@@ -46,7 +46,7 @@ export default function ProfileMenu({
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
       <MenuItem onClick={() => navigate("/watchlist")}>Watchlist</MenuItem>
-      <MenuItem>Ratings</MenuItem>
+      <MenuItem onClick={() => navigate("/ratings")}>Ratings</MenuItem>
       <Divider />
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
