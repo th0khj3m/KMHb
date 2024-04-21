@@ -5,10 +5,10 @@ const ReviewModelInstance = new ReviewModel();
 export default class ReviewService {
   async create(data) {
     try {
-        const reviews = await ReviewModelInstance.create(data);
-        return reviews;
+      const reviews = await ReviewModelInstance.create(data);
+      return reviews;
     } catch (err) {
-        throw err;
+      throw err;
     }
   }
 

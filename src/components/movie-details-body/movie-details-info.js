@@ -24,7 +24,7 @@ export default function MovieDetailsInfo({ movie }) {
             </Typography>
             <Box display="flex" gap="15px" overflow="auto">
               {casts &&
-                casts.cast.map((cast, index) => (
+                casts.cast?.map((cast, index) => (
                   <Paper
                     elevation={3}
                     key={index}
@@ -41,16 +41,16 @@ export default function MovieDetailsInfo({ movie }) {
                   >
                     <Link to={`/casts/${cast.id}`}>
                       <Img
-                        src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
-                        alt="hehe"
+                        src={`https://image.tmdb.org/t/p/w500${cast?.profile_path}`}
+                        alt={`${cast?.name}`}
                       />
                     </Link>
 
                     <Box p="10px">
                       <Typography sx={{ fontWeight: "bold" }}>
-                        {cast.name}
+                        {cast?.name}
                       </Typography>
-                      <Typography>{cast.character}</Typography>
+                      <Typography>{cast?.character}</Typography>
                     </Box>
                   </Paper>
                 ))}
@@ -105,7 +105,7 @@ export default function MovieDetailsInfo({ movie }) {
                 </Typography>
               </Box>
             </Paper>
-            <Link to="reviews" style={{ textDecoration: "none" }}>
+            <Link to="/reviews" style={{ textDecoration: "none" }}>
               <Typography color="black" fontWeight={"600"}>
                 Read all reviews
               </Typography>

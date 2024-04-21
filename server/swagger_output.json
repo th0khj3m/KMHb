@@ -8,7 +8,7 @@
   "host": "localhost:4000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/api/auth/login": {
@@ -188,9 +188,17 @@
         }
       }
     },
-    "/": {
+    "/api/reviews/movies/{movieId}": {
       "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -200,6 +208,12 @@
       "post": {
         "description": "",
         "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -223,7 +237,7 @@
         }
       }
     },
-    "/{reviewId}": {
+    "/api/reviews/{reviewId}": {
       "get": {
         "description": "",
         "parameters": [
@@ -248,6 +262,21 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "content": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {

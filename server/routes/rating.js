@@ -1,10 +1,11 @@
 import express from "express";
 const router = express.Router();
 import RatingService from "../services/RatingService.js";
+import isLoggedIn from "../middleware/middleware.js";
 const RatingServiceInstance = new RatingService();
 
 export default (app) => {
-  app.use("/api/ratings", router);
+  app.use("/api/ratings", isLoggedIn, router);
 
   router.get("/", async (req, res, next) => {
     try {

@@ -1,35 +1,16 @@
 import express from "express";
-const router = express.Router({mergeParams: true});
+const router = express.Router();
 import ReviewService from "../services/ReviewService.js";
+import isLoggedIn from "../middleware/middleware.js";
 const ReviewServiceInstance = new ReviewService();
 
 export default (app) => {
-  app.use("/api/:movieId/reviews", router);
+  app.use("/api/reviews", isLoggedIn, router);
 
-  router.get("/", async (req, res, next) => {
+  router.get("/movies/:movieId", async (req, res, next) => {
     try {
       const { movieId } = req.params;
       const response = await ReviewServiceInstance.list(movieId);
-      res.status(200).send(response);
-    } catch (err) {
-      next(err);
-    }
-  });
-
-  router.post("/", async (req, res, next) => {
-    try {
-      const { id } = req.user;
-      const { movieId } = req.params;
-      const { title, content } = req.body;
-
-      const response = await ReviewServiceInstance.create({
-        movie_id: movieId,
-        user_id: id,
-        title,
-        content,
-      });
-
-      //Send status 200 with response
       res.status(200).send(response);
     } catch (err) {
       next(err);
@@ -46,11 +27,34 @@ export default (app) => {
     }
   });
 
+  router.post("/movies/:movieId", async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const { movieId } = req.params;
+      const { title, content } = req.body;
+
+      const response = await ReviewServiceInstance.create({
+        user_id: id,
+        movie_id: movieId,
+        title,
+        content,
+      });
+
+      //Send status 200 with response
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.put("/:reviewId", async (req, res, next) => {
     try {
       const { reviewId } = req.params;
-      const data = req.body;
-      const response = await ReviewServiceInstance.update(reviewId, data);
+      const { title, content } = req.body;
+      const response = await ReviewServiceInstance.update(reviewId, {
+        title,
+        content,
+      });
       res.status(200).send(response);
     } catch (err) {
       next(err);

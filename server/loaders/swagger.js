@@ -17,7 +17,7 @@ const options = {
     description: "COMP1686 Final Year Project using PERN stack",
   },
   host: "localhost:4000",
-  schemes: ["https"],
+  schemes: ["http"],
 };
 
 export default () => {

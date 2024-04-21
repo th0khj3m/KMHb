@@ -12,7 +12,7 @@ export default function MovieDetailsBanner({ movie }) {
     (result) => result.iso_3166_1 === "US"
   );
   const movieCertification = usRelease?.release_dates[0]?.certification ?? "PG";
-  const movieKey = movie.newestTrailer?.key;
+  const movieKey = movie?.newestTrailer?.key;
 
   const getDirector = () => {
     if (movie && movie.casts && movie.casts.crew) {
@@ -20,7 +20,7 @@ export default function MovieDetailsBanner({ movie }) {
         (crewMember) =>
           crewMember.department === "Directing" && crewMember.job === "Director"
       );
-      return director ? director.name : "Director Not Found";
+      return director ? director.name : "";
     }
     return "Director Not Found";
   };
@@ -32,8 +32,8 @@ export default function MovieDetailsBanner({ movie }) {
         (crewMember) => crewMember.department === "Writing"
       );
       return writers.length > 0
-        ? writers.map((writer) => writer.name).join(", ")
-        : "Writers Not Found";
+        ? writers.map((writer) => writer.name).join(" · ")
+        : "";
     }
     return "Writers Not Found";
   };
@@ -105,28 +105,7 @@ export default function MovieDetailsBanner({ movie }) {
               style={{ flex: 1 }}
             />
           )}
-          {/* 
-            <Box>
-              <Box
-                sx={{
-                  height: "200px",
-                  width: "200px",
-                  backgroundColor: "blue",
-                  ml: "5px",
-                  mb: "5px",
-                }}
-              />
-              <Box
-                sx={{
-                  height: "200px",
-                  width: "200px",
-                  backgroundColor: "blue",
-                  ml: "5px",
-                }}
-              />
-            </Box> */}
         </Box>
-
         <Box
           sx={{
             display: "flex",
@@ -152,7 +131,7 @@ export default function MovieDetailsBanner({ movie }) {
               ))}
           </Box>
           <WhiteTypography sx={{ my: "10px" }}>
-            {movie.overview}
+            {movie?.overview}
           </WhiteTypography>
           <Divider />
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -177,7 +156,7 @@ export default function MovieDetailsBanner({ movie }) {
 
       <Box
         sx={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/original${movie?.backdrop_path})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           minHeight: "100vh",

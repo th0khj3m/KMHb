@@ -29,9 +29,9 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       {/* <Route path="movies" element={<Movies />}> */}
-      <Route path="movies/:movieId" element={<MovieDetails />}>
-        <Route path="reviews" element={<Reviews />} />
-      </Route>
+      <Route path="movies/:movieId" element={<MovieDetails />} />
+      <Route path="reviews" element={<Reviews />} />
+      {/* <Route path="reviews/:reviewId" element={<Review />} */}
 
       {/* </Route> */}
       <Route path="casts/:castId" element={<CastDetails />} />

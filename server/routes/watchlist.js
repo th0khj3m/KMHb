@@ -1,11 +1,12 @@
 import express from "express";
 const router = express.Router();
 import WatchlistService from "../services/WatchlistService.js";
+import isLoggedIn from "../middleware/middleware.js";
 
 const WatchlistServiceInstance = new WatchlistService();
 
 export default (app) => {
-  app.use("/api/watchlist", router);
+  app.use("/api/watchlist", isLoggedIn, router);
 
   router.get("/", async (req, res, next) => {
     try {

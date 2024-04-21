@@ -53,7 +53,7 @@ export default class ReviewModel {
   async update(id, data) {
     try {
       // Generate SQL statement - using helper for dynamic parameter injection
-      const condition = pgp.as.format("WHERE id = ${id} RETURNING *", { id });
+      const condition = pgp.as.format("WHERE id = $1 RETURNING *", [id]); // Replaced ${} with positional parameters
       const statement = pgp.helpers.update(data, null, "reviews") + condition;
 
       // Execute SQL statment
