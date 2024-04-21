@@ -18,7 +18,6 @@ import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
 import { Img, ModalContainer } from "../../routes/root";
-import useRating from "../../hooks/useRating";
 
 const testMovies = [
   {
@@ -41,7 +40,6 @@ const testMovies = [
 ];
 
 export default function ReviewModal() {
-  const { ratingComponent, rating } = useRating();
 
   const validationSchema = Yup.object().shape({
     headline: Yup.string().required("Headline is required."),
@@ -94,8 +92,7 @@ export default function ReviewModal() {
           <Typography p={"5px"}>YOUR RATING</Typography>
         </Stack>
         <Box display={"flex"} mt="10px">
-          {ratingComponent}
-          <Typography ml={"5px"} mt="5px">{rating}</Typography>
+          <Typography ml={"5px"} mt="5px"></Typography>
         </Box>
         <Box display={"flex"} flexDirection={"column"} gap={"10px"}>
           <Typography bgcolor={"#f3f3f3"} p={"5px"}>YOUR REVIEW</Typography>

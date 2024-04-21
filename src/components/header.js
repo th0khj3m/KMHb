@@ -16,17 +16,14 @@ import { Img } from "../routes/root";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileMenu from "./profile-menu";
 import { logoutUser } from "../store/auth/auth.actions";
+import useCombinedLoadingState from "../hooks/useCombinedLoadingState";
 
 export default function Header() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
-  const moviesIsLoading = useSelector((state) => state.movies.loading);
-  const movieIsLoading = useSelector((state) => state.movie.loading);
-  const castIsLoading = useSelector((state) => state.cast.loading);
-  const watchlistIsLoading = useSelector((state) => state.watchlist.loading);
-  const isLoading =
-    moviesIsLoading || movieIsLoading || castIsLoading || watchlistIsLoading;
+  const loadingStateSlices = ["movies", "movie", "cast", "watchlist", "rating"]; // List of loading state slices
+  const isLoading = useCombinedLoadingState(loadingStateSlices);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);

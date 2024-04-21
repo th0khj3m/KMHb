@@ -22,6 +22,7 @@ export default function Watchlist() {
     <UserPage
       fetchedDataDetails={fetchedDataDetails}
       data={watchlistMovies}
+      type={"watchlist"}
     />
   );
 }

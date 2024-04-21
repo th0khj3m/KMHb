@@ -8,5 +8,17 @@ export default function Ratings() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const ratingMovies = useSelector((state) => state.rating.ratings);
-  return <></>;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(loadRatings());
+    }
+  }, [dispatch, isAuthenticated]);
+
+  const [fetchedDataDetails, setFetchedDataDetails] = useState({});
+  useFetchMovieData(setFetchedDataDetails, ratingMovies);
+
+  return (
+    <UserPage fetchedDataDetails={fetchedDataDetails} data={ratingMovies} type={"ratings"}/>
+  );
 }

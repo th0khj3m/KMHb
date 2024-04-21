@@ -1,27 +1,42 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Container,
   Box,
   Paper,
   Stack,
   Typography,
-  IconButton,
+  Button,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { HighlightOff } from "@mui/icons-material";
 import { format } from "date-fns";
 import { Img } from "../routes/root";
+import RatingBox from "./rating-box";
+import { useDispatch, useSelector } from "react-redux";
+import { loadRatings } from "../store/rating/rating.actions";
 
-export default function UserPage({ fetchedDataDetails, data }) {
+export default function UserPage({ fetchedDataDetails, data, type }) {
+  const dispatch = useDispatch();
+  const ratings = useSelector((state) => state.rating.ratings);
+  const typeRef = useRef(type); // Store type in a ref (Not need to trigger rerender)
+
+  useEffect(() => {
+    if ((typeRef.current = "watchlist")) {
+      dispatch(loadRatings());
+    }
+  }, [dispatch, typeRef]);
+
+  const title = type === "watchlist" ? "My Watchlist" : "My Ratings";
+
   return (
     <Container maxWidth="xl" sx={{ my: 3 }}>
       <Stack>
         <Typography variant="h4" component={"h1"} fontWeight={"bold"}>
-          My Watchlist
+          {title}
         </Typography>
         {data &&
-          data.map((watchlistMovie) => {
-            const movieId = watchlistMovie?.movie_id;
+          data.map((movieData) => {
+            const movieId = movieData?.movie_id;
             const movie = fetchedDataDetails[movieId]?.movieDetails;
             return (
               movie && (
@@ -47,7 +62,7 @@ export default function UserPage({ fetchedDataDetails, data }) {
                       </Box>
                     </Grid>
                     <Grid display={"flex"} item md={10} alignItems={"center"}>
-                      <Stack gap={1}>
+                      <Stack spacing={2}>
                         <Box>
                           <Typography
                             variant="h5"
@@ -62,18 +77,34 @@ export default function UserPage({ fetchedDataDetails, data }) {
                               "MMMM d, yyyy"
                             )}
                           </Typography>
-                          {/* <RatingBox /> */}
+                          <RatingBox
+                            movie={{
+                              movieRating:
+                                Math.round(movie?.vote_average * 10) / 10,
+                              movieTitle: movie?.title,
+                              movieId: movie?.id,
+                              userRating:
+                                type === "watchlist"
+                                  ? ratings.find(
+                                      (rating) => rating.movie_id === movieId
+                                    )?.rating
+                                  : movieData.rating,
+                            }}
+                          />
                         </Box>
                         <Typography fontSize={"18px"}>
                           {movie.overview}
                         </Typography>
-                        <Box mt={1}>
-                          <IconButton disableRipple sx={{ p: 0 }}>
-                            <HighlightOff fontSize="large" />
-                          </IconButton>
-                          <Typography ml={1} component={"span"}>
-                            Remove
-                          </Typography>
+                        <Box>
+                          {type === "watchlist" && (
+                            <Button
+                              size="Large"
+                              variant="outlined"
+                              startIcon={<HighlightOff />}
+                            >
+                              Remove
+                            </Button>
+                          )}
                         </Box>
                       </Stack>
                     </Grid>
