@@ -5,7 +5,7 @@ import { SESSION_SECRET } from "../config.js";
 
 export default async (app) => {
   // Enable Cross Origin Resource Sharing to all origins by default
-  app.use(cors({credentials: true, origin: "http://localhost:3006"}));
+  app.use(cors({ credentials: true, origin: "http://localhost:3006" }));
 
   // Parse incoming request bodies as JSON
   app.use(bodyParser.json());
@@ -25,6 +25,7 @@ export default async (app) => {
       cookie: {
         secure: false,
         maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
       },
     })
   );

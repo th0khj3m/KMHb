@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 export default function RatingModal({
   movieId,
   movieTitle,
+  userRating,
   rating,
   handleRatingChange,
   handleRatingConfirm,
+  handleRatingUpdate,
   handleCloseModal,
 }) {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -73,6 +75,7 @@ export default function RatingModal({
         max={10}
         precision={1}
         size="large"
+        value={rating}
         onChange={handleRatingChange}
         sx={{ marginBottom: "15px", color: "main" }}
       />
@@ -92,7 +95,13 @@ export default function RatingModal({
             navigate("/login");
             return;
           }
-          handleRatingConfirm(movieId);
+
+          if (userRating) {
+            handleRatingUpdate(movieId);
+          } else {
+            handleRatingConfirm(movieId);
+          }
+
           handleCloseModal();
         }}
       >

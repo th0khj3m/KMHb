@@ -139,16 +139,18 @@ export default function HomeBody() {
                   key={movieIndex}
                   display="flex"
                   flexDirection="column"
-                  width="15%"
                   flexShrink={0}
+                  width={"15%"}
                 >
-                  <Link to={`/movies/${movie.id}`}>
-                    <Img
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                      alt={movie.title}
-                      sx={{ borderRadius: "8px" }}
-                    />
-                  </Link>
+                  <Box>
+                    <Link to={`/movies/${movie.id}`}>
+                      <Img
+                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                        alt={movie.title}
+                        sx={{ borderRadius: "8px" }}
+                      />
+                    </Link>
+                  </Box>
 
                   <RatingBox
                     movie={{
@@ -157,7 +159,7 @@ export default function HomeBody() {
                       movieId: movie.id,
                       userRating: ratingMovies.find(
                         (rating) => rating.movie_id === movie.id
-                      )?.rating
+                      )?.rating,
                     }}
                   />
 

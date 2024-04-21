@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, IconButton, Button, Stack } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
@@ -6,13 +6,35 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import useModal from "../hooks/useModal";
 import ModalRender from "./modal-render";
 import RatingModal from "./modal/rating-modal";
-import useRating from "../hooks/useRating";
+import { addRating, updateRating } from "../store/rating/rating.actions";
+import { useDispatch } from "react-redux";
 
 export default function RatingBox({
   movie: { movieRating, movieTitle, movieId, userRating },
 }) {
+  const dispatch = useDispatch();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
-  const { rating, handleRatingChange, handleRatingConfirm } = useRating();
+  const [rating, setRating] = useState(movieRating); // Initial state
+
+  useEffect(() => {
+    if (userRating) {
+      setRating(userRating);
+    }
+  }, [userRating]);
+
+  const handleRatingChange = (event, newValue) => {
+    setRating(newValue);
+  };
+
+  const handleRatingConfirm = (movieId) => {
+    dispatch(addRating({ movieId, rating }));
+    setRating("?");
+  };
+
+  const handleRatingUpdate = (movieId) => {
+    dispatch(updateRating({ movieId, rating }));
+    setRating("?");
+  };
 
   return (
     <>
@@ -23,8 +45,12 @@ export default function RatingBox({
         </Stack>
         <Box ml={3}>
           {userRating ? (
-            <Button size="large" startIcon={<StarIcon color="primary" />}>
-              {userRating}
+            <Button
+              size="large"
+              startIcon={<StarIcon color="primary" />}
+              onClick={() => handleOpenModal(movieId)}
+            >
+              {rating}
             </Button>
           ) : (
             <IconButton onClick={() => handleOpenModal(movieId)}>
@@ -41,8 +67,10 @@ export default function RatingBox({
           movieId,
           movieTitle,
           rating,
+          userRating,
           handleRatingChange,
           handleRatingConfirm,
+          handleRatingUpdate,
           handleCloseModal,
         }}
       />
