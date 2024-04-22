@@ -90,6 +90,10 @@ export default function Header() {
             </Link>
           </IconButton>
 
+          <MenuItemLink>
+            <Typography fontWeight={"bold"}>Accounts</Typography>
+          </MenuItemLink>
+
           <MenuItemLink to="/menu">
             <Menu />
             <Typography fontWeight={"bold"}>Menu</Typography>

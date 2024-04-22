@@ -11,6 +11,13 @@ export const clampStyles = {
   WebkitLineClamp: 2, // Limit to 2 lines
 };
 
+export const DashboardBox = styled(Box)({
+  padding: "30px",
+  flexGrow: 1,
+  textAlign: "center",
+  borderRadius: "15px",
+});
+
 export const Img = styled("img")({
   display: "block",
   margin: "auto",

@@ -12,7 +12,7 @@ export default class ReviewService {
     }
   }
 
-  async list(movie_id) {
+  async loadReviews(movie_id) {
     try {
       const reviews = await ReviewModelInstance.find(movie_id);
       return reviews;

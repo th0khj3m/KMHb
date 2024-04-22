@@ -10,7 +10,7 @@ export default (app) => {
   router.get("/movies/:movieId", async (req, res, next) => {
     try {
       const { movieId } = req.params;
-      const response = await ReviewServiceInstance.list(movieId);
+      const response = await ReviewServiceInstance.loadReviews(movieId);
       res.status(200).send(response);
     } catch (err) {
       next(err);
