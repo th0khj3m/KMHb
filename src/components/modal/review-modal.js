@@ -13,13 +13,22 @@ import {
   Stack,
 } from "@mui/material";
 import { Error as ErrorIcon } from "@mui/icons-material";
-
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic"; // or another CKEditor build
+import styled from "styled-components";
 
 import { Img, ModalContainer } from "../../routes/root";
 import { useDispatch } from "react-redux";
 import { addReview } from "../../store/review/review.actions";
+
+const StyledCKEditorContainer = styled.div`
+  .ck-editor__editable_inline:not(.ck-comment__input *) {
+    height: 200px;
+    overflow-y: auto;
+  }
+`;
 
 const testMovies = [
   {
@@ -53,6 +62,56 @@ export default function ReviewModal({ movieId, handleCloseModal }) {
         "Sorry, your review is too short. It needs to contain at least 50 characters"
       ),
   });
+
+  const MyCKEditorField = ({
+    field,
+    form: { values, handleChange, errors, touched },
+  }) => {
+    const { name } = field;
+
+    const handleEditorChange = (editor) => {
+      const data = editor.getData();
+      handleChange({ target: { name, value: data } });
+    };
+
+    const editorConfig = {
+      toolbar: [
+        "heading",
+        "|",
+        "bold",
+        "italic",
+        "|",
+        "bulletedList",
+        "numberedList",
+        "|",
+        "outdent",
+        "indent",
+        "|",
+        "|", // Include link functionality if needed
+        "blockQuote", // Include block quote functionality if needed
+      ],
+    };
+
+    return (
+      <>
+        <StyledCKEditorContainer>
+          {field && (
+            <CKEditor
+              editor={ClassicEditor} // Replace with your chosen CKEditor build
+              data={values[name]}
+              onChange={(event, editor) => handleEditorChange(editor)}
+              config={editorConfig}
+            />
+          )}
+        </StyledCKEditorContainer>
+        <ErrorDisplay
+          error={errors[name]}
+          touched={touched[name]}
+          id="content-helper-text"
+        />
+      </>
+    );
+  };
 
   const handleSubmit = async (values, { setSubmitting, setStatus }) => {
     try {
@@ -140,19 +199,10 @@ export default function ReviewModal({ movieId, handleCloseModal }) {
 
                 <FormControl fullWidth>
                   <Field
-                    as={OutlinedInput}
-                    id="content"
+                    component={MyCKEditorField}
                     name="content"
-                    multiline
-                    rows={4}
-                    placeholder="Write your review here"
+                    id="content"
                     required
-                  />
-
-                  <ErrorDisplay
-                    error={errors.content}
-                    touched={touched.content}
-                    id="content-helper-text"
                   />
                 </FormControl>
                 <Button
