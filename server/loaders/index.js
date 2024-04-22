@@ -4,6 +4,7 @@ import routeLoader from "../routes/index.js"
 import swaggerLoader from "./swagger.js";
 import passportLoader from './passport.js';
 import RoleModel from '../models/role.js';
+import DefaultAdminAccount from './default-admin-account.js';
 
 export default async (app) => {
 
@@ -14,13 +15,16 @@ export default async (app) => {
   const passport = await passportLoader(expressApp);
   
   // Load API route handlers
-  routeLoader(app, passport);
+  await routeLoader(app, passport);
 
-  // Load roles
-  RoleModel.createDefaultRoles();
+  // Load default roles
+  await RoleModel.createDefaultRoles();
   
+  // Load default admin account
+  await DefaultAdminAccount(); 
+
   // Load Swagger
-  swaggerLoader();
+  await swaggerLoader();
 
   // Error Handler
   app.use((err, req, res, next) => {

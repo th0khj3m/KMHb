@@ -74,4 +74,41 @@ export default class UserModel {
       throw err;
     }
   }
+
+  async findOneByRole(role_id) {
+    try {
+      // Generate SQL statement
+      const statement = `SELECT * FROM users WHERE role_id = $1`;
+
+      // Execute SQL statement
+      const result = await db.query(statement, [role_id]);
+
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+
+      return null;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findUserRole(id) {
+    try {
+      // Generate SQL statement
+      const statement = `SELECT roles.role_name FROM users 
+                          INNER JOIN roles ON users.role_id = roles.id WHERE users.id = $1`;
+
+      // Execute SQL statement
+      const result = await db.query(statement, [id]);
+
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+
+      return null;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

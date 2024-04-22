@@ -21,7 +21,7 @@ const reviewSlice = createSlice({
         state.loading = true;
       })
       .addCase(loadReviews.fulfilled, (state, action) => {
-        state.ratings = action.payload;
+        state.reviews = action.payload;
         state.loading = false;
       })
       .addCase(getReview.pending, (state, action) => {
@@ -36,15 +36,15 @@ const reviewSlice = createSlice({
       })
       .addCase(updateReview.pending, (state, action) => {})
       .addCase(updateReview.fulfilled, (state, action) => {
-        // Find the rating to update in the state
+        // Find the review to update in the state
         const existingReviewIndex = state.reviews.findIndex(
           (review) => review.id === action.payload.id
         );
         if (existingReviewIndex !== -1) {
-          // Update the existing rating object
+          // Update the existing review object
           state.reviews[existingReviewIndex] = {
             ...state.reviews[existingReviewIndex],
-            ...action.payload, // Update specific properties (e.g., rating)
+            ...action.payload, // Update specific properties (e.g., review)
           };
         }
       })
@@ -52,7 +52,7 @@ const reviewSlice = createSlice({
       .addCase(removeReview.fulfilled, (state, action) => {
         const index = state.reviews.findIndex(
           (review) => review.id === action.payload.id
-        ); //Find index of movie removed in movies
+        ); //Find index of movie removed in reviews
         state.reviews.splice(index, 1); //Remove
       });
   },

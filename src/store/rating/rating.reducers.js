@@ -52,7 +52,7 @@ const ratingSlice = createSlice({
       .addCase(removeRating.fulfilled, (state, action) => {
         const index = state.ratings.findIndex(
           (rating) => rating.id === action.payload.id
-        ); //Find index of movie removed in movies
+        ); //Find index of movie removed in ratings
         state.ratings.splice(index, 1); //Remove
       });
   },

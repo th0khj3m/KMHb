@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import WatchlistService from "../services/WatchlistService.js";
-import isLoggedIn from "../middleware/middleware.js";
+import { isLoggedIn } from "../middleware/middleware.js";
 
 const WatchlistServiceInstance = new WatchlistService();
 

@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import RatingService from "../services/RatingService.js";
-import isLoggedIn from "../middleware/middleware.js";
+import { isLoggedIn } from "../middleware/middleware.js";
 const RatingServiceInstance = new RatingService();
 
 export default (app) => {

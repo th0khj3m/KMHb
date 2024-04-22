@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcrypt";
 
 import UserModel from "../models/user.js";
 const UserModelInstance = new UserModel();
@@ -20,7 +20,7 @@ export default class AuthService {
       }
 
       // If user found but password is incorrect
-      const match = await bcrypt.compare(password, user.password_hash)
+      const match = await bcrypt.compare(password, user.password_hash);
       if (!match) {
         throw createError(401, "Incorrect password");
       }
@@ -32,7 +32,7 @@ export default class AuthService {
   }
 
   async register(data) {
-    const { username, password, email } = data;
+    const { username, password, email, role_id = 2 } = data;
     try {
       // Check if email already exists
       const userEmail = await UserModelInstance.findOneByEmail(email);
@@ -57,7 +57,7 @@ export default class AuthService {
         username,
         password_hash: hashedPassword,
         email,
-        role_id: 2, // Default role_id value (2 for regular users)
+        role_id, // Default role_id value (2 for regular users)
       };
 
       // User doesnt exist, create new user record

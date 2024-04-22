@@ -16,4 +16,26 @@ export default class UserService {
       throw err;
     }
   }
+
+  async getUserByRole(data) {
+    try {
+      const user = await UserModelInstance.findOneByRole(data);
+      return user;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getUserRole(data) {
+    try {
+      const { id } = data;
+      const role = await UserModelInstance.findUserRole(id);
+      if (!role) {
+        throw createError(404, "Role not found");
+      }
+      return role;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
