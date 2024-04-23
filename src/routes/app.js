@@ -25,6 +25,7 @@ import Accounts from "./admin/accounts.js";
 import PrivateRoute from "../components/private-route.js";
 import MenuMovies from "./menu/menu-movies.js";
 import MenuCasts from "./menu/menu-casts.js";
+import ForgotPassword from "./forgot-password.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,8 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
+      <Route path="secret/new" element={<ForgotPassword />} />
+
       <Route path="menu/movies" element={<MenuMovies />} />
       <Route path="movies/:movieId" element={<MovieDetails />} />
       <Route path="movies/:movieId/reviews" element={<Reviews />} />

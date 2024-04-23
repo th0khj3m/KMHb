@@ -50,6 +50,23 @@ const testMovies = [
   },
 ];
 
+const editorConfig = {
+  toolbar: [
+    "heading",
+    "|",
+    "bold",
+    "italic",
+    "|",
+    "bulletedList",
+    "numberedList",
+    "|",
+    "outdent",
+    "indent",
+    "|",
+    "blockQuote",
+  ],
+};
+
 export default function ReviewModal({ movieId, handleCloseModal }) {
   const dispatch = useDispatch();
 
@@ -62,56 +79,6 @@ export default function ReviewModal({ movieId, handleCloseModal }) {
         "Sorry, your review is too short. It needs to contain at least 50 characters"
       ),
   });
-
-  const MyCKEditorField = ({
-    field,
-    form: { values, handleChange, errors, touched },
-  }) => {
-    const { name } = field;
-
-    const handleEditorChange = (editor) => {
-      const data = editor.getData();
-      handleChange({ target: { name, value: data } });
-    };
-
-    const editorConfig = {
-      toolbar: [
-        "heading",
-        "|",
-        "bold",
-        "italic",
-        "|",
-        "bulletedList",
-        "numberedList",
-        "|",
-        "outdent",
-        "indent",
-        "|",
-        "|", // Include link functionality if needed
-        "blockQuote", // Include block quote functionality if needed
-      ],
-    };
-
-    return (
-      <>
-        <StyledCKEditorContainer>
-          {field && (
-            <CKEditor
-              editor={ClassicEditor} // Replace with your chosen CKEditor build
-              data={values[name]}
-              onChange={(event, editor) => handleEditorChange(editor)}
-              config={editorConfig}
-            />
-          )}
-        </StyledCKEditorContainer>
-        <ErrorDisplay
-          error={errors[name]}
-          touched={touched[name]}
-          id="content-helper-text"
-        />
-      </>
-    );
-  };
 
   const handleSubmit = async (values, { setSubmitting, setStatus }) => {
     try {
@@ -180,7 +147,7 @@ export default function ReviewModal({ movieId, handleCloseModal }) {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched }) => (
+            {({ values, errors, touched, handleChange }) => (
               <Form>
                 <FormControl fullWidth sx={{ mb: 2 }}>
                   <Field
@@ -198,11 +165,32 @@ export default function ReviewModal({ movieId, handleCloseModal }) {
                 </FormControl>
 
                 <FormControl fullWidth>
-                  <Field
-                    component={MyCKEditorField}
-                    name="content"
-                    id="content"
-                    required
+                  <StyledCKEditorContainer>
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data={values.content}
+                      value={values.content}
+                      onReady={(editor) => {
+                        console.log(
+                          "CKEditor React Component is ready to use!",
+                          editor
+                        );
+                      }}
+                      id="content"
+                      name="content"
+                      config={editorConfig}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        handleChange({
+                          target: { name: "content", value: data },
+                        });
+                      }}
+                    />
+                  </StyledCKEditorContainer>
+                  <ErrorDisplay
+                    error={errors.content}
+                    touched={touched.content}
+                    id="content-helper-text"
                   />
                 </FormControl>
                 <Button

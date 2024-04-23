@@ -67,6 +67,8 @@ export default class AuthService {
     }
   }
 
+  
+
   async googleLogin(profile) {
     const { id, displayName } = profile;
     try {

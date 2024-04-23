@@ -12,8 +12,8 @@ const pool = new Pool({
   host: DB.HOST,
   database: DB.DATABASE,
   password: DB.PASSWORD,
-  port: DB.PORT
-})
+  port: DB.PORT,
+});
 
 export default {
   query: (text, params) => pool.query(text, params),

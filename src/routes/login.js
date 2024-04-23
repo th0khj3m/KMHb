@@ -103,9 +103,11 @@ export default function Login() {
                 )}
                 <Typography mr="auto" py={3}>
                   Forgot your{" "}
-                  <Typography component="span" color={"main"}>
-                    username
-                  </Typography>{" "}
+                  <Link to="/secret/new">
+                    <Typography component="span" color={"main"}>
+                      username
+                    </Typography>{" "}
+                  </Link>
                   or{" "}
                   <Typography component="span" color={"main"}>
                     password
