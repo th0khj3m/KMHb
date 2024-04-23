@@ -8,3 +8,12 @@ export const fetchAccounts = async () => {
     throw err.response.data;
   }
 };
+
+export const deleteAccounts = async (data) => {
+  try {
+    const response = await API.delete("users", { data });
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+};

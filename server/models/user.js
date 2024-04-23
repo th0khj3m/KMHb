@@ -128,4 +128,23 @@ export default class UserModel {
       throw err;
     }
   }
+
+  async delete(data) {
+    try {
+      //data = [1, 2]
+      const idString = data.join(",");
+      // Generate SQL statement
+      const statement = `DELETE FROM users WHERE id IN (${idString})
+      `;
+      // Execute SQL statement
+      const result = await db.query(statement);
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+
+      return null;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

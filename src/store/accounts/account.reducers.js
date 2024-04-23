@@ -19,6 +19,7 @@ const accountSlice = createSlice({
         state.accounts = action.payload;
         state.loading = false;
       });
+      
   },
 });
 

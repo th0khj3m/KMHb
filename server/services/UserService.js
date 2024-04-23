@@ -47,4 +47,13 @@ export default class UserService {
       throw err;
     }
   }
+
+  async deleteUsers(data) {
+    try {
+      const response = await UserModelInstance.delete(data);
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

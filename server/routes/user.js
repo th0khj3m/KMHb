@@ -32,5 +32,13 @@ export default (app) => {
     }
   );
 
-  
+  router.delete("/", async (req, res, next) => {
+    try {
+      const data = req.body;
+      const response = await UserServiceInstance.deleteUsers(data);
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
 };
