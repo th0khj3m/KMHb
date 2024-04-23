@@ -10,13 +10,44 @@ import {
   LinearProgress,
   Button,
 } from "@mui/material";
-import { BookmarkAdd, Menu, AccountCircle } from "@mui/icons-material";
+import {
+  BookmarkAdd,
+  Menu as MenuIcon,
+  AccountCircle,
+} from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { Img } from "../routes/root";
 import { useSelector, useDispatch } from "react-redux";
-import ProfileMenu from "./profile-menu";
+import ProfileMenu from "./menu/profile-menu";
 import { logoutUser } from "../store/auth/auth.actions";
 import useCombinedLoadingState from "../hooks/useCombinedLoadingState";
+import HeaderMenu from "./menu/header-menu";
+
+const MenuItemLink = styled(Link)({
+  textDecoration: "none",
+  color: "black",
+  display: "flex",
+  gap: "4px",
+  alignItems: "center",
+  padding: "10px",
+  ":hover": {
+    backgroundColor: "#5EC1A2",
+    borderRadius: "6px",
+  },
+});
+
+const MenuButton = styled(Button)({
+  textDecoration: "none",
+  color: "black",
+  display: "flex",
+  gap: "4px",
+  alignItems: "center",
+  padding: "10px",
+  ":hover": {
+    backgroundColor: "#5EC1A2",
+    borderRadius: "6px",
+  },
+});
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -25,33 +56,28 @@ export default function Header() {
   const loadingStateSlices = ["movies", "movie", "cast", "watchlist", "rating"]; // List of loading state slices
   const isLoading = useCombinedLoadingState(loadingStateSlices);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [headerMenuAnchorEl, setHeaderMenuAnchorEl] = useState(null);
+  const [profileMenuAnchorEl, setProfileMenuAnchorEl] = useState(null);
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleHeaderMenuClose = () => {
+    setHeaderMenuAnchorEl(null);
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleHeaderMenuClick = (event) => {
+    setHeaderMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setProfileMenuAnchorEl(null);
+  };
+
+  const handleProfileMenuClick = (event) => {
+    setProfileMenuAnchorEl(event.currentTarget);
   };
 
   const handleLogout = () => {
     dispatch(logoutUser());
   };
-
-  const MenuItemLink = styled(Link)({
-    textDecoration: "none",
-    color: "black",
-    display: "flex",
-    gap: "4px",
-    alignItems: "center",
-    padding: "10px",
-    ":hover": {
-      backgroundColor: "#5EC1A2",
-      borderRadius: "6px",
-    },
-  });
 
   return (
     <Box component="header" mt={8}>
@@ -90,14 +116,20 @@ export default function Header() {
             </Link>
           </IconButton>
 
-          <MenuItemLink to = "/accounts">
+          <MenuItemLink to="/accounts">
             <Typography fontWeight={"bold"}>Accounts</Typography>
           </MenuItemLink>
 
-          <MenuItemLink to="/menu">
-            <Menu />
-            <Typography fontWeight={"bold"}>Menu</Typography>
-          </MenuItemLink>
+          <MenuButton startIcon={<MenuIcon />} onClick={handleHeaderMenuClick}>
+            <Typography fontWeight={"bold"} textTransform={"none"}>
+              Menu
+            </Typography>
+          </MenuButton>
+          <HeaderMenu
+            anchorEl={headerMenuAnchorEl}
+            open={Boolean(headerMenuAnchorEl)}
+            handleClose={handleHeaderMenuClose}
+          />
 
           <Box flexGrow={1}>
             <Search />
@@ -109,30 +141,21 @@ export default function Header() {
           </MenuItemLink>
           {isAuthenticated ? (
             <>
-              <Button
-                sx={{
-                  textTransform: "none",
-                  display: "flex",
-                  gap: "4px",
-                  alignItems: "center",
-                  padding: "10px",
-                  ":hover": {
-                    backgroundColor: "#5EC1A2",
-                    borderRadius: "6px",
-                  },
-                }}
-                color="inherit"
-                onClick={handleClick}
-              >
+              <MenuButton color="inherit" onClick={handleProfileMenuClick}>
                 <AccountCircle color="secondary" />
-                <Typography color={"black"} fontWeight={"bold"} ml={1} sx={{}}>
+                <Typography
+                  color={"black"}
+                  textTransform={"none"}
+                  fontWeight={"bold"}
+                  ml={1}
+                >
                   {user.username}
                 </Typography>
-              </Button>
+              </MenuButton>
               <ProfileMenu
-                anchorEl={anchorEl}
-                open={open}
-                handleClose={handleClose}
+                anchorEl={profileMenuAnchorEl}
+                open={Boolean(profileMenuAnchorEl)}
+                handleClose={handleProfileMenuClose}
                 handleLogout={handleLogout}
               />
             </>

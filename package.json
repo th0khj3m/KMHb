@@ -22,6 +22,7 @@
     "chart.js": "^4.4.2",
     "date-fns": "^3.6.0",
     "formik": "^2.4.5",
+    "passport-google-oauth2": "^0.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-chartjs-2": "^5.2.0",

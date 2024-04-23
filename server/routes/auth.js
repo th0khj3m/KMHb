@@ -28,6 +28,31 @@ export default (app, passport) => {
     }
   );
 
+  router.get(
+    "/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+  );
+
+  router.get(
+    "/google/callback",
+    passport.authenticate("google", { failureRedirect: "/login" }),
+    async (req, res) => {
+      res.redirect("/");
+    }
+  );
+
+  // Facebook Login Endpoint
+  router.get("/facebook", passport.authenticate("facebook"));
+
+  // Facebook Login Callback Endpoint
+  router.get(
+    "/facebook/callback",
+    passport.authenticate("facebook", { failureRedirect: "/login" }),
+    async (req, res) => {
+      res.redirect("/");
+    }
+  );
+
   router.get("/logout", async (req, res, next) => {
     try {
       req.logout(() => {

@@ -39,6 +39,10 @@ export default function Login() {
     }
   };
 
+  const handleMediaLogin = () => {
+    window.location.href = "http://localhost:4000/api/auth/google";
+  };
+
   const validationSchema = Yup.object().shape({
     username: Yup.string().required(),
     password: Yup.string().required(),
@@ -122,13 +126,21 @@ export default function Login() {
                 >
                   <Typography>Or log in using: </Typography>
                   <Box display={"inline-flex"} gap={"10px"}>
-                    <MediaLoginButton type="button" variant="contained">
+                    <MediaLoginButton
+                      type="button"
+                      variant="contained"
+                      onClick={handleMediaLogin}
+                    >
                       <Img
                         src={process.env.PUBLIC_URL + "/images/google.png"}
                         alt="Sign in with Google"
                       />
                     </MediaLoginButton>
-                    <MediaLoginButton type="button" variant="contained">
+                    <MediaLoginButton
+                      type="button"
+                      variant="contained"
+                      href="http://localhost:4000/api/auth/facebook"
+                    >
                       <Img
                         src={process.env.PUBLIC_URL + "/images/facebook.png"}
                         alt="Sign in with Facebook"

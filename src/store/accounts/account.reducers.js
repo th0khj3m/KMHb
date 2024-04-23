@@ -4,6 +4,7 @@ import { addAccount, loadAccounts, removeAccounts } from "./account.actions";
 const initialState = {
   accounts: [],
   loading: false,
+  error: null,
 };
 
 const accountSlice = createSlice({
@@ -19,12 +20,21 @@ const accountSlice = createSlice({
         state.accounts = action.payload;
         state.loading = false;
       })
+      .addCase(loadAccounts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(addAccount.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(addAccount.fulfilled, (state, action) => {
         state.accounts.push(action.payload);
         state.loading = false;
+      })
+      .addCase(addAccount.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+        console.log(state.error);
       })
       .addCase(removeAccounts.fulfilled, (state, action) => {
         // Remove the deleted accounts from the state
@@ -37,6 +47,10 @@ const accountSlice = createSlice({
               .includes(account.id);
           }),
         };
+      })
+      .addCase(removeAccounts.rejected, (state, action) => {
+        state.loading = true;
+        state.error = action.payload;
       });
   },
 });

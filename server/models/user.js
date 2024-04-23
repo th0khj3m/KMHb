@@ -74,6 +74,42 @@ export default class UserModel {
     }
   }
 
+  async findOneByGoogleId(id) {
+    try {
+      const statement = `SELECT * FROM users WHERE google ->> 'id' = $1`;
+      const result = await db.query(statement, [id]);
+
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+
+      return null;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findOneByFacebookId(id) {
+    try {
+      // Generate SQL statement
+      const statement = `SELECT *
+                         FROM users
+                         WHERE facebook ->> 'id' = $1`;
+      const values = [id];
+
+      // Execute SQL statment
+      const result = await db.query(statement, values);
+
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+
+      return null;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   async findOneById(id) {
     try {
       // Generate SQL statement

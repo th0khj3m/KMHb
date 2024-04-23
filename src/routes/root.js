@@ -1,7 +1,7 @@
 import Header from "../components/header";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/footer";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography, Menu } from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 export const clampStyles = {
@@ -10,6 +10,29 @@ export const clampStyles = {
   overflow: "hidden",
   WebkitLineClamp: 2, // Limit to 2 lines
 };
+
+export const StyledMenu = styled(Menu)(({theme}) => ({
+  overflow: 'visible',
+  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+  marginTop: theme.spacing(1.5),
+  '& .MuiAvatar-root': {
+    width: 32,
+    height: 32,
+    marginLeft: theme.spacing(-0.5),
+    marginRight: theme.spacing(1),
+  },
+  '&::before': {
+    content: '""',
+    display: 'block',
+    position: 'absolute',
+    top: 0,
+    right: theme.spacing(1.75),
+    width: 10,
+    height: 10,
+    transform: 'translateY(-50%) rotate(45deg)',
+    zIndex: 0,
+  },
+}))
 
 export const DashboardBox = styled(Box)({
   padding: "30px",

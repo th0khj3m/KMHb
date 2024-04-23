@@ -66,4 +66,40 @@ export default class AuthService {
       throw err;
     }
   }
+
+  async googleLogin(profile) {
+    const { id, displayName } = profile;
+    try {
+      // Check if user exists
+      const user = await UserModelInstance.findOneByGoogleId(id);
+      if (!user) {
+        return await UserModelInstance.create({ google: { id, displayName } });
+      }
+
+      return user;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async facebookLogin(profile) {
+    const { id, displayName } = profile;
+
+    try {
+      // Check if user exists
+      const user = await UserModelInstance.findOneByFacebookId(id);
+
+      // If no user found, create new user
+      if (!user) {
+        return await UserModelInstance.create({
+          facebook: { id, displayName },
+        });
+      }
+
+      // User already exists, return profile
+      return user;
+    } catch (err) {
+      throw createError(500, err);
+    }
+  }
 }

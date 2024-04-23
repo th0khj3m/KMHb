@@ -1,7 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { apiUrl, apiKeyParams, apiRequestParams } from "../../api-config";
 
-import { apiUrl, apiKeyParams } from "../../api-config";
+export const fetchTrendingCasts = createAsyncThunk(
+  "cast/fetchTrendingCasts",
+  async (_, thunkAPI) => {
+    try {
+      const urlToFetch = `${apiUrl}/trending/person/week${apiKeyParams}${apiRequestParams}`;
+      const response = await axios.get(urlToFetch);
+      return {
+        trendingCasts: response.data.results,
+      };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const fetchCastDetails = createAsyncThunk(
   "cast/fetchCastDetails",

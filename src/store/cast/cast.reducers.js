@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCastDetails } from "./cast.actions";
+import { fetchCastDetails, fetchTrendingCasts } from "./cast.actions";
 
 const initialState = {
+  trendingCasts: [],
   castDetails: {},
   loading: false,
   error: null,
@@ -13,6 +14,14 @@ const castSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchTrendingCasts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTrendingCasts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.trendingCasts = action.payload;
+      })
       .addCase(fetchCastDetails.pending, (state) => {
         state.loading = true;
         state.error = null;

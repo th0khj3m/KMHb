@@ -51,3 +51,18 @@ export const fetchPopularMovies = createAsyncThunk(
     }
   }
 );
+
+export const fetchDiscoverMovies = createAsyncThunk(
+  "movies/fetchDiscoverMovies",
+  async (sortBy, thunkAPI) => {
+    try {
+      const urlToFetch = `${apiUrl}/discover/movie${apiKeyParams}&sort_by=${sortBy}`;
+      const response = await axios.get(urlToFetch);
+      return {
+        discoverMovies: response.data.results,
+      };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);

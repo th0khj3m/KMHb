@@ -21,7 +21,7 @@ export const addAccount = createAsyncThunk(
       const response = await register(credentials);
       return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );

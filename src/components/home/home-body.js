@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //MUI
 import {
@@ -9,21 +9,16 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { Check as CheckIcon, Add as AddIcon } from "@mui/icons-material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { WatchlistButton, clampStyles } from "../../routes/root";
 
 import {
   fetchPopularMovies,
   fetchTrendingMovies,
 } from "../../store/movies/movies.actions";
 
-import RatingBox from "../rating-box";
-import { Img } from "../../routes/root";
-import { addMovie, removeMovie } from "../../store/watchlist/watchlist.actions";
 import { loadWatchlist } from "../../store/watchlist/watchlist.actions";
-import useLoadWatchlist from "../../hooks/useLoadWatchlist";
 import { loadRatings } from "../../store/rating/rating.actions";
+import MovieItem from "../movie-item";
+import useAddToWatchlist from "../../hooks/useAddToWatchlist";
 
 const sections = [{ title: "Trending" }, { title: "Popular" }];
 
@@ -37,11 +32,9 @@ export default function HomeBody() {
     popularMovies: [],
   });
 
-  useLoadWatchlist();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const watchlistMovies = useSelector((state) => state.watchlist.movies);
   const ratingMovies = useSelector((state) => state.rating.ratings);
-  const [loadingMovie, setLoadingMovie] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,39 +65,7 @@ export default function HomeBody() {
     fetchData();
   }, [dispatch, timeframe, isAuthenticated]);
 
-  const handleAddToWatchlist = async (movieId) => {
-    // Check if the movie is already in the watchlist
-    const isMovieInWatchlist = watchlistMovies.some(
-      (watchlistMovie) => watchlistMovie.movie_id === movieId
-    );
-
-    // Set loading state of the specific movie to true
-    setLoadingMovie((prevState) => ({
-      ...prevState,
-      [movieId]: true,
-    }));
-
-    try {
-      if (isMovieInWatchlist) {
-        await dispatch(removeMovie(movieId));
-      } else {
-        await dispatch(addMovie(movieId));
-      }
-
-      // Set loading state of the specific movie to false on success
-      setLoadingMovie((prevState) => ({
-        ...prevState,
-        [movieId]: false,
-      }));
-    } catch (error) {
-      // Set loading state of the specific movie to false on error
-      setLoadingMovie((prevState) => ({
-        ...prevState,
-        [movieId]: false,
-      }));
-      console.log(error);
-    }
-  };
+  const { handleAddToWatchlist, loadingMovie } = useAddToWatchlist();
 
   return (
     <>
@@ -134,79 +95,18 @@ export default function HomeBody() {
 
           <Box display="flex" gap="20px" overflow="auto" pb="20px" mb="20px">
             {movies[index === 0 ? "trendingMovies" : "popularMovies"].map(
-              (movie, movieIndex) => (
-                <Box
-                  key={movieIndex}
-                  display="flex"
-                  flexDirection="column"
-                  flexShrink={0}
-                  width={"15%"}
-                >
-                  <Box>
-                    <Link to={`/movies/${movie.id}`}>
-                      <Img
-                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                        alt={movie.title}
-                        sx={{ borderRadius: "8px" }}
-                      />
-                    </Link>
-                  </Box>
-
-                  <RatingBox
-                    movie={{
-                      movieRating: Math.round(movie.vote_average * 10) / 10,
-                      movieTitle: movie.title,
-                      movieId: movie.id,
-                      userRating: ratingMovies.find(
-                        (rating) => rating.movie_id === movie.id
-                      )?.rating,
-                    }}
-                  />
-
-                  <Typography
-                    fontWeight="bold"
-                    mb="20px"
-                    sx={{ ...clampStyles, flexGrow: 1 }}
-                  >
-                    {movie.title}
-                  </Typography>
-                  {isAuthenticated ? (
-                    watchlistMovies.find(
-                      (watchlistMovie) => watchlistMovie.movie_id === movie.id
-                    ) ? (
-                      <WatchlistButton
-                        variant="contained"
-                        onClick={() => handleAddToWatchlist(movie.id)}
-                        startIcon={<CheckIcon />}
-                      >
-                        Watchlist
-                      </WatchlistButton>
-                    ) : (
-                      <LoadingButton
-                        onClick={() => handleAddToWatchlist(movie.id)}
-                        loading={loadingMovie[movie.id]}
-                        variant="contained"
-                        loadingPosition="start"
-                        startIcon={<AddIcon />}
-                        sx={{
-                          bgcolor: "#2C2C2C",
-                          color: "#0DB597",
-                          "&:hover": { bgcolor: "rgba(13, 181, 151, 0.4)" },
-                        }}
-                      >
-                        <Typography component={"span"}>Watchlist</Typography>
-                      </LoadingButton>
-                    )
-                  ) : (
-                    <WatchlistButton
-                      variant="contained"
-                      startIcon={<AddIcon />}
-                      onClick={() => navigate("/login")}
-                    >
-                      Watchlist
-                    </WatchlistButton>
-                  )}
-                </Box>
+              (movie, index) => (
+                <MovieItem
+                  key={index}
+                  movie={movie}
+                  movieIndex={index}
+                  isAuthenticated={isAuthenticated}
+                  watchlistMovies={watchlistMovies}
+                  ratingMovies={ratingMovies}
+                  loadingMovie={loadingMovie}
+                  handleAddToWatchlist={handleAddToWatchlist}
+                  navigate={navigate}
+                />
               )
             )}
           </Box>

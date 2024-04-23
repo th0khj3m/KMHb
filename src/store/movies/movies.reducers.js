@@ -3,12 +3,14 @@ import {
   fetchUpcomingMovies,
   fetchTrendingMovies,
   fetchPopularMovies,
+  fetchDiscoverMovies,
 } from "./movies.actions";
 
 const initialState = {
   upcomingMovies: {},
   trendingMovies: {},
   popularMovies: {},
+  discoverMovies: {},
   loading: false,
   error: null,
 };
@@ -53,6 +55,14 @@ const moviesSlice = createSlice({
           const { id } = movie;
           state.popularMovies[id] = movie;
         });
+        state.loading = false;
+      })
+      .addCase(fetchDiscoverMovies.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchDiscoverMovies.fulfilled, (state, action) => {
+        const { discoverMovies } = action.payload;
+        state.discoverMovies = discoverMovies;
         state.loading = false;
       });
   },

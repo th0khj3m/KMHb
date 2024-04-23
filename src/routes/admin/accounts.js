@@ -49,6 +49,7 @@ export default function Accounts() {
   const dispatch = useDispatch();
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
   const { accounts, loading } = useSelector((state) => state.account);
+
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
 
   const columns = [
@@ -65,7 +66,6 @@ export default function Accounts() {
         await dispatch(loadAccounts());
       } catch (err) {
         console.log(err);
-      } finally {
       }
     };
     fetchUserData();
@@ -76,28 +76,19 @@ export default function Accounts() {
   };
 
   return (
-    // <>
-    //   <Button variant="outlined" onClick={handleOpenModal}>
-    //     <Typography color={"primary"}>Add Account</Typography>
-    //   </Button>
-    //   {accounts && accounts.map((account) => <li>{account?.username}</li>)}
-    //   <ModalRender
-    //     isOpen={openModal}
-    //     handleClose={handleCloseModal}
-    //     Component={AccountModal}
-    //     modalProps={{
-    //       handleCloseModal,
-    //     }}
-    //   />
-    // </>
     <Container maxWidth="lg">
       <Typography variant="h4" component={"h1"} fontWeight={"bold"} my={3}>
         Account Management
       </Typography>
+      {/* {error && (
+        <Alert severity="error" variant="filled">
+          {error?.message}
+        </Alert>
+      )} */}
       {accounts && (
         <>
           <Stack direction={"row"}>
-            <Box ml={"auto"} mb={2}>
+            <Box ml={"auto"} my={2}>
               <Button variant="outlined" onClick={handleOpenModal}>
                 <Typography color={"primary"}>Add Account</Typography>
               </Button>
@@ -121,12 +112,12 @@ export default function Accounts() {
             initialState={{
               pagination: {
                 paginationModel: {
-                  pageSize: 10,
+                  pageSize: 5,
                 },
               },
             }}
             slots={{ toolbar: CustomToolbar, loadingOverlay: LinearProgress }}
-            autoHeight
+            autoPageSize
             checkboxSelection
             rowCount={accounts?.length}
             paginationMode="server"
