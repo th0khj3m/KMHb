@@ -131,15 +131,14 @@ export default class UserModel {
 
   async delete(data) {
     try {
-      //data = [1, 2]
       const idString = data.join(",");
       // Generate SQL statement
-      const statement = `DELETE FROM users WHERE id IN (${idString})
+      const statement = `DELETE FROM users WHERE id IN (${idString}) RETURNING *
       `;
       // Execute SQL statement
       const result = await db.query(statement);
       if (result.rows?.length) {
-        return result.rows[0];
+        return result.rows;
       }
 
       return null;

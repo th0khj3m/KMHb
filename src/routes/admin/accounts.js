@@ -22,6 +22,9 @@ import {
   Stack,
 } from "@mui/material";
 import { useState } from "react";
+import useModal from "../../hooks/useModal";
+import ModalRender from "../../components/modal-render";
+import AccountModal from "../../components/modal/account-modal";
 
 function CustomToolbar() {
   return (
@@ -46,6 +49,7 @@ export default function Accounts() {
   const dispatch = useDispatch();
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
   const { accounts, loading } = useSelector((state) => state.account);
+  const { openModal, handleOpenModal, handleCloseModal } = useModal();
 
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
@@ -61,6 +65,7 @@ export default function Accounts() {
         await dispatch(loadAccounts());
       } catch (err) {
         console.log(err);
+      } finally {
       }
     };
     fetchUserData();
@@ -71,49 +76,75 @@ export default function Accounts() {
   };
 
   return (
+    // <>
+    //   <Button variant="outlined" onClick={handleOpenModal}>
+    //     <Typography color={"primary"}>Add Account</Typography>
+    //   </Button>
+    //   {accounts && accounts.map((account) => <li>{account?.username}</li>)}
+    //   <ModalRender
+    //     isOpen={openModal}
+    //     handleClose={handleCloseModal}
+    //     Component={AccountModal}
+    //     modalProps={{
+    //       handleCloseModal,
+    //     }}
+    //   />
+    // </>
     <Container maxWidth="lg">
       <Typography variant="h4" component={"h1"} fontWeight={"bold"} my={3}>
         Account Management
       </Typography>
-      <Stack direction={"row"}>
-        <Box ml={"auto"} mb={2}>
-          <Button variant="outlined">
-            <Typography color={"primary"}>Add Account</Typography>
-          </Button>
+      {accounts && (
+        <>
+          <Stack direction={"row"}>
+            <Box ml={"auto"} mb={2}>
+              <Button variant="outlined" onClick={handleOpenModal}>
+                <Typography color={"primary"}>Add Account</Typography>
+              </Button>
 
-          {rowSelectionModel.length > 0 && (
-            <Button variant="outlined" sx={{ ml: 2 }}>
-              <Typography
-                color={"error"}
-                fontWeight={""}
-                onClick={handleDelete}
-              >
-                Delete
-              </Typography>{" "}
-            </Button>
-          )}
-        </Box>
-      </Stack>
-      <DataGrid
-        rows={accounts}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
-          },
+              {rowSelectionModel?.length > 0 && (
+                <Button variant="outlined" sx={{ ml: 2 }}>
+                  <Typography
+                    color={"error"}
+                    fontWeight={""}
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </Typography>{" "}
+                </Button>
+              )}
+            </Box>
+          </Stack>
+          <DataGrid
+            rows={accounts}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
+              },
+            }}
+            slots={{ toolbar: CustomToolbar, loadingOverlay: LinearProgress }}
+            autoHeight
+            checkboxSelection
+            rowCount={accounts?.length}
+            paginationMode="server"
+            onRowSelectionModelChange={(newRowSelectionModel) => {
+              setRowSelectionModel(newRowSelectionModel);
+            }}
+            loading={loading}
+            keepNonExistentRowsSelected
+          />
+        </>
+      )}
+      <ModalRender
+        isOpen={openModal}
+        handleClose={handleCloseModal}
+        Component={AccountModal}
+        modalProps={{
+          handleCloseModal,
         }}
-        slots={{ toolbar: CustomToolbar, loadingOverlay: LinearProgress }}
-        autoHeight
-        checkboxSelection
-        rowCount={accounts.length}
-        paginationMode="server"
-        onRowSelectionModelChange={(newRowSelectionModel) => {
-          setRowSelectionModel(newRowSelectionModel);
-        }}
-        loading={loading}
-        keepNonExistentRowsSelected
       />
     </Container>
   );

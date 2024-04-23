@@ -47,7 +47,7 @@ export default (app, passport) => {
         email,
       });
       await WatchlistServiceInstance.create(user.id);
-      res.status(200).send();
+      res.status(200).send(user);
     } catch (err) {
       next(err);
     }

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loadAccounts } from "./account.actions";
+import { addAccount, loadAccounts, removeAccounts } from "./account.actions";
 
 const initialState = {
   accounts: [],
@@ -18,8 +18,26 @@ const accountSlice = createSlice({
       .addCase(loadAccounts.fulfilled, (state, action) => {
         state.accounts = action.payload;
         state.loading = false;
+      })
+      .addCase(addAccount.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(addAccount.fulfilled, (state, action) => {
+        state.accounts.push(action.payload);
+        state.loading = false;
+      })
+      .addCase(removeAccounts.fulfilled, (state, action) => {
+        // Remove the deleted accounts from the state
+        state.loading = false;
+        return {
+          ...state,
+          accounts: state.accounts.filter((account) => {
+            return !action.payload
+              .map((deletedAccount) => deletedAccount.id)
+              .includes(account.id);
+          }),
+        };
       });
-      
   },
 });
 
