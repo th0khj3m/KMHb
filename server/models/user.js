@@ -21,6 +21,23 @@ export default class UserModel {
     }
   }
 
+  async find() {
+    try {
+      // Generate SQL statement
+      const statement = `SELECT * FROM users`;
+
+      // Execute SQL statement using pg-promise
+      const result = await db.query(statement);
+
+      if (result.rows?.length) {
+        return result.rows;
+      }
+      return [];
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async findOneByUsername(username) {
     try {
       // Generate SQL statement

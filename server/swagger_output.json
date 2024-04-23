@@ -342,6 +342,16 @@
         }
       }
     },
+    "/api/users/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/users/{userId}": {
       "get": {
         "description": "",

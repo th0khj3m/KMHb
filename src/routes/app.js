@@ -20,6 +20,7 @@ import Reviews from "./reviews.js";
 import CastDetails from "./cast-details.js";
 import Ratings from "./ratings.js";
 import Dashboard from "./admin/dashboard.js";
+import Accounts from "./admin/accounts.js";
 
 import PrivateRoute from "../components/private-route.js";
 
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
 
       {/*Admin Routes */}
       <Route path="dashboard" element={<Dashboard />} />
+      <Route path="accounts" element={<Accounts />} />
 
       <Route path="*" element={<Navigate to="/" />} />
     </Route>

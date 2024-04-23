@@ -10,6 +10,7 @@ import castReducers from "./cast/cast.reducers";
 import watchlistReducers from "./watchlist/watchlist.reducers";
 import ratingReducers from "./rating/rating.reducers";
 import reviewReducers from "./review/review.reducers";
+import accountReducers from "./accounts/account.reducers";
 
 export default configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export default configureStore({
     watchlist: watchlistReducers,
     rating: ratingReducers,
     review: reviewReducers,
+    account: accountReducers,
   },
 });

@@ -7,6 +7,15 @@ import { isAuthorized, isLoggedIn } from "../middleware/middleware.js";
 export default (app) => {
   app.use("/api/users", router);
 
+  router.get("/", async (req, res, next) => {
+    try {
+      const users = await UserServiceInstance.loadUsers();
+      res.status(200).send(users);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.get(
     "/:userId",
     isLoggedIn,
@@ -22,4 +31,6 @@ export default (app) => {
       }
     }
   );
+
+  
 };

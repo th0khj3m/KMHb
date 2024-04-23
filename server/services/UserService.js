@@ -3,6 +3,15 @@ import UserModel from "../models/user.js";
 const UserModelInstance = new UserModel();
 
 export default class UserService {
+  async loadUsers() {
+    try {
+      const users = await UserModelInstance.find();
+      return users;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async get(data) {
     const { id } = data;
     try {

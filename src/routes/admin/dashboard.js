@@ -104,12 +104,15 @@ export default function Dashboard() {
       title: {
         display: true,
         text: "Total Users Over Time",
+        font: {
+          size: 20
+        }
       },
     },
   };
   return (
-    <Container maxWidth="xl" sx={{mt:3}}>
-      <Typography variant="h5" fontWeight="bold" component={"h1"}>
+    <Container maxWidth="xl" sx={{my:3}}>
+      <Typography variant="h5" fontWeight="bold" component={"h1"} mb={2}>
         Welcome lmao user{" "}
       </Typography>
 
