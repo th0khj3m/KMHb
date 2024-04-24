@@ -35,12 +35,13 @@ export default function UserPage({ fetchedDataDetails, data, type }) {
           {title}
         </Typography>
         {data &&
-          data.map((movieData) => {
+          data.map((movieData, index) => {
             const movieId = movieData?.movie_id;
             const movie = fetchedDataDetails[movieId]?.movieDetails;
             return (
               movie && (
                 <Paper
+                  key={index}
                   elevation={2}
                   sx={{
                     borderRadius: "9px",

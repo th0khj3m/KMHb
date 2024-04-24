@@ -5,7 +5,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkLoginStatus } from "../store/auth/auth.actions.js";
 
@@ -43,12 +43,22 @@ const router = createBrowserRouter(
       <Route path="menu/casts" element={<MenuCasts />} />
       <Route path="casts/:castId" element={<CastDetails />} />
 
-      <Route path="watchlist" element={<PrivateRoute />}>
-        <Route path="watchlist" element={<Watchlist />} />
-      </Route>
-      <Route path="watchlist" element={<PrivateRoute />}>
-        <Route path="ratings" element={<Ratings />} />
-      </Route>
+      <Route
+        path="watchlist"
+        element={
+          <PrivateRoute>
+            <Watchlist />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="ratings"
+        element={
+          <PrivateRoute>
+            <Ratings />
+          </PrivateRoute>
+        }
+      />
 
       {/*Admin Routes */}
 
@@ -76,7 +86,10 @@ const router = createBrowserRouter(
 
 function App() {
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.user);
+  if (user.role_id === 1) {
+    
+  } 
   // Load user
   useEffect(() => {
     async function isLoggedIn() {

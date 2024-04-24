@@ -53,6 +53,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
+  const isAdmin = user?.role_id === 1; // Assuming `role_id` indicates admin status
   const loadingStateSlices = [
     "movies",
     "movie",
@@ -98,6 +99,7 @@ export default function Header() {
             <LinearProgress color="success" />
           </Box>
         )}
+
         <Toolbar
           sx={{
             display: "flex",
@@ -106,50 +108,62 @@ export default function Header() {
             gap: "20px",
           }}
         >
-          <IconButton
-            edge="start"
-            aria-label="menu"
-            sx={{
-              width: "10%",
-              "&:hover": { bgcolor: "transparent" },
-              borderRadius: 0,
-            }}
-          >
-            <Link to="/">
-              <Img
-                src={process.env.PUBLIC_URL + "/images/logo.png"}
-                alt="Website Logo"
+          {!isAdmin && (
+            <>
+              <IconButton
+                edge="start"
+                aria-label="menu"
+                sx={{
+                  width: "10%",
+                  "&:hover": { bgcolor: "transparent" },
+                  borderRadius: 0,
+                }}
+              >
+                <Link to="/">
+                  <Img
+                    src={process.env.PUBLIC_URL + "/images/logo.png"}
+                    alt="Website Logo"
+                  />
+                </Link>
+              </IconButton>
+
+              <MenuButton
+                startIcon={<MenuIcon />}
+                onClick={handleHeaderMenuClick}
+              >
+                <Typography fontWeight={"bold"} textTransform={"none"}>
+                  Menu
+                </Typography>
+              </MenuButton>
+              <HeaderMenu
+                anchorEl={headerMenuAnchorEl}
+                open={Boolean(headerMenuAnchorEl)}
+                handleClose={handleHeaderMenuClose}
               />
-            </Link>
-          </IconButton>
 
-          <MenuItemLink to="/accounts">
-            <Typography fontWeight={"bold"}>Accounts</Typography>
-          </MenuItemLink>
+              <Box flexGrow={1}>
+                <Search />
+              </Box>
 
-          <MenuItemLink to="/dashboard">
-            <Typography fontWeight={"bold"}>Dashboard</Typography>
-          </MenuItemLink>
+              <MenuItemLink to="/watchlist">
+                <BookmarkAdd />
+                <Typography fontWeight={"bold"}>Watchlist</Typography>
+              </MenuItemLink>
+            </>
+          )}
 
-          <MenuButton startIcon={<MenuIcon />} onClick={handleHeaderMenuClick}>
-            <Typography fontWeight={"bold"} textTransform={"none"}>
-              Menu
-            </Typography>
-          </MenuButton>
-          <HeaderMenu
-            anchorEl={headerMenuAnchorEl}
-            open={Boolean(headerMenuAnchorEl)}
-            handleClose={handleHeaderMenuClose}
-          />
+          {isAdmin && (
+            <>
+              <MenuItemLink to="/accounts">
+                <Typography fontWeight={"bold"}>Accounts</Typography>
+              </MenuItemLink>
 
-          <Box flexGrow={1}>
-            <Search />
-          </Box>
+              <MenuItemLink to="/dashboard">
+                <Typography fontWeight={"bold"}>Dashboard</Typography>
+              </MenuItemLink>
+            </>
+          )}
 
-          <MenuItemLink to="/watchlist">
-            <BookmarkAdd />
-            <Typography fontWeight={"bold"}>Watchlist</Typography>
-          </MenuItemLink>
           {isAuthenticated ? (
             <>
               <MenuButton color="inherit" onClick={handleProfileMenuClick}>
