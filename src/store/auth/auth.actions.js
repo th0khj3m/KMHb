@@ -13,7 +13,7 @@ export const checkLoginStatus = createAsyncThunk(
       const response = await isLoggedIn();
       return response;
     } catch (err) {
-      throw thunkAPI.rejectWithValue(err.response.data);
+      throw thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -28,7 +28,7 @@ export const loginUser = createAsyncThunk(
         isAuthenticated: true,
       };
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -40,7 +40,7 @@ export const registerUser = createAsyncThunk(
       await register(credentials);
       return;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -65,7 +65,7 @@ export const logoutUser = createAsyncThunk(
       await logout();
       return;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );

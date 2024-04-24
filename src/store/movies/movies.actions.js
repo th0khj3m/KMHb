@@ -14,7 +14,7 @@ export const fetchUpcomingMovies = createAsyncThunk(
         upcomingMovies,
       }; // Return array of upcoming movies
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -32,7 +32,7 @@ export const fetchTrendingMovies = createAsyncThunk(
         trendingMovies: enMovies,
       };
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -47,7 +47,7 @@ export const fetchPopularMovies = createAsyncThunk(
         popularMovies: response.data.results,
       };
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -62,7 +62,7 @@ export const fetchDiscoverMovies = createAsyncThunk(
         discoverMovies: response.data.results,
       };
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );

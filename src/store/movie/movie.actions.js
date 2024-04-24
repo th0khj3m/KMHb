@@ -38,7 +38,7 @@ export const fetchMovieDetails = createAsyncThunk(
         },
       };
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );

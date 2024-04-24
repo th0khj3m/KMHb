@@ -14,7 +14,7 @@ export const loadReviews = createAsyncThunk(
       const response = await fetchReviews(movieId);
       return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -26,7 +26,7 @@ export const getReview = createAsyncThunk(
       const response = await getSpecificReview(reviewId);
       return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -38,7 +38,7 @@ export const addReview = createAsyncThunk(
       const response = await add(data);
       return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -50,7 +50,7 @@ export const updateReview = createAsyncThunk(
       const response = await update(reviewId, data);
       return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -62,7 +62,7 @@ export const removeReview = createAsyncThunk(
       const response = await remove(reviewId);
       return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );

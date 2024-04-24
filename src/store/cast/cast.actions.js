@@ -12,7 +12,7 @@ export const fetchTrendingCasts = createAsyncThunk(
         trendingCasts: response.data.results,
       };
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -50,7 +50,7 @@ export const fetchCastDetails = createAsyncThunk(
         },
       };
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );

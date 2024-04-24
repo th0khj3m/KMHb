@@ -1,5 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addToWatchlist, fetchWatchlist, removeFromWatchlist } from "../../apis/watchlist";
+import {
+  addToWatchlist,
+  fetchWatchlist,
+  removeFromWatchlist,
+} from "../../apis/watchlist";
 
 export const loadWatchlist = createAsyncThunk(
   "watchlist/fetchWatchlist",
@@ -8,7 +12,7 @@ export const loadWatchlist = createAsyncThunk(
       const response = await fetchWatchlist(movieId);
       return response.movies;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -20,7 +24,7 @@ export const addMovie = createAsyncThunk(
       const response = await addToWatchlist(movieId);
       return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -32,7 +36,7 @@ export const removeMovie = createAsyncThunk(
       const response = await removeFromWatchlist(movieId);
       return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
