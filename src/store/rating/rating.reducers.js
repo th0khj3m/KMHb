@@ -6,6 +6,7 @@ import {
   updateRating,
   getRating,
 } from "./rating.actions";
+import { checkLoginStatus } from "../auth/auth.actions";
 
 const ratingSlice = createSlice({
   name: "rating",
@@ -17,6 +18,10 @@ const ratingSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(checkLoginStatus.fulfilled, (state, action) => {
+        const { ratings } = action.payload;
+        state.ratings = ratings;
+      })
       .addCase(loadRatings.pending, (state, action) => {
         state.loading = true;
       })

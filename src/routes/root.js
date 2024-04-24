@@ -11,28 +11,28 @@ export const clampStyles = {
   WebkitLineClamp: 2, // Limit to 2 lines
 };
 
-export const StyledMenu = styled(Menu)(({theme}) => ({
-  overflow: 'visible',
-  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+export const StyledMenu = styled(Menu)(({ theme }) => ({
+  overflow: "visible",
+  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
   marginTop: theme.spacing(1.5),
-  '& .MuiAvatar-root': {
+  "& .MuiAvatar-root": {
     width: 32,
     height: 32,
     marginLeft: theme.spacing(-0.5),
     marginRight: theme.spacing(1),
   },
-  '&::before': {
+  "&::before": {
     content: '""',
-    display: 'block',
-    position: 'absolute',
+    display: "block",
+    position: "absolute",
     top: 0,
     right: theme.spacing(1.75),
     width: 10,
     height: 10,
-    transform: 'translateY(-50%) rotate(45deg)',
+    transform: "translateY(-50%) rotate(45deg)",
     zIndex: 0,
   },
-}))
+}));
 
 export const DashboardBox = styled(Box)({
   padding: "30px",
@@ -129,6 +129,7 @@ const theme = createTheme({
 });
 
 export default function Root() {
+
   return (
     <ThemeProvider theme={theme}>
       <Box

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loadWatchlist, addMovie, removeMovie } from "./watchlist.actions";
+import { checkLoginStatus } from "../auth/auth.actions";
 
 const watchlistSlice = createSlice({
   name: "watchlist",
@@ -11,6 +12,10 @@ const watchlistSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(checkLoginStatus.fulfilled, (state, action) => {
+        const { watchlist } = action.payload;
+        state.movies = watchlist.movies;
+      })
       .addCase(loadWatchlist.pending, (state, action) => {
         state.loading = true;
       })

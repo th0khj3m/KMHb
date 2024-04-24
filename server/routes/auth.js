@@ -117,7 +117,9 @@ export default (app, passport) => {
     passport.authenticate("google"),
     async (req, res) => {
       try {
-        res.status(200).send(req.user);
+        res.redirect(
+          `http://localhost:3006/logged_in?user=${JSON.stringify(req.user)}`
+        );
       } catch (err) {
         next(err);
       }
@@ -169,7 +171,6 @@ export default (app, passport) => {
         const ratings = await RatingServiceInstance.loadRatings(id);
         const user = await UserServiceInstance.get({ id });
         if (req.user.google) {
-          // If the user logged in with Google OAuth
           const { displayName, email } = req.user.google;
           res.status(200).send({
             watchlist,

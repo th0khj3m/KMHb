@@ -1,5 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { isLoggedIn, login, logout, register } from "../../apis/auth";
+import {
+  accessOAuth,
+  isLoggedIn,
+  login,
+  logout,
+  register,
+} from "../../apis/auth";
 
 export const checkLoginStatus = createAsyncThunk(
   "auth/checkLogin",
@@ -33,7 +39,20 @@ export const registerUser = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       await register(credentials);
-      return; 
+      return;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+// OAuth
+export const initiateOAuth = createAsyncThunk(
+  "auth/initiateOAuth",
+  async (_, thunkAPI) => {
+    try {
+      await accessOAuth();
+      return;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
     }

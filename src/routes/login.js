@@ -15,10 +15,11 @@ import { AuthButton, MediaLoginButton } from "./root";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
-import { loginUser } from "../store/auth/auth.actions";
+import { initiateOAuth, loginUser } from "../store/auth/auth.actions";
 
 import * as Yup from "yup";
 import { Img } from "./root";
+import { accessOAuth } from "../apis/auth";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -39,8 +40,13 @@ export default function Login() {
     }
   };
 
-  const handleMediaLogin = () => {
-    window.location.href = "http://localhost:4000/api/auth/google";
+  const handleMediaLogin = async () => {
+    try {
+      // const response = await accessOAuth();
+      window.location.href = "http://localhost:4000/api/auth/google";
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   const validationSchema = Yup.object().shape({
@@ -125,9 +131,9 @@ export default function Login() {
                   gap={"10px"}
                   mt={3}
                 >
-                  <Typography>Or log in using: </Typography>
-                  <Box display={"inline-flex"} gap={"10px"}>
-                    <MediaLoginButton
+                  {/* <Typography>Or log in using: </Typography>
+                  <Box display={"inline-flex"} gap={"10px"}> */}
+                  {/* <MediaLoginButton
                       type="button"
                       variant="contained"
                       onClick={handleMediaLogin}
@@ -136,8 +142,8 @@ export default function Login() {
                         src={process.env.PUBLIC_URL + "/images/google.png"}
                         alt="Sign in with Google"
                       />
-                    </MediaLoginButton>
-                    <MediaLoginButton
+                    </MediaLoginButton> */}
+                  {/* <MediaLoginButton
                       type="button"
                       variant="contained"
                       href="http://localhost:4000/api/auth/facebook"
@@ -146,8 +152,8 @@ export default function Login() {
                         src={process.env.PUBLIC_URL + "/images/facebook.png"}
                         alt="Sign in with Facebook"
                       />
-                    </MediaLoginButton>
-                  </Box>
+                    </MediaLoginButton> */}
+                  {/* </Box> */}
                 </Box>
                 <Typography mr={"auto"} py={2}>
                   Not a member yet?&nbsp;

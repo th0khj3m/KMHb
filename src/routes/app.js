@@ -35,7 +35,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="forgot-password" element={<ForgotPassword />} />
-      <Route path="reset-password/:token" element={<ResetPasswordPage/>} />
+      <Route path="reset-password/:token" element={<ResetPasswordPage />} />
 
       <Route path="menu/movies" element={<MenuMovies />} />
       <Route path="movies/:movieId" element={<MovieDetails />} />
