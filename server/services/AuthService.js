@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 
 import UserModel from "../models/user.js";
 const UserModelInstance = new UserModel();
+import WatchlistService from "../services/WatchlistService.js";
+const WatchlistServiceInstance = new WatchlistService();
 
 export default class AuthService {
   async login(data) {
@@ -75,9 +77,10 @@ export default class AuthService {
       // Check if user exists
       const user = await UserModelInstance.findOneByGoogleId(id);
       if (!user) {
-        return await UserModelInstance.create({
+        const user = await UserModelInstance.create({
           google: oauthUser,
         });
+        await WatchlistServiceInstance.create(user.id);
       }
       return user;
     } catch (err) {

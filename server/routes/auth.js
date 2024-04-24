@@ -114,7 +114,7 @@ export default (app, passport) => {
 
   router.get(
     "/google/callback",
-    passport.authenticate("google", { failureRedirect: "/login" }),
+    passport.authenticate("google"),
     async (req, res) => {
       try {
         res.status(200).send(req.user);
@@ -124,17 +124,17 @@ export default (app, passport) => {
     }
   );
 
-  // Facebook Login Endpoint
-  router.get("/facebook", passport.authenticate("facebook"));
+  // // Facebook Login Endpoint
+  // router.get("/facebook", passport.authenticate("facebook"));
 
-  // Facebook Login Callback Endpoint
-  router.get(
-    "/facebook/callback",
-    passport.authenticate("facebook", { failureRedirect: "/login" }),
-    async (req, res) => {
-      res.redirect("/");
-    }
-  );
+  // // Facebook Login Callback Endpoint
+  // router.get(
+  //   "/facebook/callback",
+  //   passport.authenticate("facebook", { failureRedirect: "/login" }),
+  //   async (req, res) => {
+  //     res.redirect("/");
+  //   }
+  // );
 
   router.post("/register", async (req, res, next) => {
     try {
@@ -162,32 +162,32 @@ export default (app, passport) => {
   });
 
   router.get("/logged_in", async (req, res, next) => {
-    // try {
-    //   if (req.user) {
-    //     const { id } = req.user;
-    //     const watchlist = await WatchlistServiceInstance.loadMovies(id);
-    //     const ratings = await RatingServiceInstance.loadRatings(id);
-    //     const user = await UserServiceInstance.get({ id });
-    //     if (req.user.google) {
-    //       // If the user logged in with Google OAuth
-    //       const { displayName, email } = req.user.google;
-    //       res.status(200).send({
-    //         watchlist,
-    //         ratings,
-    //         isLoggedIn: true,
-    //         user: { displayName, email },
-    //       });
-    //     } else {
-    //       res.status(200).send({
-    //         watchlist,
-    //         ratings,
-    //         isLoggedIn: true,
-    //         user,
-    //       });
-    //     }
-    //   }
-    // } catch (err) {
-    //   next(err);
-    // }
+    try {
+      if (req.user) {
+        const { id } = req.user;
+        const watchlist = await WatchlistServiceInstance.loadMovies(id);
+        const ratings = await RatingServiceInstance.loadRatings(id);
+        const user = await UserServiceInstance.get({ id });
+        if (req.user.google) {
+          // If the user logged in with Google OAuth
+          const { displayName, email } = req.user.google;
+          res.status(200).send({
+            watchlist,
+            ratings,
+            isLoggedIn: true,
+            user: { username: displayName, email },
+          });
+        } else {
+          res.status(200).send({
+            watchlist,
+            ratings,
+            isLoggedIn: true,
+            user,
+          });
+        }
+      }
+    } catch (err) {
+      next(err);
+    }
   });
 };
