@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { Strategy as GoogleStrategy } from "passport-google-oauth2";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import AuthService from "../services/AuthService.js";
 const AuthServiceInstance = new AuthService();
@@ -39,14 +39,13 @@ export default async (app) => {
         clientID: GOOGLE.CONSUMER_KEY,
         clientSecret: GOOGLE.CONSUMER_SECRET,
         callbackURL: GOOGLE.CALLBACK_URL,
-        passReqToCallback: true,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
           const user = await AuthServiceInstance.googleLogin(profile);
           return done(null, user);
-        } catch (err) {
-          return done(err);
+        } catch (error) {
+          return done(error);
         }
       }
     )

@@ -5,8 +5,17 @@ const pgp = pgPromise({ capSQL: true });
 export default class UserModel {
   async create(data) {
     try {
-      // Generate SQL statement
-      const statement = pgp.helpers.insert(data, null, "users") + "RETURNING *";
+      const statement = data.google
+        ? pgp.helpers.insert(
+            { google: data.google, role_id: data.role_id },
+            null,
+            "users"
+          ) + "RETURNING *"
+        : pgp.helpers.insert(
+            data,
+            ["username", "email", "password_hash"],
+            "users"
+          ) + "RETURNING *";
 
       // Execute SQL statement
       const result = await db.query(statement);

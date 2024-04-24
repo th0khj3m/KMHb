@@ -9,6 +9,8 @@ import UserService from "../services/UserService.js";
 const UserServiceInstance = new UserService();
 import WatchlistService from "../services/WatchlistService.js";
 const WatchlistServiceInstance = new WatchlistService();
+import RatingService from "../services/RatingService.js";
+const RatingServiceInstance = new RatingService();
 import UserModel from "../models/user.js";
 import sendPasswordResetEmail from "../utils/email.js";
 const UserModelInstance = new UserModel();
@@ -114,7 +116,11 @@ export default (app, passport) => {
     "/google/callback",
     passport.authenticate("google", { failureRedirect: "/login" }),
     async (req, res) => {
-      res.redirect("/");
+      try {
+        res.status(200).send(req.user);
+      } catch (err) {
+        next(err);
+      }
     }
   );
 
@@ -129,16 +135,6 @@ export default (app, passport) => {
       res.redirect("/");
     }
   );
-
-  router.get("/logout", async (req, res, next) => {
-    try {
-      req.logout(() => {
-        res.status(200).send("Logged out successfully");
-      });
-    } catch (err) {
-      next(err);
-    }
-  });
 
   router.post("/register", async (req, res, next) => {
     try {
@@ -155,16 +151,43 @@ export default (app, passport) => {
     }
   });
 
-  router.get("/logged_in", async (req, res, next) => {
+  router.get("/logout", async (req, res, next) => {
     try {
-      const { id } = req.user;
-      const user = await UserServiceInstance.get({ id });
-      res.status(200).send({
-        isLoggedIn: true,
-        user,
+      req.logout(() => {
+        res.status(200).send("Logged out successfully");
       });
     } catch (err) {
       next(err);
     }
+  });
+
+  router.get("/logged_in", async (req, res, next) => {
+    // try {
+    //   if (req.user) {
+    //     const { id } = req.user;
+    //     const watchlist = await WatchlistServiceInstance.loadMovies(id);
+    //     const ratings = await RatingServiceInstance.loadRatings(id);
+    //     const user = await UserServiceInstance.get({ id });
+    //     if (req.user.google) {
+    //       // If the user logged in with Google OAuth
+    //       const { displayName, email } = req.user.google;
+    //       res.status(200).send({
+    //         watchlist,
+    //         ratings,
+    //         isLoggedIn: true,
+    //         user: { displayName, email },
+    //       });
+    //     } else {
+    //       res.status(200).send({
+    //         watchlist,
+    //         ratings,
+    //         isLoggedIn: true,
+    //         user,
+    //       });
+    //     }
+    //   }
+    // } catch (err) {
+    //   next(err);
+    // }
   });
 };

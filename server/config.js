@@ -2,8 +2,8 @@ const SESSION_SECRET = process.env.SESSION_SECRET;
 const SERVER_PORT = process.env.SERVER_PORT;
 
 const CLIENT = {
-  URL: process.env.CLIENT_URL
-}
+  URL: process.env.CLIENT_URL,
+};
 
 const DB = {
   HOST: process.env.PGHOST,
@@ -14,9 +14,9 @@ const DB = {
 };
 
 const GOOGLE = {
-  CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL,
   CONSUMER_KEY: process.env.GOOGLE_CONSUMER_KEY,
   CONSUMER_SECRET: process.env.GOOGLE_CONSUMER_SECRET,
+  CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL,
 };
 
 const FACEBOOK = {
@@ -24,6 +24,5 @@ const FACEBOOK = {
   CONSUMER_KEY: process.env.FACEBOOK_CONSUMER_KEY,
   CONSUMER_SECRET: process.env.FACEBOOK_CONSUMER_SECRET,
 };
-
 
 export { SERVER_PORT, DB, SESSION_SECRET, GOOGLE, FACEBOOK, CLIENT };

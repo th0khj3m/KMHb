@@ -67,17 +67,18 @@ export default class AuthService {
     }
   }
 
-  
-
   async googleLogin(profile) {
-    const { id, displayName } = profile;
+    const { id, displayName, emails } = profile;
+    const email = emails[0].value;
+    const oauthUser = { id, displayName, email, role_id: 2 };
     try {
       // Check if user exists
       const user = await UserModelInstance.findOneByGoogleId(id);
       if (!user) {
-        return await UserModelInstance.create({ google: { id, displayName } });
+        return await UserModelInstance.create({
+          google: oauthUser,
+        });
       }
-
       return user;
     } catch (err) {
       throw err;

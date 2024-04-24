@@ -1,8 +1,6 @@
 import nodemailer from "nodemailer";
 import { CLIENT } from "../config.js";
 
-console.log(CLIENT.URL);
-
 async function sendPasswordResetEmail(email, resetToken) {
   try {
     const transporter = nodemailer.createTransport({

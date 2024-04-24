@@ -3,6 +3,15 @@ import RatingModel from "../models/rating.js";
 const RatingModelInstance = new RatingModel();
 
 export default class RatingService {
+  async rate(data) {
+    try {
+      const rating = await RatingModelInstance.create(data);
+      return rating;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async loadRatings(user_id) {
     try {
       const ratings = await RatingModelInstance.find(user_id);
@@ -15,15 +24,6 @@ export default class RatingService {
   async get(data) {
     try {
       const rating = await RatingModelInstance.findOneByUser(data);
-      return rating;
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async rate(data) {
-    try {
-      const rating = await RatingModelInstance.create(data);
       return rating;
     } catch (err) {
       throw err;
