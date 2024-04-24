@@ -1,6 +1,10 @@
 const SESSION_SECRET = process.env.SESSION_SECRET;
 const SERVER_PORT = process.env.SERVER_PORT;
 
+const CLIENT = {
+  URL: process.env.CLIENT_URL
+}
+
 const DB = {
   HOST: process.env.PGHOST,
   USER: process.env.PGUSER,
@@ -22,4 +26,4 @@ const FACEBOOK = {
 };
 
 
-export { SERVER_PORT, DB, SESSION_SECRET, GOOGLE, FACEBOOK };
+export { SERVER_PORT, DB, SESSION_SECRET, GOOGLE, FACEBOOK, CLIENT };

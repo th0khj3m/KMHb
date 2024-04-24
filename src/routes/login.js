@@ -101,18 +101,17 @@ export default function Login() {
                     {error}
                   </Alert>
                 )}
-                <Typography mr="auto" py={3}>
-                  Forgot your{" "}
-                  <Link to="/secret/new">
-                    <Typography component="span" color={"main"}>
-                      username
-                    </Typography>{" "}
-                  </Link>
-                  or{" "}
-                  <Typography component="span" color={"main"}>
-                    password
+                <Link to="/forgot-password">
+                  <Typography
+                    mr="auto"
+                    py={3}
+                    color={"main"}
+                    fontWeight={"bold"}
+                  >
+                    I forgot my password{" "}
                   </Typography>
-                </Typography>
+                </Link>
+
                 <AuthButton
                   type="submit"
                   variant="contained"

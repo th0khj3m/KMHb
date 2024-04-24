@@ -43,7 +43,22 @@ export default (app, passport) => {
       }
 
       const resetToken = crypto.randomBytes(20).toString("hex");
-      const resetTokenExpires = new Date(Date.now() + 3600000).toISOString(); // Convert to ISO string
+
+      // Get the current time
+      const currentTime = new Date(Date.now() + 3600000); // Current time + 1 hour (3600000 milliseconds)
+
+      // Convert to Vietnam time (Indochina Time, ICT)
+      const options = {
+        timeZone: "Asia/Ho_Chi_Minh", // Set the time zone to Vietnam
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      };
+
+      const resetTokenExpires = currentTime.toLocaleString("en-US", options);
 
       // Update the user record in the database with the reset token and expiration time
       const updateQuery =
@@ -75,13 +90,16 @@ export default (app, passport) => {
           .send({ message: "Invalid or expired reset token" });
       }
 
+      // Generate salt
+      const salt = await bcrypt.genSalt(10);
+
       // Hash the new password
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
 
       // Update the user's password in the database and clear the reset token and expiration
       const updateQuery =
         "UPDATE users SET password_hash = $1, reset_token = NULL, reset_token_expires = NULL WHERE id = $2";
-      await pool.query(updateQuery, [hashedPassword, user.id]);
+      await db.query(updateQuery, [hashedPassword, user.id]);
     } catch (err) {
       next(err);
     }
