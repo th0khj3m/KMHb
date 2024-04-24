@@ -4,7 +4,6 @@ import {
   registerUser,
   checkLoginStatus,
   logoutUser,
-  initiateOAuth,
 } from "./auth.actions.js";
 
 const authSlice = createSlice({
@@ -51,11 +50,11 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.error = null;
         state.loading = false;
-      })
-      .addCase(initiateOAuth.fulfilled, (state, action) => {
-        state.isAuthenticated = true;
-        state.loading = false;
       });
+      // .addCase(initiateOAuth.fulfilled, (state, action) => {
+      //   state.isAuthenticated = true;
+      //   state.loading = false;
+      // });
   },
 });
 

@@ -53,7 +53,14 @@ export default function Header() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
-  const loadingStateSlices = ["movies", "movie", "cast", "watchlist", "rating"]; // List of loading state slices
+  const loadingStateSlices = [
+    "movies",
+    "movie",
+    "cast",
+    "watchlist",
+    "rating",
+    "review",
+  ]; // List of loading state slices
   const isLoading = useCombinedLoadingState(loadingStateSlices);
 
   const [headerMenuAnchorEl, setHeaderMenuAnchorEl] = useState(null);
@@ -118,6 +125,10 @@ export default function Header() {
 
           <MenuItemLink to="/accounts">
             <Typography fontWeight={"bold"}>Accounts</Typography>
+          </MenuItemLink>
+
+          <MenuItemLink to="/dashboard">
+            <Typography fontWeight={"bold"}>Dashboard</Typography>
           </MenuItemLink>
 
           <MenuButton startIcon={<MenuIcon />} onClick={handleHeaderMenuClick}>

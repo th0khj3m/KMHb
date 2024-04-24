@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { TextField, Autocomplete, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { searchMovies } from "../store/search/search.actions";
@@ -9,8 +9,8 @@ const Search = () => {
   const { query, results, loading } = useSelector((state) => state.search);
 
   const handleSearch = async (event, newValue) => {
-    dispatch(setSearchQuery(newValue));
-    if (newValue) {
+    if (newValue !== undefined && newValue !== null) {
+      dispatch(setSearchQuery(newValue));
       try {
         await dispatch(searchMovies(newValue));
       } catch (error) {
@@ -19,16 +19,16 @@ const Search = () => {
     }
   };
 
-  console.log(results);
-
   return (
     <Autocomplete
-      value={query}
+      value={query ?? ""}
       freeSolo
       onChange={handleSearch}
       options={results}
-      getOptionLabel={(option) => option?.title}
+      getOptionLabel={(option) => option?.title ?? ""}
       loading={loading}
+      isOptionEqualToValue={(option, value) => option.title === value.title}
+
       renderInput={(params) => (
         <TextField
           {...params}
@@ -49,7 +49,7 @@ const Search = () => {
           }}
           inputProps={{
             ...params.inputProps,
-            style: { padding: "8px 12px", fontSize: "14px" }, // Adjust padding and font size
+            style: { padding: "5px", fontSize: "14px" }, // Adjust padding and font size
           }}
         />
       )}

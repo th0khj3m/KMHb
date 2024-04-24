@@ -1,4 +1,12 @@
 import React, { useState } from "react";
+import {
+  Button,
+  Typography,
+  Container,
+  TextField,
+  InputLabel,
+  Stack,
+} from "@mui/material";
 import API from "../apis/client";
 
 const ForgotPasswordForm = () => {
@@ -16,20 +24,40 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <div>
-      <h2>Forgot Password</h2>
+    <Container maxWidth="xs" sx={{ mt: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Request Password Reset
+      </Typography>
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <button type="submit">Submit</button>
+        <InputLabel htmlFor="email">Please enter your email:</InputLabel>
+        <Stack textAlign={"center"}>
+          <TextField
+            id="email"
+            type="email"
+            label="Enter your email"
+            placeholder="Enter your email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3 }}
+          >
+            Request Password Reset
+          </Button>
+        </Stack>
       </form>
-      <p>{message}</p>
-    </div>
+
+      <Typography variant="body1" align="center" gutterBottom>
+        {message}
+      </Typography>
+    </Container>
   );
 };
 

@@ -14,7 +14,6 @@ import Home from "./home.js";
 import Login from "./login.js";
 import Register from "./register.js";
 import Watchlist from "./watchlist.js";
-import Movies from "./movies.js";
 import MovieDetails from "./movie-details.js";
 import Reviews from "./reviews.js";
 import CastDetails from "./cast-details.js";
@@ -44,14 +43,31 @@ const router = createBrowserRouter(
       <Route path="menu/casts" element={<MenuCasts />} />
       <Route path="casts/:castId" element={<CastDetails />} />
 
-      {/* <Route path="watchlist" element={<PrivateRoute />}> */}
-      <Route path="watchlist" element={<Watchlist />} />
-      {/* </Route> */}
-      <Route path="ratings" element={<Ratings />} />
+      <Route path="watchlist" element={<PrivateRoute />}>
+        <Route path="watchlist" element={<Watchlist />} />
+      </Route>
+      <Route path="watchlist" element={<PrivateRoute />}>
+        <Route path="ratings" element={<Ratings />} />
+      </Route>
 
       {/*Admin Routes */}
-      <Route path="dashboard" element={<Dashboard />} />
-      <Route path="accounts" element={<Accounts />} />
+
+      <Route
+        path="dashboard"
+        element={
+          <PrivateRoute isAdminRoute={true}>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="accounts"
+        element={
+          <PrivateRoute isAdminRoute={true}>
+            <Accounts />
+          </PrivateRoute>
+        }
+      />
 
       <Route path="*" element={<Navigate to="/" />} />
     </Route>

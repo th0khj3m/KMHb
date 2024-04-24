@@ -21,14 +21,14 @@ export const register = async (credentials) => {
 };
 
 // OAuth
-export const accessOAuth = async () => {
-  try {
-    const response = await API.get("auth/google");
-    return response;
-  } catch (err) {
-    throw err.response.data;
-  }
-};
+// export const accessOAuth = async () => {
+//   try {
+//     const response = await API.get("auth/google");
+//     return response;
+//   } catch (err) {
+//     throw err.response.data;
+//   }
+// };
 
 export const isLoggedIn = async () => {
   try {

@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  accessOAuth,
   isLoggedIn,
   login,
   logout,
@@ -46,18 +45,18 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-// OAuth
-export const initiateOAuth = createAsyncThunk(
-  "auth/initiateOAuth",
-  async (_, thunkAPI) => {
-    try {
-      await accessOAuth();
-      return;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
-    }
-  }
-);
+// // OAuth
+// export const initiateOAuth = createAsyncThunk(
+//   "auth/initiateOAuth",
+//   async (_, thunkAPI) => {
+//     try {
+//       await accessOAuth();
+//       return;
+//     } catch (err) {
+//       return thunkAPI.rejectWithValue(err.response.data);
+//     }
+//   }
+// );
 
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",

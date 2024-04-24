@@ -15,8 +15,6 @@ import {
   fetchTrendingMovies,
 } from "../../store/movies/movies.actions";
 
-import { loadWatchlist } from "../../store/watchlist/watchlist.actions";
-import { loadRatings } from "../../store/rating/rating.actions";
 import MovieItem from "../movie-item";
 import useAddToWatchlist from "../../hooks/useAddToWatchlist";
 
@@ -26,15 +24,16 @@ export default function HomeBody() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const watchlistMovies = useSelector((state) => state.watchlist.movies);
+  const ratingMovies = useSelector((state) => state.rating.ratings);
+  const { handleAddToWatchlist, loadingMovie } = useAddToWatchlist();
+
   const [timeframe, setTimeframe] = useState("day");
   const [movies, setMovies] = useState({
     trendingMovies: [],
     popularMovies: [],
   });
-
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const watchlistMovies = useSelector((state) => state.watchlist.movies);
-  const ratingMovies = useSelector((state) => state.rating.ratings);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,11 +51,6 @@ export default function HomeBody() {
           ...prevState,
           popularMovies: popular.popularMovies,
         }));
-
-        if (isAuthenticated) {
-          await dispatch(loadWatchlist());
-          await dispatch(loadRatings());
-        }
       } catch (error) {
         console.log(error);
       }
@@ -64,8 +58,6 @@ export default function HomeBody() {
 
     fetchData();
   }, [dispatch, timeframe, isAuthenticated]);
-
-  const { handleAddToWatchlist, loadingMovie } = useAddToWatchlist();
 
   return (
     <>

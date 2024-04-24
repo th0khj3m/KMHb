@@ -107,24 +107,24 @@ export default (app, passport) => {
     }
   });
 
-  router.get(
-    "/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
-  );
+  // router.get(
+  //   "/google",
+  //   passport.authenticate("google", { scope: ["profile", "email"] })
+  // );
 
-  router.get(
-    "/google/callback",
-    passport.authenticate("google"),
-    async (req, res) => {
-      try {
-        res.redirect(
-          `http://localhost:3006/logged_in?user=${JSON.stringify(req.user)}`
-        );
-      } catch (err) {
-        next(err);
-      }
-    }
-  );
+  // router.get(
+  //   "/google/callback",
+  //   passport.authenticate("google"),
+  //   async (req, res) => {
+  //     try {
+  //       res.redirect(
+  //         `http://localhost:3006/logged_in?user=${JSON.stringify(req.user)}`
+  //       );
+  //     } catch (err) {
+  //       next(err);
+  //     }
+  //   }
+  // );
 
   // // Facebook Login Endpoint
   // router.get("/facebook", passport.authenticate("facebook"));
