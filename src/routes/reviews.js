@@ -6,11 +6,10 @@ import {
   Paper,
   IconButton,
   Typography,
-  Chip,
   Container,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { Star, Create as CreateIcon } from "@mui/icons-material";
+import { Create as CreateIcon } from "@mui/icons-material";
 import ModalRender from "../components/modal-render";
 import ReviewModal from "../components/modal/review-modal";
 import useModal from "../hooks/useModal";
@@ -85,16 +84,6 @@ export default function Reviews() {
                         {review.title}
                       </Typography>
                       <Box display={"flex"} alignItems={"center"} gap={"10px"}>
-                        <Chip
-                          icon={<Star color="common.white" />}
-                          label={"8.4"}
-                          size="small"
-                          sx={{
-                            color: "white",
-                            bgcolor: "#0DB597",
-                            borderRadius: "6px",
-                          }}
-                        />
                         <Typography>Written by user on date</Typography>
                       </Box>
                     </Box>

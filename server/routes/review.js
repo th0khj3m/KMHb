@@ -5,7 +5,7 @@ import { isLoggedIn } from "../middleware/middleware.js";
 const ReviewServiceInstance = new ReviewService();
 
 export default (app) => {
-  app.use("/api/reviews", isLoggedIn, router);
+  app.use("/api/reviews", router);
 
   router.get("/movies/:movieId", async (req, res, next) => {
     try {
@@ -27,7 +27,7 @@ export default (app) => {
     }
   });
 
-  router.post("/movies/:movieId", async (req, res, next) => {
+  router.post("/movies/:movieId", isLoggedIn, async (req, res, next) => {
     try {
       const { id } = req.user;
       const { movieId } = req.params;
@@ -46,7 +46,7 @@ export default (app) => {
     }
   });
 
-  router.put("/:reviewId", async (req, res, next) => {
+  router.put("/:reviewId", isLoggedIn, async (req, res, next) => {
     try {
       const { reviewId } = req.params;
       const { title, content } = req.body;
@@ -60,7 +60,7 @@ export default (app) => {
     }
   });
 
-  router.delete("/:reviewId", async (req, res, next) => {
+  router.delete("/:reviewId", isLoggedIn, async (req, res, next) => {
     try {
       const { reviewId } = req.params;
       const response = await ReviewServiceInstance.remove(reviewId);

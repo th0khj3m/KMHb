@@ -16,6 +16,9 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(checkLoginStatus.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(checkLoginStatus.fulfilled, (state, action) => {
         const { isLoggedIn } = action.payload;
         state.isAuthenticated = isLoggedIn;
@@ -51,10 +54,10 @@ const authSlice = createSlice({
         state.error = null;
         state.loading = false;
       });
-      // .addCase(initiateOAuth.fulfilled, (state, action) => {
-      //   state.isAuthenticated = true;
-      //   state.loading = false;
-      // });
+    // .addCase(initiateOAuth.fulfilled, (state, action) => {
+    //   state.isAuthenticated = true;
+    //   state.loading = false;
+    // });
   },
 });
 

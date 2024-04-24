@@ -5,15 +5,36 @@ import {
   Grid,
   Paper,
   Divider,
-  Chip,
   Container,
 } from "@mui/material";
-import { Star } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { Img } from "../../routes/root";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadReviews } from "../../store/review/review.actions";
 
 export default function MovieDetailsInfo({ movie }) {
+  const dispatch = useDispatch();
+  const { reviews } = useSelector((state) => state.review);
+  const review = reviews[0];
+  const releaseDate = new Date(review?.review_date);
+  const formattedReviewDate = releaseDate?.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   const { casts } = movie;
+  useEffect(() => {
+    try {
+      const fetchReviews = async () => {
+        await dispatch(loadReviews(movie.id));
+      };
+      fetchReviews();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch, movie.id]);
+
   return (
     <Container maxWidth="xl">
       <Grid container spacing={10} pt={"30px"}>
@@ -22,7 +43,7 @@ export default function MovieDetailsInfo({ movie }) {
             <Typography variant="h5" fontWeight="600" mb="15px" component="h2">
               Top billed cast
             </Typography>
-            <Box display="flex" gap="15px" overflow="auto">
+            <Box display="flex" gap="15px" overflow="auto" mb={2}>
               {casts &&
                 casts.cast?.map((cast, index) => (
                   <Paper
@@ -55,9 +76,6 @@ export default function MovieDetailsInfo({ movie }) {
                   </Paper>
                 ))}
             </Box>
-            <Typography fontWeight="bold" my="20px">
-              Full cast & crew
-            </Typography>
           </Box>
 
           <Divider />
@@ -66,46 +84,43 @@ export default function MovieDetailsInfo({ movie }) {
             <Typography variant="h5" component="h2" fontWeight={"600"}>
               User reviews
             </Typography>
-            <Paper
-              elevation={3}
-              sx={{
-                display: "flex",
-                gap: "10px",
-                flexDirection: "column",
-                my: "15px",
-              }}
-            >
-              <Box my="15px" ml="15px">
-                <Typography fontWeight={"600"}>
-                  An offer so good, i couldn't refuse
-                </Typography>
-                <Box display={"flex"} mb={"15px"} alignItems={"center"}>
-                  <Chip
-                    icon={<Star color="common.white" />}
-                    label={movie.vote_average}
-                    sx={{ color: "white", bgcolor: "#0DB597" }}
-                  />
-                  <Typography ml={"5px"}>
-                    Written by{" "}
-                    <Typography variant="span" fontWeight={"bold"}>
-                      user{" "}
+            {reviews.length > 0 && (
+              <Paper
+                elevation={3}
+                sx={{
+                  display: "flex",
+                  gap: "10px",
+                  flexDirection: "column",
+                  my: "15px",
+                }}
+              >
+                <Box my="15px" ml="15px">
+                  <Typography fontWeight={"600"}>{review.review_title}</Typography>
+                  <Box display={"flex"} mb={"15px"} alignItems={"center"}>
+                    <Typography>
+                      Written by{" "}
+                      <Typography variant="span" fontWeight={"bold"} mr={0.6}>
+                        {review.user_username}
+                      </Typography>
+                      on {formattedReviewDate}
                     </Typography>
-                    on date
+                  </Box>
+                  <Typography>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: review.review_content,
+                      }}
+                    />
+                    {/* <Link>read the rest.</Link> */}
                   </Typography>
                 </Box>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vivamus suscipit felis eget nulla iaculis tincidunt. In hac
-                  habitasse platea dictumst. Suspendisse magna orci, dapibus sed
-                  vulputate in, maximus porta odio. Sed pretium orci eu leo
-                  aliquam convallis. Suspendisse gravida massa id egestas
-                  venenatis. Sed consectetur felis vitae ullamcorper
-                  ultricies...
-                  <Link>read the rest.</Link>
-                </Typography>
-              </Box>
-            </Paper>
-            <Link to={`/movies/${movie.id}/reviews`} style={{ textDecoration: "none" }}>
+              </Paper>
+            )}
+
+            <Link
+              to={`/movies/${movie.id}/reviews`}
+              style={{ textDecoration: "none" }}
+            >
               <Typography color="black" fontWeight={"600"}>
                 Read all reviews
               </Typography>
@@ -113,20 +128,6 @@ export default function MovieDetailsInfo({ movie }) {
           </Box>
 
           <Divider />
-
-          <Box py="15px" display={"flex"} gap="15px" flexDirection={"column"}>
-            <Typography fontWeight={"bold"} variant="h5" component="h2">
-              Storyline
-            </Typography>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-              suscipit felis eget nulla iaculis tincidunt. In hac habitasse
-              platea dictumst. Suspendisse magna orci, dapibus sed vulputate in,
-              maximus porta odio. Sed pretium orci eu leo aliquam convallis.
-              Suspendisse gravida massa id egestas venenatis. Sed consectetur
-              felis vitae ullamcorper ultricies...
-            </Typography>
-          </Box>
 
           <Divider />
         </Grid>
