@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, IconButton, Button, Stack } from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { IconButton, Button } from "@mui/material";
 
 import useModal from "../hooks/useModal";
 import ModalRender from "./modal-render";
@@ -12,9 +13,12 @@ import {
   updateRating,
 } from "../store/rating/rating.actions";
 import { useDispatch } from "react-redux";
+import { WhiteTypography } from "../routes/root";
 
 export default function RatingBox({
   movie: { movieRating, movieTitle, movieId, userRating },
+  size = "small",
+  cut = false,
 }) {
   const dispatch = useDispatch();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
@@ -49,22 +53,25 @@ export default function RatingBox({
   return (
     <>
       <Box display={"flex"} alignItems={"center"}>
-        <Stack direction={"row"} display={"flex"} alignItems={"center"}>
-          <StarIcon fontSize="small" />
-          <Typography ml={"3px"}>{movieRating}</Typography>
-        </Stack>
-        <Box ml={3}>
+        {!cut && (
+          <Stack direction={"row"} display={"flex"} alignItems={"center"}>
+            <StarIcon fontSize={size} />
+            <Typography ml={"3px"}>{movieRating}</Typography>
+          </Stack>
+        )}
+        {cut && <WhiteTypography mr={"-10px"}>YOUR RATING</WhiteTypography>}
+        <Box ml={3} alignItems={"center"}>
           {userRating ? (
             <Button
               size="large"
-              startIcon={<StarIcon color="primary" />}
+              startIcon={<StarIcon />}
               onClick={() => handleOpenModal(movieId)}
             >
               {rating}
             </Button>
           ) : (
             <IconButton onClick={() => handleOpenModal(movieId)}>
-              <StarBorderIcon fontSize="small" />
+              <StarBorderIcon sx={{ color: "#0db597" }} fontSize="medium" />
             </IconButton>
           )}
         </Box>

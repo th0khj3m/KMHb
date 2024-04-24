@@ -1,10 +1,12 @@
 import React from "react";
-import { Typography, Divider, Chip, Box, Grid, Container } from "@mui/material";
+import { Typography, Divider, Chip, Box, Grid, Container, Stack } from "@mui/material";
 import { WhiteTypography } from "../../routes/root";
 import StarIcon from "@mui/icons-material/Star";
-import { StarBorder } from "@mui/icons-material";
+import RatingBox from "../rating-box";
+import { useSelector } from "react-redux";
 
 export default function MovieDetailsBanner({ movie }) {
+  const ratingMovies = useSelector((state) => state.rating.ratings);
   const movieYear = movie?.release_date?.split("-")[0];
   const hours = Math.floor(movie.runtime / 60) ?? 0;
   const minutes = movie?.runtime % 60 ?? 0;
@@ -12,6 +14,7 @@ export default function MovieDetailsBanner({ movie }) {
     (result) => result.iso_3166_1 === "US"
   );
   const movieCertification = usRelease?.release_dates[0]?.certification ?? "PG";
+  const movieRating = movie?.vote_average.toFixed(1);
   const movieKey = movie?.newestTrailer?.key;
 
   const getDirector = () => {
@@ -75,18 +78,29 @@ export default function MovieDetailsBanner({ movie }) {
                   margin: "auto",
                 }}
               >
-                <WhiteTypography>KMHb RATING</WhiteTypography>
-                <Box display="flex" justifyContent="center">
-                  <StarIcon sx={{ color: "main" }} />
-                  <WhiteTypography ml="3px">10/10</WhiteTypography>
-                </Box>
+                <Stack direction={"row"} spacing={2}>
+                  <WhiteTypography>KMHb RATING</WhiteTypography>
+                  <Box display="flex" justifyContent="center">
+                    <StarIcon sx={{ color: "main" }} />
+                    <WhiteTypography ml="3px">{movieRating}</WhiteTypography>
+                  </Box>
+                </Stack>
               </Grid>
               <Grid item md={6} sx={{ textAlign: "center" }}>
-                <WhiteTypography>YOUR RATING</WhiteTypography>
-                <Box display="flex" justifyContent="center">
-                  <StarBorder sx={{ color: "main" }} />
-                  <WhiteTypography ml="3px">9.2/10</WhiteTypography>
-                </Box>
+                {movie && (
+                  <RatingBox
+                    movie={{
+                      movieRating: Math.round(movie.vote_average * 10) / 10,
+                      movieTitle: movie.title,
+                      movieId: movie.id,
+                      userRating: ratingMovies.find(
+                        (rating) => rating.movie_id === movie.id
+                      )?.rating,
+                    }}
+                    size="large"
+                    cut={true}
+                  />
+                )}
               </Grid>
             </Grid>
           </Box>
@@ -95,13 +109,13 @@ export default function MovieDetailsBanner({ movie }) {
         <Box display={"flex"}>
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
+            alt={movie?.title}
             width="20%"
           />
           {movieKey && (
             <iframe
               src={`https://www.youtube.com/embed/${movieKey}`}
-              title={movie.title}
+              title={movie?.title}
               style={{ flex: 1 }}
             />
           )}

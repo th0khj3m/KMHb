@@ -86,21 +86,22 @@ export default function HomeBody() {
           </Box>
 
           <Box display="flex" gap="20px" overflow="auto" pb="20px" mb="20px">
-            {movies[index === 0 ? "trendingMovies" : "popularMovies"].map(
-              (movie, index) => (
-                <MovieItem
-                  key={index}
-                  movie={movie}
-                  movieIndex={index}
-                  isAuthenticated={isAuthenticated}
-                  watchlistMovies={watchlistMovies}
-                  ratingMovies={ratingMovies}
-                  loadingMovie={loadingMovie}
-                  handleAddToWatchlist={handleAddToWatchlist}
-                  navigate={navigate}
-                />
-              )
-            )}
+            {movies &&
+              movies[index === 0 ? "trendingMovies" : "popularMovies"].map(
+                (movie, index) => (
+                  <MovieItem
+                    key={index}
+                    movie={movie}
+                    movieIndex={index}
+                    isAuthenticated={isAuthenticated}
+                    watchlistMovies={watchlistMovies}
+                    ratingMovies={ratingMovies}
+                    loadingMovie={loadingMovie}
+                    handleAddToWatchlist={handleAddToWatchlist}
+                    navigate={navigate}
+                  />
+                )
+              )}
           </Box>
         </Box>
       ))}
