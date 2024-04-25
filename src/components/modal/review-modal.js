@@ -67,20 +67,8 @@ const editorConfig = {
   ],
 };
 
-export default function ReviewModal({ movieId, review, handleCloseModal }) {
+export default function ReviewModal({ movieId, handleCloseModal }) {
   const dispatch = useDispatch();
-
-  const isEditMode = !!review; //Convert to boolean
-
-  const initialValues = isEditMode
-    ? {
-        title: review.review_title, // Initialize with empty values for editing
-        content: review.review_content,
-      }
-    : {
-        title: "", // Initialize with default values for adding
-        content: "",
-      };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required."),
@@ -152,7 +140,10 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
             YOUR REVIEW
           </Typography>
           <Formik
-            initialValues={initialValues}
+            initialValues={{
+              title: "",
+              content: "",
+            }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
