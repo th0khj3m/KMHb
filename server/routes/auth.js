@@ -172,22 +172,20 @@ export default (app, passport) => {
 
   router.get("/logged_in", async (req, res, next) => {
     try {
-      if (req.user) {
-        const { id } = req.user;
-        const watchlist = await WatchlistServiceInstance.loadMovies(id);
-        const ratings = await RatingServiceInstance.loadRatings(id);
-        const reviews = await ReviewServiceInstance.loadUserReviews(id);
-        const rooms = await RoomServiceInstance.loadRooms();
-        const user = await UserServiceInstance.get({ id });
-        res.status(200).send({
-          rooms,
-          watchlist,
-          ratings,
-          reviews,
-          isLoggedIn: true,
-          user,
-        });
-      }
+      const { id } = req.user;
+      const watchlist = await WatchlistServiceInstance.loadMovies(id);
+      const ratings = await RatingServiceInstance.loadRatings(id);
+      const reviews = await ReviewServiceInstance.loadUserReviews(id);
+      const rooms = await RoomServiceInstance.loadRooms();
+      const user = await UserServiceInstance.get({ id });
+      res.status(200).send({
+        rooms,
+        watchlist,
+        ratings,
+        reviews,
+        isLoggedIn: true,
+        user,
+      });
     } catch (err) {
       next(err);
     }

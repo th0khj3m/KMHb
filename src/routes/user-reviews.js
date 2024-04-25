@@ -31,7 +31,7 @@ export default function UserReviews() {
     <Container maxWidth="xl">
       {userReviews?.map((review) => (
         <ReviewCard
-          key={review.id}
+          key={review.review_id}
           review={review}
           options={options}
           handleOptionSelect={handleOptionSelect}

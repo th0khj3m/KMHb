@@ -52,7 +52,7 @@ const ReviewCard = ({
                 <MenuItem
                   key={option}
                   onClick={() => {
-                    handleOptionSelect(option, review.id);
+                    handleOptionSelect(option, review);
                     handleClose();
                   }}
                 >

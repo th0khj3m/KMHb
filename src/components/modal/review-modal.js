@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   Divider,
@@ -20,8 +20,9 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic"; // or another CKE
 import styled from "styled-components";
 
 import { Img, ModalContainer } from "../../routes/root";
-import { useDispatch } from "react-redux";
-import { addReview } from "../../store/review/review.actions";
+import { useDispatch, useSelector } from "react-redux";
+import { addReview, updateReview } from "../../store/review/review.actions";
+import { fetchMovieDetails } from "../../store/movie/movie.actions";
 
 const StyledCKEditorContainer = styled.div`
   .ck-editor__editable_inline:not(.ck-comment__input *) {
@@ -67,8 +68,18 @@ const editorConfig = {
   ],
 };
 
-export default function ReviewModal({ movieId, handleCloseModal }) {
+export default function ReviewModal({ movieId, review, handleCloseModal }) {
   const dispatch = useDispatch();
+  const { movieDetails } = useSelector((state) => state.movie.movieDetails); // Get movie details from Redux state
+
+  // Function to fetch movie details
+  useEffect(() => {
+    if (review && review.review_movie_id) {
+      dispatch(fetchMovieDetails(review.review_movie_id)); // Dispatch action to fetch movie details
+    }
+  }, [dispatch, review]); // Trigger useEffect when review changes
+
+  const isEditMode = !!review; //Convert to boolean
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required."),
@@ -82,8 +93,13 @@ export default function ReviewModal({ movieId, handleCloseModal }) {
 
   const handleSubmit = async (values, { setSubmitting, setStatus }) => {
     try {
-      dispatch(addReview({ movieId, data: values }));
-      setStatus({ success: true }); // Set Formik status for success feedback
+      if (isEditMode) {
+        dispatch(updateReview({ reviewId: review.review_id, data: values }));
+        setStatus({ success: true }); // Set Formik status for success feedback
+      } else {
+        dispatch(addReview({ movieId, data: values }));
+        setStatus({ success: true }); // Set Formik status for success feedback
+      }
       handleCloseModal();
     } catch (error) {
       console.error("Error submitting review:", error);
@@ -113,99 +129,102 @@ export default function ReviewModal({ movieId, handleCloseModal }) {
 
   return (
     <ModalContainer maxWidth="sm">
-      <Paper elevation={4} sx={{ borderRadius: "10px", p: "15px" }}>
-        <Stack sx={{ bgcolor: "#f3f3f3" }} divider={<Divider />}>
-          <Grid container>
-            <Grid item md={2}>
-              <Img
-                src={`https://image.tmdb.org/t/p/w500${testMovies[0].poster_path}`}
-                width={"80%"}
-              />
+      {movieDetails && (
+        <Paper elevation={4} sx={{ borderRadius: "10px", p: "15px" }}>
+          <Stack sx={{ bgcolor: "#f3f3f3" }} divider={<Divider />}>
+            <Grid container>
+              <Grid item md={2}>
+                <Img
+                  src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
+                  width={"80%"}
+                />
+              </Grid>
+              <Grid item md={10} p={"15px"}>
+                <Stack direction={"column"} divider={<Divider />} spacing={1}>
+                  <Typography variant="h6">
+                    {movieDetails.title}&nbsp; (
+                    {movieDetails.release_date.split("-")[0]})
+                  </Typography>
+                  <Typography variant="h5" component={"h1"}>
+                    Add an Item
+                  </Typography>
+                </Stack>
+              </Grid>
             </Grid>
-            <Grid item md={10} p={"15px"}>
-              <Stack direction={"column"} divider={<Divider />} spacing={1}>
-                <Typography variant="h6">Dune: Part Two (2024)</Typography>
-                <Typography variant="h5" component={"h1"}>
-                  Add an Item
-                </Typography>
-              </Stack>
-            </Grid>
-          </Grid>
-        </Stack>
-        <Box display={"flex"} mt="10px">
-          <Typography ml={"5px"} mt="5px"></Typography>
-        </Box>
-        <Box display={"flex"} flexDirection={"column"} gap={"10px"}>
-          <Typography bgcolor={"#f3f3f3"} p={"5px"}>
-            YOUR REVIEW
-          </Typography>
-          <Formik
-            initialValues={{
-              title: "",
-              content: "",
-            }}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ values, errors, touched, handleChange }) => (
-              <Form>
-                <FormControl fullWidth sx={{ mb: 2 }}>
-                  <Field
-                    as={OutlinedInput}
-                    id="title"
-                    name="title"
-                    placeholder="Write a title for your review here"
-                    required
-                  />
-                  <ErrorDisplay
-                    error={errors.title}
-                    touched={touched.title}
-                    id="title-helper-text"
-                  />
-                </FormControl>
-
-                <FormControl fullWidth>
-                  <StyledCKEditorContainer>
-                    <CKEditor
-                      editor={ClassicEditor}
-                      data={values.content}
-                      value={values.content}
-                      onReady={(editor) => {
-                        console.log(
-                          "CKEditor React Component is ready to use!",
-                          editor
-                        );
-                      }}
-                      id="content"
-                      name="content"
-                      config={editorConfig}
-                      onChange={(event, editor) => {
-                        const data = editor.getData();
-                        handleChange({
-                          target: { name: "content", value: data },
-                        });
-                      }}
+          </Stack>
+          <Box display={"flex"} mt="10px">
+            <Typography ml={"5px"} mt="5px"></Typography>
+          </Box>
+          <Box display={"flex"} flexDirection={"column"} gap={"10px"}>
+            <Typography bgcolor={"#f3f3f3"} p={"5px"}>
+              YOUR REVIEW
+            </Typography>
+            <Formik
+              initialValues={
+                isEditMode
+                  ? {
+                      title: review.review_title,
+                      content: review.review_content,
+                    }
+                  : { title: "", content: "" }
+              }
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ values, errors, touched, handleChange }) => (
+                <Form>
+                  <FormControl fullWidth sx={{ mb: 2 }}>
+                    <Field
+                      as={OutlinedInput}
+                      id="title"
+                      name="title"
+                      placeholder="Write a title for your review here"
+                      required
                     />
-                  </StyledCKEditorContainer>
-                  <ErrorDisplay
-                    error={errors.content}
-                    touched={touched.content}
-                    id="content-helper-text"
-                  />
-                </FormControl>
-                <Button
-                  type="submit"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ mt: "30px" }}
-                >
-                  Submit
-                </Button>
-              </Form>
-            )}
-          </Formik>
-        </Box>
-      </Paper>
+                    <ErrorDisplay
+                      error={errors.title}
+                      touched={touched.title}
+                      id="title-helper-text"
+                    />
+                  </FormControl>
+
+                  <FormControl fullWidth>
+                    <StyledCKEditorContainer>
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={values.content}
+                        value={values.content}
+                        id="content"
+                        name="content"
+                        config={editorConfig}
+                        onChange={(event, editor) => {
+                          const data = editor.getData();
+                          handleChange({
+                            target: { name: "content", value: data },
+                          });
+                        }}
+                      />
+                    </StyledCKEditorContainer>
+                    <ErrorDisplay
+                      error={errors.content}
+                      touched={touched.content}
+                      id="content-helper-text"
+                    />
+                  </FormControl>
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    fullWidth
+                    sx={{ mt: "30px" }}
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Paper>
+      )}
     </ModalContainer>
   );
 }

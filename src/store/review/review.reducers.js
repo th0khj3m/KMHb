@@ -53,6 +53,15 @@ const reviewSlice = createSlice({
             ...action.payload, // Update specific properties (e.g., review)
           };
         }
+        const existingUserReviewIndex = state.userReviews.findIndex(
+          (review) => review.id === action.payload.id
+        );
+        if (existingUserReviewIndex !== -1) {
+          state.userReviews[existingUserReviewIndex] = {
+            ...state.userReviews[existingUserReviewIndex],
+            ...action.payload,
+          };
+        }
       })
       .addCase(removeReview.pending, (state, action) => {})
       .addCase(removeReview.fulfilled, (state, action) => {

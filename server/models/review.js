@@ -29,6 +29,7 @@ export default class ReviewModel {
       reviews.title as review_title,
       reviews.content AS review_content,
       reviews.created_at AS review_date,
+      reviews.movie_id AS review_movie_id,
       users.username AS user_username
   FROM
       reviews
