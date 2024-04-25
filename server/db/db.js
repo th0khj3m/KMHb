@@ -7,7 +7,7 @@ import { DB } from "../config.js";
 //   connectionString: `postgres://${DB.USER}:${DB.PASSWORD}@${DB.HOST}/${DB.DATABASE}`,
 // });
 
-const pool = new Pool({
+export const pool = new Pool({
   user: DB.USER,
   host: DB.HOST,
   database: DB.DATABASE,

@@ -172,8 +172,8 @@ export default (app, passport) => {
 
   router.get("/logged_in", async (req, res, next) => {
     try {
-      if (req.session.user) {
-        const { id } = req.session.user;
+      if (req.user) {
+        const { id } = req.user;
         const watchlist = await WatchlistServiceInstance.loadMovies(id);
         const ratings = await RatingServiceInstance.loadRatings(id);
         const reviews = await ReviewServiceInstance.loadUserReviews(id);
