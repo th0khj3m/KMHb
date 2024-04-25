@@ -14,6 +14,7 @@ import { Img } from "../routes/root";
 import RatingBox from "./rating-box";
 import { useDispatch, useSelector } from "react-redux";
 import { loadRatings } from "../store/rating/rating.actions";
+import { removeMovie } from "../store/watchlist/watchlist.actions";
 
 export default function UserPage({ fetchedDataDetails, data, type }) {
   const dispatch = useDispatch();
@@ -27,6 +28,10 @@ export default function UserPage({ fetchedDataDetails, data, type }) {
   }, [dispatch, typeRef]);
 
   const title = type === "watchlist" ? "My Watchlist" : "My Ratings";
+
+  const handleRemoveFromWatchlist = (movieId) => {
+    dispatch(removeMovie(movieId));
+  };
 
   return (
     <Container maxWidth="xl" sx={{ my: 3 }}>
@@ -102,6 +107,7 @@ export default function UserPage({ fetchedDataDetails, data, type }) {
                               size="Large"
                               variant="outlined"
                               startIcon={<HighlightOff />}
+                              onClick={() => handleRemoveFromWatchlist(movie.id)}
                             >
                               Remove
                             </Button>

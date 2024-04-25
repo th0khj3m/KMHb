@@ -43,7 +43,10 @@ async function startServer() {
         const result = await RoomModelInstance.createMessage(data);
 
         // Emit the message to other users in the same room
-        io.to(roomId).emit("receive_message", { content: result.content });
+        io.to(roomId).emit("receive_message", {
+          userId,
+          content: result.content,
+        });
         console.log(
           `Message sent in room ${roomId} by user ${userId} is ${result.content}`
         );

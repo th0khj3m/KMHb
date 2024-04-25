@@ -8,7 +8,7 @@ export const checkLoginStatus = createAsyncThunk(
       const response = await isLoggedIn();
       return response;
     } catch (err) {
-      throw err;
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );

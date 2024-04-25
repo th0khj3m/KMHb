@@ -1,6 +1,7 @@
 import * as React from "react";
 import { TextField, Autocomplete, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { searchMovies } from "../store/search/search.actions";
 import { setSearchQuery } from "../store/search/search.reducers";
 
@@ -28,18 +29,17 @@ const Search = () => {
       getOptionLabel={(option) => option?.title ?? ""}
       loading={loading}
       isOptionEqualToValue={(option, value) => option.title === value.title}
-
       renderInput={(params) => (
         <TextField
           {...params}
           variant="outlined"
           fullWidth
-          size="small" // Set size to small
+          size="small"
           InputProps={{
             ...params.InputProps,
             type: "search",
-            style: { backgroundColor: "white" }, // White background
-            borderRadius: "20px", // Add border radius
+            style: { backgroundColor: "white" },
+            borderRadius: "20px",
             endAdornment: (
               <React.Fragment>
                 {loading ? <CircularProgress color="main" size={20} /> : null}
@@ -49,9 +49,18 @@ const Search = () => {
           }}
           inputProps={{
             ...params.inputProps,
-            style: { padding: "5px", fontSize: "14px" }, // Adjust padding and font size
+            style: { padding: "5px", fontSize: "14px" },
           }}
         />
+      )}
+      // Wrap the option with Link component
+      renderOption={(props, option, { inputValue }) => (
+        <Link
+          to={`/movies/${option.id}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <li {...props}>{option.title}</li>
+        </Link>
       )}
     />
   );

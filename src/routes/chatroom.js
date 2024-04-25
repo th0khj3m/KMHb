@@ -19,6 +19,8 @@ import {
   Input,
   Stack,
 } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useDispatch, useSelector } from "react-redux";
 import { addRoom, loadRooms } from "../store/room/room.actions";
@@ -58,7 +60,6 @@ export default function ChatRoom() {
     });
 
     socket.on("receive_message", (newMessage) => {
-      console.log(newMessage);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
     // Clean up the effect when the component unmounts
@@ -128,7 +129,7 @@ export default function ChatRoom() {
 
         <Divider />
         <List>
-          {rooms.map((room, index) => (
+          {rooms.map((room) => (
             <ListItem key={room.id} onClick={() => joinRoom(room.id)}>
               <ListItemText primary={room.name} />
             </ListItem>
@@ -163,8 +164,24 @@ export default function ChatRoom() {
         </Typography>
         <List>
           {messages.map((message, index) => (
-            <ListItem key={index}>
-              <ListItemText primary={`${message.user}: ${message.content}`} />
+            <ListItem
+              key={index}
+              sx={{
+                textAlign: message.userId === user.id ? "right" : "left", // Align messages based on userId
+                "& .MuiListItemText-root": {
+                  textAlign: "inherit", // Ensuring that text alignment is inherited
+                  "& .MuiListItemText-primary": {
+                    display: "inline-block",
+                    maxWidth: "70%",
+                    padding: "8px",
+                    borderRadius: "8px",
+                    backgroundColor:
+                      message.userId === user.id ? "#DCF8C6" : "#EDEDED", // Adjust background based on userId
+                  },
+                },
+              }}
+            >
+              <ListItemText primary={message.content} />
             </ListItem>
           ))}
         </List>
@@ -186,6 +203,8 @@ export default function ChatRoom() {
             color="primary"
             onClick={sendMessage}
             disabled={!currentRoom}
+            sx={{ p: 2 }}
+            endIcon={<SendIcon />}
           >
             Send
           </Button>
