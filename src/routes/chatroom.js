@@ -10,7 +10,6 @@ import {
   Drawer,
   Typography,
   Divider,
-  ListSubheader,
   IconButton,
   Dialog,
   DialogActions,
@@ -20,18 +19,29 @@ import {
   Input,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useDispatch, useSelector } from "react-redux";
+import { loadRooms } from "../store/room/room.actions";
 
 const drawerWidth = 240;
 
 let socket;
 
 export default function ChatRoom() {
+  const dispatch = useDispatch();
+  const { rooms } = useSelector((state) => state.room);
+
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [rooms, setRooms] = useState(["Room 1", "Room 2"]); // Example room names
   const [currentRoom, setCurrentRoom] = useState("");
   const [newRoomName, setNewRoomName] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(loadRooms());
+    };
+    fetchData();
+  });
 
   useEffect(() => {
     //Connect to the WebSocket server
@@ -65,10 +75,9 @@ export default function ChatRoom() {
     setMessages([]);
   };
 
-  const addRoom = () => {
+  const addRoom = async () => {
     if (newRoomName) {
-      setRooms([...rooms, newRoomName]);
-      setNewRoomName(""); // Reset new room name
+      await dispatch(addRoom(newRoomName));
       setOpenDialog(false); // Close dialog
     }
   };

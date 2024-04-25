@@ -1,4 +1,4 @@
-import RoomModel from "../models/room";
+import RoomModel from "../models/room.js";
 const RoomModelInstance = new RoomModel();
 
 export default class RoomService {

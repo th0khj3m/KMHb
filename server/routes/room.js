@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import RoomService from "../services/RoomService";
+import RoomService from "../services/RoomService.js";
 const RoomServiceInstance = new RoomService();
 
 export default (app) => {

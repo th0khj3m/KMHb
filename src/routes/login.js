@@ -10,16 +10,15 @@ import {
   Container,
   FormControl,
 } from "@mui/material";
-import { AuthButton, MediaLoginButton } from "./root";
+import { AuthButton } from "./root";
 
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
-import { initiateOAuth, loginUser } from "../store/auth/auth.actions";
+import { checkLoginStatus, loginUser } from "../store/auth/auth.actions";
 
 import * as Yup from "yup";
 import { Img } from "./root";
-import { accessOAuth } from "../apis/auth";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -31,6 +30,7 @@ export default function Login() {
       // Set submitting state to true to indicate form submission is in progress
       setSubmitting(true);
       await dispatch(loginUser(credentials)).unwrap();
+      await dispatch(checkLoginStatus());
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -40,14 +40,14 @@ export default function Login() {
     }
   };
 
-  const handleMediaLogin = async () => {
-    try {
-      // const response = await accessOAuth();
-      window.location.href = "http://localhost:4000/api/auth/google";
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+  // const handleMediaLogin = async () => {
+  //   try {
+  //     // const response = await accessOAuth();
+  //     window.location.href = "http://localhost:4000/api/auth/google";
+  //   } catch (err) {
+  //     setError(err.message);
+  //   }
+  // };
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required(),

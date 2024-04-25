@@ -34,7 +34,6 @@ const accountSlice = createSlice({
       .addCase(addAccount.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
-        console.log(state.error);
       })
       .addCase(removeAccounts.fulfilled, (state, action) => {
         // Remove the deleted accounts from the state

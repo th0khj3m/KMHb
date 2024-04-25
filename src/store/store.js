@@ -12,6 +12,7 @@ import ratingReducers from "./rating/rating.reducers";
 import reviewReducers from "./review/review.reducers";
 import accountReducers from "./accounts/account.reducers";
 import searchReducers from "./search/search.reducers";
+import roomReducers from "./room/room.reducers";
 
 export default configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export default configureStore({
     rating: ratingReducers,
     review: reviewReducers,
     account: accountReducers,
-    search: searchReducers
+    search: searchReducers,
+    room: roomReducers
   },
 });

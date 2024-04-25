@@ -14,8 +14,10 @@ const RatingServiceInstance = new RatingService();
 import ReviewService from "../services/ReviewService.js";
 const ReviewServiceInstance = new ReviewService();
 import UserModel from "../models/user.js";
-import sendPasswordResetEmail from "../utils/email.js";
 const UserModelInstance = new UserModel();
+import RoomService from "../services/RoomService.js";
+const RoomServiceInstance = new RoomService();
+import sendPasswordResetEmail from "../utils/email.js";
 
 export default (app, passport) => {
   app.use("/api/auth", router);
@@ -172,25 +174,16 @@ export default (app, passport) => {
         const watchlist = await WatchlistServiceInstance.loadMovies(id);
         const ratings = await RatingServiceInstance.loadRatings(id);
         const reviews = await ReviewServiceInstance.loadUserReviews(id);
+        const rooms = await RoomServiceInstance.loadRooms();
         const user = await UserServiceInstance.get({ id });
-        if (req.user.google) {
-          const { displayName, email } = req.user.google;
-          res.status(200).send({
-            watchlist,
-            ratings,
-            reviews,
-            isLoggedIn: true,
-            user: { username: displayName, email },
-          });
-        } else {
-          res.status(200).send({
-            watchlist,
-            ratings,
-            reviews,
-            isLoggedIn: true,
-            user,
-          });
-        }
+        res.status(200).send({
+          rooms,
+          watchlist,
+          ratings,
+          reviews,
+          isLoggedIn: true,
+          user,
+        });
       }
     } catch (err) {
       next(err);
