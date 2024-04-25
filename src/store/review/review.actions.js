@@ -56,7 +56,7 @@ export const updateReview = createAsyncThunk(
 );
 
 export const removeReview = createAsyncThunk(
-  "rating/removeRating",
+  "rating/removeReview",
   async (reviewId, thunkAPI) => {
     try {
       const response = await remove(reviewId);

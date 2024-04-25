@@ -22,6 +22,7 @@ import ProfileMenu from "./menu/profile-menu";
 import { logoutUser } from "../store/auth/auth.actions";
 import useCombinedLoadingState from "../hooks/useCombinedLoadingState";
 import HeaderMenu from "./menu/header-menu";
+import ChatIcon from "@mui/icons-material/Chat";
 
 const MenuItemLink = styled(Link)({
   textDecoration: "none",
@@ -148,6 +149,11 @@ export default function Header() {
               <MenuItemLink to="/watchlist">
                 <BookmarkAdd />
                 <Typography fontWeight={"bold"}>Watchlist</Typography>
+              </MenuItemLink>
+
+              <MenuItemLink to="/chatroom">
+                <ChatIcon />
+                <Typography fontWeight={"bold"}>Chatroom</Typography>
               </MenuItemLink>
             </>
           )}

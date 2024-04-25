@@ -22,6 +22,7 @@ export default function ProfileMenu({
     >
       <MenuItem onClick={() => navigate("/watchlist")}>Watchlist</MenuItem>
       <MenuItem onClick={() => navigate("/ratings")}>Ratings</MenuItem>
+      <MenuItem onClick={() => navigate("/user-reviews")}>Reviews</MenuItem>
       <Divider />
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </StyledMenu>

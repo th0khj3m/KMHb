@@ -15,7 +15,8 @@ import Login from "./login.js";
 import Register from "./register.js";
 import Watchlist from "./watchlist.js";
 import MovieDetails from "./movie-details.js";
-import Reviews from "./reviews.js";
+import Reviews from "./movie-reviews.js";
+
 import CastDetails from "./cast-details.js";
 import Ratings from "./ratings.js";
 import Dashboard from "./admin/dashboard.js";
@@ -26,6 +27,8 @@ import MenuMovies from "./menu/menu-movies.js";
 import MenuCasts from "./menu/menu-casts.js";
 import ForgotPassword from "./forgot-password.js";
 import ResetPasswordPage from "./reset-password.js";
+import UserReviews from "./user-reviews.js";
+import ChatRoom from "./chatroom.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,9 +43,12 @@ const router = createBrowserRouter(
       <Route path="movies/:movieId" element={<MovieDetails />} />
       <Route path="movies/:movieId/reviews" element={<Reviews />} />
       {/* <Route path="reviews/:reviewId" element={<Review />} */}
+
       <Route path="menu/casts" element={<MenuCasts />} />
       <Route path="casts/:castId" element={<CastDetails />} />
 
+      {/*Admin Routes */}
+      <Route path="chatroom" element={<ChatRoom />} />
       <Route
         path="watchlist"
         element={
@@ -56,6 +62,14 @@ const router = createBrowserRouter(
         element={
           <PrivateRoute>
             <Ratings />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="user-reviews"
+        element={
+          <PrivateRoute>
+            <UserReviews />
           </PrivateRoute>
         }
       />
@@ -88,8 +102,7 @@ function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   if (user.role_id === 1) {
-    
-  } 
+  }
   // Load user
   useEffect(() => {
     async function isLoggedIn() {

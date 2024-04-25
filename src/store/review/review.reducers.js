@@ -6,17 +6,23 @@ import {
   removeReview,
   updateReview,
 } from "./review.actions";
+import { checkLoginStatus } from "../auth/auth.actions";
 
 const reviewSlice = createSlice({
   name: "review",
   initialState: {
     reviews: [],
+    userReviews: [],
     error: null,
     loading: false,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(checkLoginStatus.fulfilled, (state, action) => {
+        state.userReviews = action.payload.reviews;
+        state.loading = false;
+      })
       .addCase(loadReviews.pending, (state, action) => {
         state.loading = true;
       })

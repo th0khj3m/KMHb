@@ -17,7 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { loadReviews } from "../store/review/review.actions";
 
-export default function Reviews() {
+export default function MovieReviews() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { movieId } = useParams();

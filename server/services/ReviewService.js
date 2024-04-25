@@ -3,6 +3,16 @@ import ReviewModel from "../models/review.js";
 const ReviewModelInstance = new ReviewModel();
 
 export default class ReviewService {
+
+  async loadUserReviews(id) {
+    try {
+      const reviews = await ReviewModelInstance.findByUserId(id);
+      return reviews;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async create(data) {
     try {
       const reviews = await ReviewModelInstance.create(data);
@@ -14,7 +24,7 @@ export default class ReviewService {
 
   async loadReviews(movie_id) {
     try {
-      const reviews = await ReviewModelInstance.find(movie_id);
+      const reviews = await ReviewModelInstance.findByMovieId(movie_id);
       return reviews;
     } catch (err) {
       throw err;

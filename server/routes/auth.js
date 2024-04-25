@@ -11,6 +11,8 @@ import WatchlistService from "../services/WatchlistService.js";
 const WatchlistServiceInstance = new WatchlistService();
 import RatingService from "../services/RatingService.js";
 const RatingServiceInstance = new RatingService();
+import ReviewService from "../services/ReviewService.js";
+const ReviewServiceInstance = new ReviewService();
 import UserModel from "../models/user.js";
 import sendPasswordResetEmail from "../utils/email.js";
 const UserModelInstance = new UserModel();
@@ -169,12 +171,14 @@ export default (app, passport) => {
         const { id } = req.user;
         const watchlist = await WatchlistServiceInstance.loadMovies(id);
         const ratings = await RatingServiceInstance.loadRatings(id);
+        const reviews = await ReviewServiceInstance.loadUserReviews(id);
         const user = await UserServiceInstance.get({ id });
         if (req.user.google) {
           const { displayName, email } = req.user.google;
           res.status(200).send({
             watchlist,
             ratings,
+            reviews,
             isLoggedIn: true,
             user: { username: displayName, email },
           });
@@ -182,6 +186,7 @@ export default (app, passport) => {
           res.status(200).send({
             watchlist,
             ratings,
+            reviews,
             isLoggedIn: true,
             user,
           });

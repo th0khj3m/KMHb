@@ -22,7 +22,20 @@ export default class ReviewModel {
     }
   }
 
-  async find(movie_id) {
+  async findByUserId(user_id) {
+    try {
+      const statement = `SELECT * FROM reviews WHERE user_id = $1 `;
+      const result = await db.query(statement, [user_id]);
+      if (result.rows?.length) {
+        return result.rows;
+      }
+      return [];
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findByMovieId(movie_id) {
     try {
       const statement = `SELECT
       reviews.id AS review_id,
