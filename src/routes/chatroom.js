@@ -17,6 +17,7 @@ import {
   DialogContentText,
   DialogTitle,
   Input,
+  Stack,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useDispatch, useSelector } from "react-redux";
@@ -116,12 +117,15 @@ export default function ChatRoom() {
         variant="permanent"
         anchor="left"
       >
-        <Typography variant="h6" noWrap component="div" sx={{ p: 2 }}>
-          Chat Rooms
-        </Typography>
-        <IconButton color="primary" onClick={() => setOpenDialog(true)}>
-          <AddCircleOutlineIcon />
-        </IconButton>
+        <Stack direction={"row"} mt={8}>
+          <Typography variant="h6" noWrap component="div" sx={{ p: 2 }}>
+            Chat Rooms
+          </Typography>
+          <IconButton color="primary" onClick={() => setOpenDialog(true)}>
+            <AddCircleOutlineIcon />
+          </IconButton>
+        </Stack>
+
         <Divider />
         <List>
           {rooms.map((room, index) => (

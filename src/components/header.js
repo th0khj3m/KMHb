@@ -89,8 +89,8 @@ export default function Header() {
   };
 
   return (
-    <Box component="header" mt={8}>
-      <AppBar position="fixed">
+    <Box component="header" mt={8} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
+      <AppBar position="fixed" >
         {isLoading && (
           <Box
             sx={{
