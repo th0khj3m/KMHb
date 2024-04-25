@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useDispatch, useSelector } from "react-redux";
-import { loadRooms } from "../store/room/room.actions";
+import { addRoom, loadRooms } from "../store/room/room.actions";
 
 const drawerWidth = 240;
 
@@ -41,20 +41,20 @@ export default function ChatRoom() {
       await dispatch(loadRooms());
     };
     fetchData();
-  });
+  }, [dispatch]);
 
-  useEffect(() => {
-    //Connect to the WebSocket server
-    socket = io("http://localhost:4000");
-    socket.emit("join_room", { user: "Username", room: "RoomID" });
-    socket.on("receive_message", (newMessage) => {
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-    });
-    // Clean up the effect when the component unmounts
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+//   useEffect(() => {
+//     //Connect to the WebSocket server
+//     socket = io("http://localhost:4000");
+//     socket.emit("join_room", { user: "Username", room: "RoomID" });
+//     socket.on("receive_message", (newMessage) => {
+//       setMessages((prevMessages) => [...prevMessages, newMessage]);
+//     });
+//     // Clean up the effect when the component unmounts
+//     return () => {
+//       socket.disconnect();
+//     };
+//   }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -68,6 +68,7 @@ export default function ChatRoom() {
     }
   };
 
+
   const joinRoom = (room) => {
     setCurrentRoom(room);
     socket.emit("join_room", { user: "Username", room });
@@ -75,7 +76,7 @@ export default function ChatRoom() {
     setMessages([]);
   };
 
-  const addRoom = async () => {
+  const add = async () => {
     if (newRoomName) {
       await dispatch(addRoom(newRoomName));
       setOpenDialog(false); // Close dialog
@@ -100,6 +101,7 @@ export default function ChatRoom() {
         variant="permanent"
         anchor="left"
       >
+
         <Typography variant="h6" noWrap component="div" sx={{ p: 2 }}>
           Chat Rooms
         </Typography>
@@ -109,8 +111,8 @@ export default function ChatRoom() {
         <Divider />
         <List>
           {rooms.map((room, index) => (
-            <ListItem key={index} onClick={() => joinRoom(room)}>
-              <ListItemText primary={room} />
+            <ListItem key={room.id} onClick={() => joinRoom(room.name)}>
+              <ListItemText primary={room.name} />
             </ListItem>
           ))}
         </List>
@@ -133,7 +135,7 @@ export default function ChatRoom() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose}>Cancel</Button>
-          <Button onClick={addRoom}>Add</Button>
+          <Button onClick={add}>Add</Button>
         </DialogActions>
       </Dialog>
 

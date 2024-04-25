@@ -1,10 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  isLoggedIn,
-  login,
-  logout,
-  register,
-} from "../../apis/auth";
+import { isLoggedIn, login, logout, register } from "../../apis/auth";
 
 export const checkLoginStatus = createAsyncThunk(
   "auth/checkLogin",
@@ -13,7 +8,10 @@ export const checkLoginStatus = createAsyncThunk(
       const response = await isLoggedIn();
       return response;
     } catch (err) {
-      throw thunkAPI.rejectWithValue(err);
+      throw thunkAPI.rejectWithValue({
+        message: err.message,
+        code: err.code,
+      });
     }
   }
 );

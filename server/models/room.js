@@ -6,10 +6,10 @@ export default class RoomModel {
   async createRoom(name) {
     try {
       // Generate SQL statement - using helper for dynamic parameter injection
-      const statement = pgp.helpers.insert(data, null, "rooms") + "RETURNING *";
+      const statement = pgp.helpers.insert(name, null, "rooms") + "RETURNING *";
 
       // Execute SQL statment
-      const result = await db.query(statement, [name]);
+      const result = await db.query(statement);
 
       if (result.rows?.length) {
         return result.rows[0];

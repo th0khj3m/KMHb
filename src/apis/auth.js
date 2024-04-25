@@ -6,7 +6,7 @@ export const login = async (credentials) => {
     const response = await API.post("auth/login", credentials);
     return response.data;
   } catch (err) {
-    throw err.response.data;
+    throw err;
   }
 };
 
@@ -16,7 +16,7 @@ export const register = async (credentials) => {
     const response = await API.post("auth/register", credentials);
     return response.data;
   } catch (err) {
-    throw err.response.data;
+    throw err;
   }
 };
 
@@ -35,7 +35,7 @@ export const isLoggedIn = async () => {
     const response = await API.get("auth/logged_in");
     return response.data;
   } catch (err) {
-    throw err.response.data;
+    throw err;
   }
 };
 

@@ -3,9 +3,9 @@ import { createRoom, fetchRooms } from "../../apis/rooms";
 
 export const loadRooms = createAsyncThunk(
   "room/loadRooms",
-  async (movieId, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      const response = await fetchRooms(movieId);
+      const response = await fetchRooms();
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

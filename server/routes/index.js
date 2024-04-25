@@ -4,6 +4,7 @@ import watchlistRouter from "./watchlist.js";
 import ratingRouter from "./rating.js";
 import reviewRouter from "./review.js";
 import statisticsRouter from "./statistics.js";
+import roomRouter from "./room.js";
 
 export default (app, passport) => {
   authRouter(app, passport);
@@ -12,4 +13,5 @@ export default (app, passport) => {
   ratingRouter(app);
   reviewRouter(app);
   statisticsRouter(app);
+  roomRouter(app);
 };

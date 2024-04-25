@@ -9,9 +9,9 @@ export const fetchRooms = async () => {
   }
 };
 
-export const createRoom = async () => {
+export const createRoom = async (name) => {
   try {
-    const response = await API.post("rooms");
+    const response = await API.post("rooms", {name});
     return response.data;
   } catch (err) {
     throw err.response.data;

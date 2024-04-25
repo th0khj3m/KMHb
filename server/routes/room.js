@@ -4,7 +4,7 @@ import RoomService from "../services/RoomService.js";
 const RoomServiceInstance = new RoomService();
 
 export default (app) => {
-  app.use("/api/rooms", isLoggedIn, router);
+  app.use("/api/rooms", router);
 
   router.get("/", async (req, res, next) => {
     try {
@@ -15,7 +15,7 @@ export default (app) => {
     }
   });
 
-  router.post("/rooms", async (req, res, next) => {
+  router.post("/", async (req, res, next) => {
     try {
       const { name } = req.body;
       const response = await RoomServiceInstance.addRoom(name);
@@ -39,7 +39,11 @@ export default (app) => {
     try {
       const { roomId } = req.params;
       const { id, content } = req.user;
-      const response = await RoomServiceInstance.addMessage({user_id: id, roomId, content});
+      const response = await RoomServiceInstance.addMessage({
+        user_id: id,
+        roomId,
+        content,
+      });
       res.status(200).send(response);
     } catch (err) {
       next(err);

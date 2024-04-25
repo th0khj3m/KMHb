@@ -376,9 +376,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/rooms/rooms": {
+      },
       "post": {
         "description": "",
         "parameters": [
