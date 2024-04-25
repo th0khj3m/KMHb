@@ -97,7 +97,7 @@ export default function Login() {
                     {error}
                   </Alert>
                 )}
-                <Link to="/forgot-password">
+                <Link to="/forgot-password/new">
                   <Typography
                     mr="auto"
                     py={3}

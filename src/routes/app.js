@@ -5,7 +5,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkLoginStatus } from "../store/auth/auth.actions.js";
 
@@ -29,6 +29,7 @@ import ForgotPassword from "./forgot-password.js";
 import ResetPasswordPage from "./reset-password.js";
 import UserReviews from "./user-reviews.js";
 import ChatRoom from "./chatroom.js";
+import PasswordRequestSent from "./request-sent.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,7 +37,8 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-      <Route path="forgot-password" element={<ForgotPassword />} />
+      <Route path="forgot-password/new" element={<ForgotPassword />} />
+      <Route path="forgot-password/sent" element={<PasswordRequestSent />} />
       <Route path="reset-password/:token" element={<ResetPasswordPage />} />
 
       <Route path="menu/movies" element={<MenuMovies />} />

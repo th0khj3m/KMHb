@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Typography,
@@ -11,24 +12,34 @@ import API from "../apis/client";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await API.post("auth/forgot-password", { email });
-      setMessage("Password reset email sent successfully");
-    } catch (error) {
-      setMessage(error.response.data.message);
+      navigate("/forgot-password/sent");
+    } catch (err) {
+      console.log(err);
     }
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 3 }}>
-      <Typography variant="h4" gutterBottom>
+    <Container
+      maxWidth="md"
+      sx={{
+        mt: 3,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "50vh",
+      }}
+    >
+      <Typography variant="h4" gutterBottom mb={4}>
         Request Password Reset
       </Typography>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ width: "60%" }}>
         <InputLabel htmlFor="email">Please enter your email:</InputLabel>
         <Stack textAlign={"center"}>
           <TextField
@@ -53,10 +64,6 @@ const ForgotPasswordForm = () => {
           </Button>
         </Stack>
       </form>
-
-      <Typography variant="body1" align="center" gutterBottom>
-        {message}
-      </Typography>
     </Container>
   );
 };
