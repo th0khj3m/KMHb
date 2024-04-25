@@ -6,6 +6,8 @@ import { Server } from "socket.io";
 const io = new Server(server, { cors: { origin: "*" } });
 import { SERVER_PORT } from "./config.js";
 import loaders from "./loaders/index.js";
+import RoomModel from "./models/room.js";
+const RoomModelInstance = new RoomModel();
 
 //Swagger UI and document
 import swaggerUi from "swagger-ui-express";
@@ -23,15 +25,14 @@ async function startServer() {
 
     socket.on("join_room", async (data) => {
       const { userId, roomId } = data;
-      socket.join(roomId);
+      socket.join(roomId); //Join Room id
       console.log(`User ${userId} joined room ${roomId}`);
       // Broadcast to the room that a new user has joined
-      socket.to(roomId).emit("user_joined", userId);
-
-      // Optionally send a welcome message or other notifications
-      socket.emit("welcome", {
-        message: "Welcome to the room!",
-        roomId: roomId,
+      io.to(roomId).emit("user_joined", userId);
+      // Testing sending a message immediately after joining
+      io.to(roomId).emit("receive_message", {
+        user: "System",
+        content: "Welcome to the room!",
       });
     });
 
@@ -39,14 +40,13 @@ async function startServer() {
       const { userId, roomId, content } = data;
       try {
         // Save the message to the database
-        const result = await dbPool.query(
-          "INSERT INTO chatroom_messages (user_id, room_id, content) VALUES ($1, $2, $3) RETURNING *",
-          [userId, roomId, content]
-        );
+        const result = await RoomModelInstance.createMessage(data);
 
         // Emit the message to other users in the same room
-        io.to(roomId).emit("receive_message", result.rows[0]);
-        console.log(`Message sent in room ${roomId} by user ${userId}`);
+        io.to(roomId).emit("receive_message", {content: result.content});
+        console.log(
+          `Message sent in room ${roomId} by user ${userId} is ${result.content}`
+        );
       } catch (err) {
         console.error("Database error:", err);
         socket.emit("error", {
@@ -70,7 +70,7 @@ async function startServer() {
     });
   });
 
-  app.listen(SERVER_PORT, () =>
+  server.listen(SERVER_PORT, () =>
     console.log(`Listening on port ${SERVER_PORT}...`)
   );
 }

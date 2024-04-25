@@ -54,10 +54,10 @@ export default class RoomModel {
 
   async createMessage(data) {
     try {
-      const { user_id, roomId, content } = data;
-      const result = await dbPool.query(
+      const { userId, roomId, content } = data;
+      const result = await db.query(
         "INSERT INTO chatroom_messages (user_id, room_id, content) VALUES ($1, $2, $3) RETURNING *",
-        [user_id, roomId, content]
+        [userId, roomId, content]
       );
       if (result.rows?.length) {
         return result.rows[0];

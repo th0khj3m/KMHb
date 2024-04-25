@@ -24,11 +24,14 @@ import { addRoom, loadRooms } from "../store/room/room.actions";
 
 const drawerWidth = 240;
 
+const socketURL = "http://localhost:4000"; // WebSocket server URL
+
 let socket;
 
 export default function ChatRoom() {
   const dispatch = useDispatch();
   const { rooms } = useSelector((state) => state.room);
+  const user = useSelector((state) => state.user);
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -43,42 +46,54 @@ export default function ChatRoom() {
     fetchData();
   }, [dispatch]);
 
-//   useEffect(() => {
-//     //Connect to the WebSocket server
-//     socket = io("http://localhost:4000");
-//     socket.emit("join_room", { user: "Username", room: "RoomID" });
-//     socket.on("receive_message", (newMessage) => {
-//       setMessages((prevMessages) => [...prevMessages, newMessage]);
-//     });
-//     // Clean up the effect when the component unmounts
-//     return () => {
-//       socket.disconnect();
-//     };
-//   }, []);
+  useEffect(() => {
+    //Connect to the WebSocket server
+    socket = io(socketURL);
+
+    socket.on("connect", () => {
+      console.log("Socket connected:", socket.connected);
+      // Ensure you emit the 'join_room' with correct identifiers
+      socket.emit("join_room", { userId: user.id, roomId: currentRoom });
+    });
+
+    socket.on("receive_message", (newMessage) => {
+      console.log(newMessage);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+    // Clean up the effect when the component unmounts
+    return () => {
+      socket.emit("leave_room", { userId: user.id, roomId: currentRoom });
+      socket.disconnect();
+    };
+  }, [currentRoom, user.id]);
 
   const sendMessage = (event) => {
     event.preventDefault();
-    if (message) {
+    if (message && currentRoom) {
       socket.emit("send_message", {
-        user: "Username",
-        room: "RoomID",
+        userId: user.id,
+        roomId: currentRoom,
         content: message,
       });
       setMessage("");
     }
   };
 
-
   const joinRoom = (room) => {
-    setCurrentRoom(room);
-    socket.emit("join_room", { user: "Username", room });
-    // Reset messages when joining new room
-    setMessages([]);
+    if (room !== currentRoom) {
+      if (currentRoom) {
+        socket.emit("leave_room", { userId: user.id, roomId: currentRoom });
+      }
+      setCurrentRoom(room);
+      socket.emit("join_room", { userId: user.id, roomId: room });
+      setMessages([]);
+    }
   };
 
   const add = async () => {
     if (newRoomName) {
       await dispatch(addRoom(newRoomName));
+      setNewRoomName("");
       setOpenDialog(false); // Close dialog
     }
   };
@@ -101,7 +116,6 @@ export default function ChatRoom() {
         variant="permanent"
         anchor="left"
       >
-
         <Typography variant="h6" noWrap component="div" sx={{ p: 2 }}>
           Chat Rooms
         </Typography>
@@ -111,7 +125,7 @@ export default function ChatRoom() {
         <Divider />
         <List>
           {rooms.map((room, index) => (
-            <ListItem key={room.id} onClick={() => joinRoom(room.name)}>
+            <ListItem key={room.id} onClick={() => joinRoom(room.id)}>
               <ListItemText primary={room.name} />
             </ListItem>
           ))}
