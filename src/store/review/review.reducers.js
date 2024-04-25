@@ -60,6 +60,12 @@ const reviewSlice = createSlice({
           (review) => review.id === action.payload.id
         ); //Find index of movie removed in reviews
         state.reviews.splice(index, 1); //Remove
+        const userIndex = state.userReviews.findIndex(
+          (review) => review.id === action.payload.id
+        );
+        if (userIndex !== -1) {
+          state.userReviews.splice(userIndex, 1);
+        }
       });
   },
 });

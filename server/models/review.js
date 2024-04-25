@@ -24,7 +24,18 @@ export default class ReviewModel {
 
   async findByUserId(user_id) {
     try {
-      const statement = `SELECT * FROM reviews WHERE user_id = $1 `;
+      const statement = `SELECT
+      reviews.id AS review_id,
+      reviews.title as review_title,
+      reviews.content AS review_content,
+      reviews.created_at AS review_date,
+      users.username AS user_username
+  FROM
+      reviews
+  JOIN
+      users ON reviews.user_id = users.id
+  WHERE
+      reviews.user_id = $1`;
       const result = await db.query(statement, [user_id]);
       if (result.rows?.length) {
         return result.rows;

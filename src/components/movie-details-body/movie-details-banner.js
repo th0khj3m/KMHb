@@ -1,5 +1,13 @@
 import React from "react";
-import { Typography, Divider, Chip, Box, Grid, Container, Stack } from "@mui/material";
+import {
+  Typography,
+  Divider,
+  Chip,
+  Box,
+  Grid,
+  Container,
+  Stack,
+} from "@mui/material";
 import { WhiteTypography } from "../../routes/root";
 import StarIcon from "@mui/icons-material/Star";
 import RatingBox from "../rating-box";
@@ -13,7 +21,11 @@ export default function MovieDetailsBanner({ movie }) {
   const usRelease = movie?.releaseDates?.results.find(
     (result) => result.iso_3166_1 === "US"
   );
-  const movieCertification = usRelease?.release_dates[0]?.certification ?? "PG";
+  const movieCertification =
+    usRelease?.release_dates[0]?.certification !== undefined &&
+    usRelease?.release_dates[0]?.certification !== ""
+      ? usRelease.release_dates[0].certification
+      : "PG";
   const movieRating = movie?.vote_average.toFixed(1);
   const movieKey = movie?.newestTrailer?.key;
 

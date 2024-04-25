@@ -5,7 +5,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkLoginStatus } from "../store/auth/auth.actions.js";
 
@@ -15,7 +15,7 @@ import Login from "./login.js";
 import Register from "./register.js";
 import Watchlist from "./watchlist.js";
 import MovieDetails from "./movie-details.js";
-import Reviews from "./movie-reviews.js";
+import MovieReviews from "./movie-reviews.js";
 
 import CastDetails from "./cast-details.js";
 import Ratings from "./ratings.js";
@@ -41,7 +41,7 @@ const router = createBrowserRouter(
 
       <Route path="menu/movies" element={<MenuMovies />} />
       <Route path="movies/:movieId" element={<MovieDetails />} />
-      <Route path="movies/:movieId/reviews" element={<Reviews />} />
+      <Route path="movies/:movieId/reviews" element={<MovieReviews />} />
       {/* <Route path="reviews/:reviewId" element={<Review />} */}
 
       <Route path="menu/casts" element={<MenuCasts />} />
@@ -100,10 +100,7 @@ const router = createBrowserRouter(
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  if (user.role_id === 1) {
-  }
-  // Load user
+
   useEffect(() => {
     async function isLoggedIn() {
       await dispatch(checkLoginStatus());

@@ -5,9 +5,9 @@ export default function useModal() {
   const [openModal, setOpenModal] = useState(false);
   const [modalIndex, setModalIndex] = useState(null);
 
-  const handleOpenModal = (movieId) => {
+  const handleOpenModal = (modalIndex) => {
     setOpenModal(true);
-    setModalIndex(movieId);
+    setModalIndex(modalIndex);
   };
 
   const handleCloseModal = () => {

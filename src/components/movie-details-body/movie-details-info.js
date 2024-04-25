@@ -12,18 +12,14 @@ import { Img } from "../../routes/root";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadReviews } from "../../store/review/review.actions";
+import ReviewCard from "../review-card";
 
 export default function MovieDetailsInfo({ movie }) {
   const dispatch = useDispatch();
   const { reviews } = useSelector((state) => state.review);
   const review = reviews[0];
-  const releaseDate = new Date(review?.review_date);
-  const formattedReviewDate = releaseDate?.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
   const { casts } = movie;
+
   useEffect(() => {
     try {
       const fetchReviews = async () => {
@@ -84,39 +80,7 @@ export default function MovieDetailsInfo({ movie }) {
             <Typography variant="h5" component="h2" fontWeight={"600"}>
               User reviews
             </Typography>
-            {reviews.length > 0 && (
-              <Paper
-                elevation={3}
-                sx={{
-                  display: "flex",
-                  gap: "10px",
-                  flexDirection: "column",
-                  my: "15px",
-                }}
-              >
-                <Box my="15px" ml="15px">
-                  <Typography fontWeight={"600"}>{review.review_title}</Typography>
-                  <Box display={"flex"} mb={"15px"} alignItems={"center"}>
-                    <Typography>
-                      Written by{" "}
-                      <Typography variant="span" fontWeight={"bold"} mr={0.6}>
-                        {review.user_username}
-                      </Typography>
-                      on {formattedReviewDate}
-                    </Typography>
-                  </Box>
-                  <Typography>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: review.review_content,
-                      }}
-                    />
-                    {/* <Link>read the rest.</Link> */}
-                  </Typography>
-                </Box>
-              </Paper>
-            )}
-
+            {reviews.length > 0 && <ReviewCard review={review} />}
             <Link
               to={`/movies/${movie.id}/reviews`}
               style={{ textDecoration: "none" }}
@@ -126,10 +90,6 @@ export default function MovieDetailsInfo({ movie }) {
               </Typography>
             </Link>
           </Box>
-
-          <Divider />
-
-          <Divider />
         </Grid>
         <Grid item md={3} m="15px">
           {movie && (

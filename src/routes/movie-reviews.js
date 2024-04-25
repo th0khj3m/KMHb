@@ -1,14 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Box,
-  Grid,
-  Button,
-  Paper,
-  IconButton,
-  Typography,
-  Container,
-} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+import { Grid, Button, Container } from "@mui/material";
 import { Create as CreateIcon } from "@mui/icons-material";
 import ModalRender from "../components/modal-render";
 import ReviewModal from "../components/modal/review-modal";
@@ -16,6 +7,7 @@ import useModal from "../hooks/useModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { loadReviews } from "../store/review/review.actions";
+import ReviewCard from "../components/review-card";
 
 export default function MovieReviews() {
   const navigate = useNavigate();
@@ -33,7 +25,7 @@ export default function MovieReviews() {
     } catch (err) {
       console.log(err);
     }
-  });
+  }, [dispatch, movieId]);
 
   const handleClick = () => {
     if (!isAuthenticated) {
@@ -66,36 +58,7 @@ export default function MovieReviews() {
         </Grid>
         <Grid item md={9}>
           {reviews.map((review, index) => (
-            <Paper elevation={3} sx={{ mb: 4 }} key={index}>
-              <Box p={"15px"}>
-                <Grid container ml={"-8px"}>
-                  <Grid item>
-                    <IconButton>
-                      <Avatar
-                        alt="user-profile"
-                        src=""
-                        sx={{ width: 47, height: 47 }}
-                      />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <Box display={"flex"} flexDirection={"column"}>
-                      <Typography fontWeight={"bold"} fontSize={"20px"}>
-                        {review.title}
-                      </Typography>
-                      <Box display={"flex"} alignItems={"center"} gap={"10px"}>
-                        <Typography>Written by user on date</Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-                </Grid>
-                <Box>
-                  <Typography component={"p"} mt={"10px"}>
-                    {review.content}
-                  </Typography>
-                </Box>
-              </Box>
-            </Paper>
+            <ReviewCard review={review} />
           ))}
         </Grid>
       </Grid>
