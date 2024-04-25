@@ -4,9 +4,10 @@ import API from "./client";
 export const login = async (credentials) => {
   try {
     const response = await API.post("auth/login", credentials);
+    console.log(response);
     return response.data;
   } catch (err) {
-    throw err;
+    throw err.response.data;
   }
 };
 
@@ -16,7 +17,7 @@ export const register = async (credentials) => {
     const response = await API.post("auth/register", credentials);
     return response.data;
   } catch (err) {
-    throw err;
+    throw err.response.data;
   }
 };
 
@@ -35,7 +36,7 @@ export const isLoggedIn = async () => {
     const response = await API.get("auth/logged_in");
     return response.data;
   } catch (err) {
-    throw err;
+    throw err.response.data;
   }
 };
 
@@ -43,6 +44,6 @@ export const logout = async () => {
   try {
     await API.get("auth/logout");
   } catch (err) {
-    throw err;
+    throw err.response.data;
   }
 };

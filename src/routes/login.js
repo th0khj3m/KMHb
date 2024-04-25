@@ -30,7 +30,7 @@ export default function Login() {
       // Set submitting state to true to indicate form submission is in progress
       setSubmitting(true);
       await dispatch(loginUser(credentials)).unwrap();
-      await dispatch(checkLoginStatus());
+      dispatch(checkLoginStatus());
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -39,15 +39,6 @@ export default function Login() {
       setSubmitting(false);
     }
   };
-
-  // const handleMediaLogin = async () => {
-  //   try {
-  //     // const response = await accessOAuth();
-  //     window.location.href = "http://localhost:4000/api/auth/google";
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required(),

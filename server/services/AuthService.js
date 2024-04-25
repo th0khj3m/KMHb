@@ -12,7 +12,6 @@ export default class AuthService {
     try {
       // Check if user exists
       const user = await UserModelInstance.findOneByUsername(username);
-
       // If no user found, reject
       if (!user) {
         throw createError(

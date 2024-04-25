@@ -29,10 +29,13 @@ export default (app, passport) => {
     async (req, res, next) => {
       try {
         const { username, password } = req.body;
+
         const user = await AuthServiceInstance.login({
           username,
           password,
         });
+        // req.session.userId = user.id;
+        // req.session.username= user.username;
         res.status(200).send(user);
       } catch (err) {
         next(err); //Forward the error to error handling middleware
@@ -169,8 +172,8 @@ export default (app, passport) => {
 
   router.get("/logged_in", async (req, res, next) => {
     try {
-      if (req.user) {
-        const { id } = req.user;
+      if (req.session.user) {
+        const { id } = req.session.user;
         const watchlist = await WatchlistServiceInstance.loadMovies(id);
         const ratings = await RatingServiceInstance.loadRatings(id);
         const reviews = await ReviewServiceInstance.loadUserReviews(id);

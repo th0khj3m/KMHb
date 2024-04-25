@@ -2,7 +2,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import session from "express-session";
 import { SESSION_SECRET } from "../config.js";
-
+import connectPgSimple from "connect-pg-simple";
 export default async (app) => {
   // Enable Cross Origin Resource Sharing to all origins by default
   app.use(cors({ credentials: true, origin: "http://localhost:3006" }));
@@ -15,8 +15,8 @@ export default async (app) => {
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.set("trust proxy", 1);
-
   // Create a session
+
   app.use(
     session({
       secret: SESSION_SECRET, // Sign the session ID cookie
