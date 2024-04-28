@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createRoom, fetchRooms } from "../../apis/rooms";
+import { createRoom, fetchRooms, remove, update } from "../../apis/rooms";
 
 export const loadRooms = createAsyncThunk(
   "room/loadRooms",
@@ -18,6 +18,32 @@ export const addRoom = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await createRoom(data);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+
+export const updateRoom = createAsyncThunk(
+  "room/updateRoom",
+  async (data, thunkAPI) => {
+    try {
+      const response = await update(data);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+
+export const deleteRoom = createAsyncThunk(
+  "room/deleteRoom",
+  async (room_id, thunkAPI) => {
+    try {
+      const response = await remove(room_id);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

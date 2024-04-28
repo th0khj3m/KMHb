@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { checkLoginStatus } from "../auth/auth.actions";
-import { addRoom, loadRooms } from "./room.actions";
+import { addRoom, deleteRoom, loadRooms, updateRoom } from "./room.actions";
 
 const roomsSlice = createSlice({
   name: "room",
@@ -35,6 +35,27 @@ const roomsSlice = createSlice({
       .addCase(addRoom.fulfilled, (state, action) => {
         state.rooms.push(action.payload);
         state.loading = false;
+      })
+      .addCase(updateRoom.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(updateRoom.fulfilled, (state, action) => {
+        const existingRoomIndex = state.rooms.findIndex(
+          (room) => room.id === action.payload.id
+        );
+        if (existingRoomIndex !== -1) {
+          state.rooms[existingRoomIndex] = {
+            ...state.rooms[existingRoomIndex],
+            ...action.payload,
+          };
+        }
+      })
+      .addCase(deleteRoom.pending, (state, action) => {})
+      .addCase(deleteRoom.fulfilled, (state, action) => {
+        const index = state.rooms.findIndex(
+          (room) => room.id === action.payload.id
+        ); //Find index of movie removed in reviews
+        state.rooms.splice(index, 1); //Remove
       });
   },
 });
