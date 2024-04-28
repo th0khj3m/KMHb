@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -48,6 +49,8 @@ export default function ChatRoom() {
     mode: "add",
     roomId: null,
   });
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [roomToDelete, setRoomToDelete] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -114,6 +117,15 @@ export default function ChatRoom() {
     });
   };
 
+  const handleDeleteRoom = async () => {
+    if (roomToDelete) {
+      await dispatch(deleteRoom(roomToDelete));
+      if (currentRoom === roomToDelete) setCurrentRoom("");
+      setDeleteDialogOpen(false);
+      setRoomToDelete(null);
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
@@ -149,6 +161,15 @@ export default function ChatRoom() {
               />
               <IconButton onClick={() => openRoomDialog("edit", room)}>
                 <EditIcon />
+              </IconButton>
+              <IconButton
+                edge="end"
+                onClick={() => {
+                  setDeleteDialogOpen(true);
+                  setRoomToDelete(room.id);
+                }}
+              >
+                <DeleteIcon />
               </IconButton>
             </ListItem>
           ))}
@@ -187,6 +208,26 @@ export default function ChatRoom() {
           </Button>
           <Button onClick={handleRoomDialog}>
             {roomDialog.mode === "add" ? "Add" : "Update"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Room Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
+        <DialogTitle>Delete Room</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this room? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleDeleteRoom} color="error">
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
