@@ -21,9 +21,9 @@ export const loadRooms = createAsyncThunk(
 
 export const loadMessages = createAsyncThunk(
   "room/loadMessages",
-  async (_, thunkAPI) => {
+  async (room_id, thunkAPI) => {
     try {
-      const response = await fetchMessages();
+      const response = await fetchMessages(room_id);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

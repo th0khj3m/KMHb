@@ -29,6 +29,7 @@ import {
   loadRooms,
   updateRoom,
   deleteRoom,
+  loadMessages,
 } from "../store/room/room.actions";
 
 const drawerWidth = 240;
@@ -54,10 +55,10 @@ export default function ChatRoom() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(loadRooms());
+      await dispatch(loadMessages(currentRoom));
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, currentRoom]);
 
   useEffect(() => {
     socket = io(socketURL);
@@ -69,6 +70,8 @@ export default function ChatRoom() {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
     return () => {
+      socket.off("connect");
+      socket.off("receive_message");
       socket.emit("leave_room", { userId: user.id, roomId: currentRoom });
       socket.disconnect();
     };
@@ -86,14 +89,22 @@ export default function ChatRoom() {
     }
   };
 
-  const joinRoom = (room) => {
+  const joinRoom = async (room) => {
     if (room !== currentRoom) {
       if (currentRoom) {
         socket.emit("leave_room", { userId: user.id, roomId: currentRoom });
       }
-      setCurrentRoom(room);
       socket.emit("join_room", { userId: user.id, roomId: room });
+      setCurrentRoom(room);
       setMessages([]);
+      try {
+        const messages = await dispatch(loadMessages(room)).unwrap();
+        // Log the fetched messages to see what's being returned
+        console.log("Fetched messages:", messages);
+        setMessages(messages);
+      } catch (error) {
+        console.error("Failed to load messages:", error);
+      }
     }
   };
 
@@ -150,7 +161,7 @@ export default function ChatRoom() {
         </Stack>
         <Divider />
         <List>
-          {rooms.map((room) => (
+          {Object.values(rooms).map((room) => (
             <ListItem
               key={room.id}
               sx={{ display: "flex", justifyContent: "space-between" }}

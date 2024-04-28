@@ -27,6 +27,6 @@ export default configureStore({
     review: reviewReducers,
     account: accountReducers,
     search: searchReducers,
-    room: roomReducers
+    room: roomReducers,
   },
 });
