@@ -129,6 +129,7 @@ export default function MovieDetailsBanner({ movie }) {
               src={`https://www.youtube.com/embed/${movieKey}`}
               title={movie?.title}
               style={{ flex: 1 }}
+              allowFullScreen
             />
           )}
         </Box>

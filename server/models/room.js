@@ -67,4 +67,33 @@ export default class RoomModel {
       throw err;
     }
   }
+
+  async update({ room_id, name }) {
+    try {
+      const result = await db.query(
+        "UPDATE rooms SET name = $1 WHERE id = $2 RETURNING *",
+        [name, room_id]
+      );
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+      return null;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async delete(room_id) {
+    try {
+      const result = await db.query("DELETE FROM rooms WHERE id = $1 RETURNING *", [
+        room_id,
+      ]);
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+      return null;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

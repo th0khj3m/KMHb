@@ -49,4 +49,25 @@ export default (app) => {
       next(err);
     }
   });
+
+  router.put("/:roomId", async (req, res, next) => {
+    try {
+      const { roomId } = req.params;
+      const { name } = req.body;
+      const response = await RoomServiceInstance.updateRoom({room_id: roomId, name});
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.delete("/:roomId", async (req, res, next) => {
+    try {
+      const { roomId } = req.params;
+      const response = await RoomServiceInstance.deleteRoom(roomId);
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
 };

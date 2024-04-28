@@ -38,4 +38,22 @@ export default class RoomService {
       throw err;
     }
   }
+
+  async updateRoom(data) {
+    try {
+      const results = await RoomModelInstance.update(data);
+      return results;
+    } catch (err) {
+      throw err;
+    }
+  }
+  
+  async deleteRoom(roomId) {
+    try {
+      const results = await RoomModelInstance.delete(roomId);
+      return results;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
