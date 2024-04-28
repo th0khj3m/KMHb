@@ -30,10 +30,10 @@ async function startServer() {
       // Broadcast to the room that a new user has joined
       io.to(roomId).emit("user_joined", userId);
       // Testing sending a message immediately after joining
-      io.to(roomId).emit("receive_message", {
-        user: "System",
-        content: "Welcome to the room!",
-      });
+      // io.to(roomId).emit("receive_message", {
+      //   user: "System",
+      //   content: "Welcome to the room!",
+      // });
     });
 
     socket.on("send_message", async (data) => {
@@ -44,7 +44,7 @@ async function startServer() {
 
         // Emit the message to other users in the same room
         io.to(roomId).emit("receive_message", {
-          userId,
+          user_id: userId,
           content: result.content,
         });
         console.log(

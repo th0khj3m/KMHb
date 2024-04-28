@@ -26,7 +26,6 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addRoom,
-  loadRooms,
   updateRoom,
   deleteRoom,
   loadMessages,
@@ -99,8 +98,6 @@ export default function ChatRoom() {
       setMessages([]);
       try {
         const messages = await dispatch(loadMessages(room)).unwrap();
-        // Log the fetched messages to see what's being returned
-        console.log("Fetched messages:", messages);
         setMessages(messages);
       } catch (error) {
         console.error("Failed to load messages:", error);
@@ -252,7 +249,7 @@ export default function ChatRoom() {
             <ListItem
               key={index}
               sx={{
-                textAlign: message.userId === user.id ? "right" : "left",
+                textAlign: message.user_id === user.id ? "right" : "left",
                 "& .MuiListItemText-root": {
                   textAlign: "inherit",
                   "& .MuiListItemText-primary": {
@@ -261,7 +258,7 @@ export default function ChatRoom() {
                     padding: "8px",
                     borderRadius: "8px",
                     backgroundColor:
-                      message.userId === user.id ? "#DCF8C6" : "#EDEDED",
+                      message.user_id === user.id ? "#DCF8C6" : "#EDEDED",
                   },
                 },
               }}
