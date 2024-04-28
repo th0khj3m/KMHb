@@ -9,6 +9,15 @@ export const fetchRooms = async () => {
   }
 };
 
+export const fetchMessages = async (room_id) => {
+  try {
+    const response = await API.get(`rooms/${room_id}/messages`);
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+};
+
 export const createRoom = async (name) => {
   try {
     const response = await API.post("rooms", { name });

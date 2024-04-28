@@ -20,15 +20,18 @@ import {
   Stack,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-
+import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useDispatch, useSelector } from "react-redux";
-import { addRoom, loadRooms } from "../store/room/room.actions";
+import {
+  addRoom,
+  loadRooms,
+  updateRoom,
+  deleteRoom,
+} from "../store/room/room.actions";
 
 const drawerWidth = 240;
-
-const socketURL = "http://localhost:4000"; // WebSocket server URL
-
+const socketURL = "http://localhost:4000";
 let socket;
 
 export default function ChatRoom() {
@@ -39,8 +42,12 @@ export default function ChatRoom() {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [currentRoom, setCurrentRoom] = useState("");
-  const [newRoomName, setNewRoomName] = useState("");
-  const [openDialog, setOpenDialog] = useState(false);
+  const [roomDialog, setRoomDialog] = useState({
+    open: false,
+    name: "",
+    mode: "add",
+    roomId: null,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,19 +57,14 @@ export default function ChatRoom() {
   }, [dispatch]);
 
   useEffect(() => {
-    //Connect to the WebSocket server
     socket = io(socketURL);
-
     socket.on("connect", () => {
       console.log("Socket connected:", socket.connected);
-      // Ensure you emit the 'join_room' with correct identifiers
       socket.emit("join_room", { userId: user.id, roomId: currentRoom });
     });
-
     socket.on("receive_message", (newMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
-    // Clean up the effect when the component unmounts
     return () => {
       socket.emit("leave_room", { userId: user.id, roomId: currentRoom });
       socket.disconnect();
@@ -92,16 +94,24 @@ export default function ChatRoom() {
     }
   };
 
-  const add = async () => {
-    if (newRoomName) {
-      await dispatch(addRoom(newRoomName));
-      setNewRoomName("");
-      setOpenDialog(false); // Close dialog
+  const handleRoomDialog = async () => {
+    if (roomDialog.mode === "add") {
+      await dispatch(addRoom(roomDialog.name));
+    } else {
+      await dispatch(
+        updateRoom({ room_id: roomDialog.roomId, name: roomDialog.name })
+      );
     }
+    setRoomDialog({ ...roomDialog, open: false });
   };
 
-  const handleDialogClose = () => {
-    setOpenDialog(false);
+  const openRoomDialog = (mode, room = {}) => {
+    setRoomDialog({
+      open: true,
+      mode: mode,
+      name: room.name || "",
+      roomId: room.id || null,
+    });
   };
 
   return (
@@ -122,39 +132,62 @@ export default function ChatRoom() {
           <Typography variant="h6" noWrap component="div" sx={{ p: 2 }}>
             Chat Rooms
           </Typography>
-          <IconButton color="primary" onClick={() => setOpenDialog(true)}>
+          <IconButton color="primary" onClick={() => openRoomDialog("add")}>
             <AddCircleOutlineIcon />
           </IconButton>
         </Stack>
-
         <Divider />
         <List>
           {rooms.map((room) => (
-            <ListItem key={room.id} onClick={() => joinRoom(room.id)}>
-              <ListItemText primary={room.name} />
+            <ListItem
+              key={room.id}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <ListItemText
+                primary={room.name}
+                onClick={() => joinRoom(room.id)}
+              />
+              <IconButton onClick={() => openRoomDialog("edit", room)}>
+                <EditIcon />
+              </IconButton>
             </ListItem>
           ))}
         </List>
       </Drawer>
 
-      <Dialog open={openDialog} onClose={handleDialogClose}>
-        <DialogTitle>Add a New Room</DialogTitle>
+      <Dialog
+        open={roomDialog.open}
+        onClose={() => setRoomDialog({ ...roomDialog, open: false })}
+      >
+        <DialogTitle>
+          {roomDialog.mode === "add" ? "Add a New Room" : "Edit Room"}
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>Enter the name of the new room.</DialogContentText>
+          <DialogContentText>
+            {roomDialog.mode === "add"
+              ? "Enter the name of the new room."
+              : "Edit the name of the room."}
+          </DialogContentText>
           <Input
             autoFocus
             margin="dense"
-            id="name"
+            id="roomName"
             type="text"
             fullWidth
-            value={newRoomName}
-            onChange={(e) => setNewRoomName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addRoom()}
+            value={roomDialog.name}
+            onChange={(e) =>
+              setRoomDialog({ ...roomDialog, name: e.target.value })
+            }
+            onKeyDown={(e) => e.key === "Enter" && handleRoomDialog()}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose}>Cancel</Button>
-          <Button onClick={add}>Add</Button>
+          <Button onClick={() => setRoomDialog({ ...roomDialog, open: false })}>
+            Cancel
+          </Button>
+          <Button onClick={handleRoomDialog}>
+            {roomDialog.mode === "add" ? "Add" : "Update"}
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -167,16 +200,16 @@ export default function ChatRoom() {
             <ListItem
               key={index}
               sx={{
-                textAlign: message.userId === user.id ? "right" : "left", // Align messages based on userId
+                textAlign: message.userId === user.id ? "right" : "left",
                 "& .MuiListItemText-root": {
-                  textAlign: "inherit", // Ensuring that text alignment is inherited
+                  textAlign: "inherit",
                   "& .MuiListItemText-primary": {
                     display: "inline-block",
                     maxWidth: "70%",
                     padding: "8px",
                     borderRadius: "8px",
                     backgroundColor:
-                      message.userId === user.id ? "#DCF8C6" : "#EDEDED", // Adjust background based on userId
+                      message.userId === user.id ? "#DCF8C6" : "#EDEDED",
                   },
                 },
               }}

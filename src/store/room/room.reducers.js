@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { checkLoginStatus } from "../auth/auth.actions";
-import { addRoom, deleteRoom, loadRooms, updateRoom } from "./room.actions";
+import {
+  addRoom,
+  deleteRoom,
+  loadMessages,
+  loadRooms,
+  updateRoom,
+} from "./room.actions";
 
 const roomsSlice = createSlice({
   name: "room",
@@ -28,6 +34,13 @@ const roomsSlice = createSlice({
       .addCase(loadRooms.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(loadMessages.fulfilled, (state, action) => {
+        const existingRoomIndex = state.rooms.findIndex(
+          (room) => room.id === action.payload.room_id
+        );
+        state.rooms[existingRoomIndex] = action.payload;
+        state.loading = false;
       })
       .addCase(addRoom.pending, (state, action) => {
         state.loading = true;
