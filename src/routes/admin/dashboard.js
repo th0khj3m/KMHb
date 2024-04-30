@@ -103,7 +103,7 @@ export default function Dashboard() {
     plugins: {
       title: {
         display: true,
-        text: "Total Users Over Time",
+        text: "Total Over Time",
         font: {
           size: 20,
         },

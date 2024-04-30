@@ -40,6 +40,18 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (_, thunkAPI) => {
+    try {
+      await logout();
+      return;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 // // OAuth
 // export const initiateOAuth = createAsyncThunk(
 //   "auth/initiateOAuth",
@@ -52,15 +64,3 @@ export const registerUser = createAsyncThunk(
 //     }
 //   }
 // );
-
-export const logoutUser = createAsyncThunk(
-  "auth/logoutUser",
-  async (_, thunkAPI) => {
-    try {
-      await logout();
-      return;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err);
-    }
-  }
-);

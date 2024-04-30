@@ -3,6 +3,7 @@ import API from "./client";
 // API interface for logging a user in
 export const login = async (credentials) => {
   try {
+    console.log(credentials);
     const response = await API.post("auth/login", credentials);
     return response.data;
   } catch (err) {
@@ -20,16 +21,6 @@ export const register = async (credentials) => {
   }
 };
 
-// OAuth
-// export const accessOAuth = async () => {
-//   try {
-//     const response = await API.get("auth/google");
-//     return response;
-//   } catch (err) {
-//     throw err.response.data;
-//   }
-// };
-
 export const isLoggedIn = async () => {
   try {
     const response = await API.get("auth/logged_in");
@@ -46,3 +37,13 @@ export const logout = async () => {
     throw err.response.data;
   }
 };
+
+// OAuth
+// export const accessOAuth = async () => {
+//   try {
+//     const response = await API.get("auth/google");
+//     return response;
+//   } catch (err) {
+//     throw err.response.data;
+//   }
+// };

@@ -5,17 +5,12 @@ const pgp = pgPromise({ capSQL: true });
 export default class UserModel {
   async create(data) {
     try {
-      const statement = data.google
-        ? pgp.helpers.insert(
-            { google: data.google, role_id: data.role_id },
-            null,
-            "users"
-          ) + "RETURNING *"
-        : pgp.helpers.insert(
-            data,
-            ["username", "email", "password_hash"],
-            "users"
-          ) + "RETURNING *";
+      const statement =
+        pgp.helpers.insert(
+          data,
+          ["username", "email", "password_hash"],
+          "users"
+        ) + "RETURNING *";
 
       // Execute SQL statement
       const result = await db.query(statement);
@@ -83,20 +78,20 @@ export default class UserModel {
     }
   }
 
-  async findOneByGoogleId(id) {
-    try {
-      const statement = `SELECT * FROM users WHERE google ->> 'id' = $1`;
-      const result = await db.query(statement, [id]);
+  // async findOneByGoogleId(id) {
+  //   try {
+  //     const statement = `SELECT * FROM users WHERE google ->> 'id' = $1`;
+  //     const result = await db.query(statement, [id]);
 
-      if (result.rows?.length) {
-        return result.rows[0];
-      }
+  //     if (result.rows?.length) {
+  //       return result.rows[0];
+  //     }
 
-      return null;
-    } catch (err) {
-      throw err;
-    }
-  }
+  //     return null;
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // }
 
   // async findOneByFacebookId(id) {
   //   try {
@@ -186,7 +181,7 @@ export default class UserModel {
         return result.rows;
       }
 
-      return null;
+      return [];
     } catch (err) {
       throw err;
     }

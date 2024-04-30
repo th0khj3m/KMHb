@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Container,
   Box,
@@ -6,9 +6,13 @@ import {
   Stack,
   Typography,
   Button,
+  MenuItem,
+  Select,
+  FormControl,
+  IconButton,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { HighlightOff } from "@mui/icons-material";
+import { HighlightOff, ArrowUpward, ArrowDownward } from "@mui/icons-material";
 import { format } from "date-fns";
 import { Img } from "../routes/root";
 import RatingBox from "./rating-box";
@@ -20,6 +24,8 @@ export default function UserPage({ fetchedDataDetails, data, type }) {
   const dispatch = useDispatch();
   const ratings = useSelector((state) => state.rating.ratings);
   const typeRef = useRef(type); // Store type in a ref (Not need to trigger rerender)
+  const [filterBy, setFilterBy] = useState("date_added");
+  const [sortBy, setSortBy] = useState("asc");
 
   useEffect(() => {
     if ((typeRef.current = "watchlist")) {
@@ -33,14 +39,64 @@ export default function UserPage({ fetchedDataDetails, data, type }) {
     dispatch(removeMovie(movieId));
   };
 
+  const handleFilterChange = (event) => {
+    setFilterBy(event.target.value);
+  };
+
+  const handleSortToggle = () => {
+    setSortBy(sortBy === "asc" ? "desc" : "asc");
+  };
+
+  const filteredAndSortedData =
+    data &&
+    data.slice().sort((a, b) => {
+      const movieA = fetchedDataDetails[a.movie_id]?.movieDetails;
+      const movieB = fetchedDataDetails[b.movie_id]?.movieDetails;
+      switch (filterBy) {
+        case "date_added":
+          return sortBy === "asc"
+            ? a.added_at - b.added_at
+            : b.added_at - a.added_at;
+        case "movie_rating":
+          return sortBy === "asc"
+            ? movieA.vote_average - movieB.vote_average
+            : movieB.vote_average - movieA.vote_average;
+        default:
+          return true;
+      }
+    });
+
   return (
     <Container maxWidth="xl" sx={{ my: 3 }}>
       <Stack>
-        <Typography variant="h4" component={"h1"} fontWeight={"bold"}>
-          {title}
-        </Typography>
-        {data &&
-          data.map((movieData, index) => {
+        <Grid container>
+          <Grid item md={6}>
+            <Typography variant="h4" component={"h1"} fontWeight={"bold"}>
+              {title}
+            </Typography>
+          </Grid>
+          <Grid item md={6} display={"inline-flex"} alignItems={"center"}>
+            <Typography fontSize={18}>Sort by:</Typography>
+            <FormControl sx={{ ml: 2, minWidth: 200 }} size="small">
+              <Select
+                id="watchlist-options-select"
+                value={filterBy}
+                onChange={handleFilterChange}
+              >
+                <MenuItem value="date_added">Date Added</MenuItem>
+                <MenuItem value="movie_rating">KMHb Rating</MenuItem>
+                <MenuItem value="user_rating">Your Rating</MenuItem>
+                <MenuItem value="release_date">Release Date</MenuItem>
+              </Select>
+            </FormControl>
+            <IconButton onClick={handleSortToggle}>
+              {sortBy === "asc" ? <ArrowUpward /> : <ArrowDownward />}
+            </IconButton>
+          </Grid>
+        </Grid>
+
+        {filteredAndSortedData &&
+          filteredAndSortedData.map((movieData, index) => {
             const movieId = movieData?.movie_id;
             const movie = fetchedDataDetails[movieId]?.movieDetails;
             return (
@@ -107,7 +163,9 @@ export default function UserPage({ fetchedDataDetails, data, type }) {
                               size="Large"
                               variant="outlined"
                               startIcon={<HighlightOff />}
-                              onClick={() => handleRemoveFromWatchlist(movie.id)}
+                              onClick={() =>
+                                handleRemoveFromWatchlist(movie.id)
+                              }
                             >
                               Remove
                             </Button>

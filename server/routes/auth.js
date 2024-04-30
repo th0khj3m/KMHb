@@ -34,8 +34,6 @@ export default (app, passport) => {
           username,
           password,
         });
-        // req.session.userId = user.id;
-        // req.session.username= user.username;
         res.status(200).send(user);
       } catch (err) {
         next(err); //Forward the error to error handling middleware

@@ -1,13 +1,13 @@
 import nodemailer from "nodemailer";
-import { CLIENT } from "../config.js";
+import { CLIENT, OWNER } from "../config.js";
 
 async function sendPasswordResetEmail(email, resetToken) {
   try {
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: "thokhiem142857@gmail.com", // Your Gmail email
-        pass: "rlqw fmpp xmbq rtjd", // Your Gmail password
+        user: OWNER.EMAIL, // Your Gmail email
+        pass: OWNER.PASS, // Your Gmail password
       },
     });
 
