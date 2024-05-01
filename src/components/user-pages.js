@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Container,
   Box,
@@ -19,13 +19,15 @@ import RatingBox from "./rating-box";
 import { useDispatch, useSelector } from "react-redux";
 import { loadRatings } from "../store/rating/rating.actions";
 import { removeMovie } from "../store/watchlist/watchlist.actions";
+import useFilterAndSort from "../hooks/useFilterAndSort";
+import filterAndSort from "../utils/filter-and-sort";
 
 export default function UserPage({ fetchedDataDetails, data, type }) {
   const dispatch = useDispatch();
   const ratings = useSelector((state) => state.rating.ratings);
   const typeRef = useRef(type); // Store type in a ref (Not need to trigger rerender)
-  const [filterBy, setFilterBy] = useState("date_added");
-  const [sortBy, setSortBy] = useState("asc");
+  const { filterBy, sortBy, handleFilterChange, handleSortToggle } =
+    useFilterAndSort();
 
   useEffect(() => {
     if ((typeRef.current = "watchlist")) {
@@ -39,45 +41,13 @@ export default function UserPage({ fetchedDataDetails, data, type }) {
     dispatch(removeMovie(movieId));
   };
 
-  const handleFilterChange = (event) => {
-    setFilterBy(event.target.value);
-  };
-
-  const handleSortToggle = () => {
-    setSortBy(sortBy === "asc" ? "desc" : "asc");
-  };
-
-  const filteredAndSortedData =
-    data &&
-    ratings &&
-    data.slice().sort((a, b) => {
-      const movieA = fetchedDataDetails[a.movie_id]?.movieDetails;
-      const movieB = fetchedDataDetails[b.movie_id]?.movieDetails;
-      const movieARating =
-        ratings.find((rating) => rating.movie_id === a.movie_id)?.rating || 0;
-      const movieBRating =
-        ratings.find((rating) => rating.movie_id === b.movie_id)?.rating || 0;
-      switch (filterBy) {
-        case "date_added":
-          return sortBy === "asc"
-            ? a.added_at - b.added_at
-            : b.added_at - a.added_at;
-        case "movie_rating":
-          return sortBy === "asc"
-            ? movieA.vote_average - movieB.vote_average
-            : movieB.vote_average - movieA.vote_average;
-        case "user_rating":
-          return sortBy === "asc"
-            ? movieARating - movieBRating
-            : movieBRating - movieARating;
-        case "release_date":
-          return sortBy === "asc"
-            ? new Date(movieA.release_date) - new Date(movieB.release_date)
-            : new Date(movieB.release_date) - new Date(movieA.release_date);
-        default:
-          return true;
-      }
-    });
+  const filteredAndSortedData = filterAndSort(
+    data,
+    ratings,
+    fetchedDataDetails,
+    filterBy,
+    sortBy
+  );
 
   return (
     <Container maxWidth="xl" sx={{ my: 3 }}>
