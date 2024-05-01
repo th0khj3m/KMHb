@@ -7,7 +7,7 @@ import UserPage from "../components/user-pages";
 export default function Ratings() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const ratingMovies = useSelector((state) => state.rating.ratings);
+  const { ratings: ratingMovies } = useSelector((state) => state.rating);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -19,6 +19,14 @@ export default function Ratings() {
   useFetchMovieData(setFetchedDataDetails, ratingMovies);
 
   return (
-    <UserPage fetchedDataDetails={fetchedDataDetails} data={ratingMovies} type={"ratings"}/>
+    <>
+      {fetchedDataDetails && ratingMovies && (
+        <UserPage
+          fetchedDataDetails={fetchedDataDetails}
+          data={ratingMovies}
+          type={"ratings"}
+        />
+      )}
+    </>
   );
 }

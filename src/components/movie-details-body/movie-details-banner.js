@@ -26,7 +26,7 @@ export default function MovieDetailsBanner({ movie }) {
     usRelease?.release_dates[0]?.certification !== ""
       ? usRelease.release_dates[0].certification
       : "PG";
-  const movieRating = movie?.vote_average.toFixed(1);
+  const movieRating = movie?.vote_average?.toFixed(1);
   const movieKey = movie?.newestTrailer?.key;
 
   const getDirector = () => {

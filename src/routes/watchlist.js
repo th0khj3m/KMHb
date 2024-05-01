@@ -7,7 +7,9 @@ import UserPage from "../components/user-pages";
 export default function Watchlist() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const watchlistMovies = useSelector((state) => state.watchlist.movies);
+  const { movies: watchlistMovies, loading } = useSelector(
+    (state) => state.watchlist
+  );
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -19,10 +21,14 @@ export default function Watchlist() {
   useFetchMovieData(setFetchedDataDetails, watchlistMovies);
 
   return (
-    <UserPage
-      fetchedDataDetails={fetchedDataDetails}
-      data={watchlistMovies}
-      type={"watchlist"}
-    />
+    <>
+      {!loading && fetchedDataDetails && watchlistMovies && (
+        <UserPage
+          fetchedDataDetails={fetchedDataDetails}
+          data={watchlistMovies}
+          type={"watchlist"}
+        />
+      )}
+    </>
   );
 }

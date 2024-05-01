@@ -8,16 +8,17 @@ import useFetchMovieDetails from "../hooks/useFetchMovieDetails";
 export default function MovieDetailsContent() {
   const { movieId } = useParams();
   useFetchMovieDetails(movieId);
-  const { movieDetails } = useSelector((state) => state.movie.movieDetails);
+  const { movieDetails, loading } = useSelector((state) => state.movie);
 
   return (
     <>
-      {movieDetails && ( // Check if movie is not null before rendering
-        <>
-          <MovieDetailsBanner movie={movieDetails} />
-          <MovieDetailsInfo movie={movieDetails} />
-        </>
-      )}
+      {!loading &&
+        movieDetails && ( // Check if movie is not null before rendering
+          <>
+            <MovieDetailsBanner movie={movieDetails} />
+            <MovieDetailsInfo movie={movieDetails} />
+          </>
+        )}
     </>
   );
 }

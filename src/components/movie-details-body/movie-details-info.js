@@ -62,7 +62,6 @@ export default function MovieDetailsInfo({ movie }) {
                         alt={`${cast?.name}`}
                       />
                     </Link>
-
                     <Box p="10px">
                       <Typography sx={{ fontWeight: "bold" }}>
                         {cast?.name}
