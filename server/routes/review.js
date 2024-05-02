@@ -5,7 +5,7 @@ import { isLoggedIn } from "../middleware/middleware.js";
 const ReviewServiceInstance = new ReviewService();
 
 export default (app) => {
-  app.use("/api/reviews", router);
+  app.use("/api/reviews", isLoggedIn, router);
 
   router.get("/movies/:movieId", async (req, res, next) => {
     try {

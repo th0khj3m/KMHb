@@ -6,7 +6,7 @@ const WatchlistMovieModelInstance = new WatchlistMovieModel();
 export default class WatchlistService {
   async create(user_id) {
     try {
-      const watchlist = await WatchlistModelInstance.create({user_id});
+      const watchlist = await WatchlistModelInstance.create({ user_id });
       return watchlist;
     } catch (err) {
       throw err;
@@ -17,6 +17,9 @@ export default class WatchlistService {
     try {
       // Load watchlist based on ID
       const watchlist = await WatchlistModelInstance.findOneByUser(user_id);
+      if (!watchlist) {
+        return { id: null, movies: [] }; // Returns an empty watchlist 
+      }
       // Load movies
       const movies = await WatchlistMovieModelInstance.find(watchlist.id);
       watchlist.movies = movies;

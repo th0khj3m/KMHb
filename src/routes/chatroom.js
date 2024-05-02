@@ -39,6 +39,7 @@ export default function ChatRoom() {
   const dispatch = useDispatch();
   const { rooms } = useSelector((state) => state.room);
   const user = useSelector((state) => state.user);
+  const isAdmin = user?.role_id === 1; // Assuming `role_id` indicates admin status
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -152,9 +153,11 @@ export default function ChatRoom() {
           <Typography variant="h6" noWrap component="div" sx={{ p: 2 }}>
             Chat Rooms
           </Typography>
-          <IconButton color="primary" onClick={() => openRoomDialog("add")}>
-            <AddCircleOutlineIcon />
-          </IconButton>
+          {isAdmin && (
+            <IconButton color="primary" onClick={() => openRoomDialog("add")}>
+              <AddCircleOutlineIcon />
+            </IconButton>
+          )}
         </Stack>
         <Divider />
         <List>
@@ -165,20 +168,24 @@ export default function ChatRoom() {
             >
               <ListItemText
                 primary={room.name}
-                onClick={() => joinRoom(room.id)}
+                onClick={() => joinRoom(JSON.stringify({room}))}
               />
-              <IconButton onClick={() => openRoomDialog("edit", room)}>
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                edge="end"
-                onClick={() => {
-                  setDeleteDialogOpen(true);
-                  setRoomToDelete(room.id);
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
+              {isAdmin && (
+                <>
+                  <IconButton onClick={() => openRoomDialog("edit", room)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    onClick={() => {
+                      setDeleteDialogOpen(true);
+                      setRoomToDelete(room.id);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </>
+              )}
             </ListItem>
           ))}
         </List>

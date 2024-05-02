@@ -23,7 +23,6 @@ export default class WatchlistModel {
       const statement = `SELECT *
        FROM watchlists
        WHERE user_id = $1`;
-
       const result = await db.query(statement, [user_id]);
       if (result.rows?.length) {
         return result.rows[0];

@@ -18,6 +18,7 @@ const UserModelInstance = new UserModel();
 import RoomService from "../services/RoomService.js";
 const RoomServiceInstance = new RoomService();
 import sendPasswordResetEmail from "../utils/email.js";
+import { isLoggedIn } from "../middleware/middleware.js";
 
 export default (app, passport) => {
   app.use("/api/auth", router);
@@ -171,11 +172,11 @@ export default (app, passport) => {
   router.get("/logged_in", async (req, res, next) => {
     try {
       const { id } = req.user;
+      const user = await UserServiceInstance.get(id);
       const watchlist = await WatchlistServiceInstance.loadMovies(id);
       const ratings = await RatingServiceInstance.loadRatings(id);
       const reviews = await ReviewServiceInstance.loadUserReviews(id);
       const rooms = await RoomServiceInstance.loadRooms();
-      const user = await UserServiceInstance.get({ id });
       res.status(200).send({
         isAuthenticated: true,
         user,

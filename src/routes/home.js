@@ -11,10 +11,9 @@ export default function Home() {
   return (
     <>
       {isAdmin ? (
-        <Navigate to="/dashboard" />
+        <Navigate to="admin/dashboard" />
       ) : (
         <>
-          {" "}
           <HomeBanner />
           <HomeBody />
         </>

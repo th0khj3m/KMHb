@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { StyledMenu } from "../../routes/root";
 
 export default function ProfileMenu({
+  isAdmin,
   anchorEl,
   open,
   handleClose,
@@ -20,10 +21,17 @@ export default function ProfileMenu({
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem onClick={() => navigate("user/watchlist")}>Watchlist</MenuItem>
-      <MenuItem onClick={() => navigate("user/ratings")}>Ratings</MenuItem>
-      <MenuItem onClick={() => navigate("user/reviews")}>Reviews</MenuItem>
-      <Divider />
+      {!isAdmin && (
+        <>
+          <MenuItem onClick={() => navigate("user/watchlist")}>
+            Watchlist
+          </MenuItem>
+          <MenuItem onClick={() => navigate("user/ratings")}>Ratings</MenuItem>
+          <MenuItem onClick={() => navigate("user/reviews")}>Reviews</MenuItem>
+          <Divider />
+        </>
+      )}
+
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </StyledMenu>
   );

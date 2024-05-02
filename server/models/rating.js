@@ -37,7 +37,6 @@ export default class RatingModel {
 
   async findOneByUser({ user_id, movie_id }) {
     try {
-
       const statement = `SELECT * FROM ratings WHERE user_id = $1 AND movie_id = $2`;
       const result = await db.query(statement, [user_id, movie_id]);
 
@@ -50,7 +49,7 @@ export default class RatingModel {
       throw err;
     }
   }
-  
+
   async update({ rating, user_id, movie_id }) {
     try {
       const statement = `UPDATE ratings SET rating = $1 WHERE user_id = $2 AND movie_id = $3 RETURNING *`;

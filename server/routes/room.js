@@ -1,10 +1,11 @@
 import express from "express";
 const router = express.Router();
 import RoomService from "../services/RoomService.js";
+import { isAuthorized, isLoggedIn } from "../middleware/middleware.js";
 const RoomServiceInstance = new RoomService();
 
 export default (app) => {
-  app.use("/api/rooms", router);
+  app.use("/api/rooms", isLoggedIn, router);
 
   router.get("/", async (req, res, next) => {
     try {
@@ -15,7 +16,7 @@ export default (app) => {
     }
   });
 
-  router.post("/", async (req, res, next) => {
+  router.post("/", isAuthorized, async (req, res, next) => {
     try {
       const { name } = req.body;
       const response = await RoomServiceInstance.addRoom(name);
@@ -50,18 +51,21 @@ export default (app) => {
     }
   });
 
-  router.put("/:roomId", async (req, res, next) => {
+  router.put("/:roomId", isAuthorized(), async (req, res, next) => {
     try {
       const { roomId } = req.params;
       const { name } = req.body;
-      const response = await RoomServiceInstance.updateRoom({room_id: roomId, name});
+      const response = await RoomServiceInstance.updateRoom({
+        room_id: roomId,
+        name,
+      });
       res.status(200).send(response);
     } catch (err) {
       next(err);
     }
   });
 
-  router.delete("/:roomId", async (req, res, next) => {
+  router.delete("/:roomId", isAuthorized(), async (req, res, next) => {
     try {
       const { roomId } = req.params;
       const response = await RoomServiceInstance.deleteRoom(roomId);

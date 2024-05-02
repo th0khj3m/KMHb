@@ -9,11 +9,12 @@ import {
   fetchTodayReviews,
 } from "../../apis/statistics";
 import { DashboardBox } from "../root";
+import { useSelector } from "react-redux";
 
 ChartJS.register(...registerables);
 
 export default function Dashboard() {
-  //   const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
   const [totalOvertime, setTotalOvertime] = useState([]);
   const [todayRegistrations, setTodayRegistrations] = useState();
   const [todayRatings, setTodayRatings] = useState([]);
@@ -113,7 +114,7 @@ export default function Dashboard() {
   return (
     <Container maxWidth="xl" sx={{ my: 3 }}>
       <Typography variant="h5" fontWeight="bold" component={"h1"} mb={2}>
-        Welcome lmao user{" "}
+        Welcome {user.username}
       </Typography>
 
       <Grid container>

@@ -46,6 +46,7 @@ export const addRoom = createAsyncThunk(
 export const updateRoom = createAsyncThunk(
   "room/updateRoom",
   async (data, thunkAPI) => {
+    console.log(data);
     try {
       const response = await update(data);
       return response;

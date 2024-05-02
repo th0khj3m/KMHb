@@ -1,10 +1,11 @@
 import express from "express";
 import StatisticsService from "../services/StatisticsService.js";
+import { isAuthorized } from "../middleware/middleware.js";
 const StatisticsModelInstance = new StatisticsService();
 const router = express.Router();
 
 export default (app) => {
-  app.use("/api/statistics", router);
+  app.use("/api/statistics", isAuthorized(), router);
 
   router.get("/totalOvertime", async (req, res, next) => {
     try {

@@ -29,6 +29,10 @@ const roomsSlice = createSlice({
         });
         state.loading = false;
       })
+      .addCase(checkLoginStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(loadRooms.pending, (state, action) => {
         state.loading = true;
       })

@@ -3,7 +3,6 @@ import API from "./client";
 // API interface for logging a user in
 export const login = async (credentials) => {
   try {
-    console.log(credentials);
     const response = await API.post("auth/login", credentials);
     return response.data;
   } catch (err) {

@@ -12,8 +12,7 @@ export default class UserService {
     }
   }
 
-  async get(data) {
-    const { id } = data;
+  async get(id) {
     try {
       const user = await UserModelInstance.findOneById(id);
       if (!user) {

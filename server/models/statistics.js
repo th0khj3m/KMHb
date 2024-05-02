@@ -5,9 +5,9 @@ const pgp = pgPromise({ capSQL: true });
 export default class StatisticsModel {
   async findTotalOvertime() {
     try {
-      const statement = `SELECT 'rating' AS type, DATE(rated_at) AS time_period, COUNT(id) AS count
+      const statement = `SELECT 'rating' AS type, DATE(created_at) AS time_period, COUNT(id) AS count
       FROM ratings
-      GROUP BY DATE(rated_at)
+      GROUP BY DATE(created_at)
       UNION ALL
       SELECT 'review' AS type, DATE(created_at) AS time_period, COUNT(id) AS count
       FROM reviews
@@ -16,7 +16,7 @@ export default class StatisticsModel {
       SELECT 'user' AS type, DATE(created_at) AS time_period, COUNT(id) AS count
       FROM users
       GROUP BY DATE(created_at)
-      ORDER BY time_period, type;`;
+      ORDER BY time_period, type`;
       const result = await db.query(statement);
       if (result.rows?.length) {
         return result.rows;
@@ -31,7 +31,7 @@ export default class StatisticsModel {
     try {
       const statement = `SELECT COUNT(*) AS total_ratings
       FROM ratings
-      WHERE DATE(rated_at) = CURRENT_DATE`;
+      WHERE DATE(created_at) = CURRENT_DATE`;
       const result = await db.query(statement);
       if (result.rows?.length) {
         return result.rows;

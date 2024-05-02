@@ -45,36 +45,22 @@ const router = createBrowserRouter(
       <Route path="movies/:movieId" element={<MovieDetails />} />
       <Route path="movies/:movieId/reviews" element={<MovieReviews />} />
       {/* <Route path="reviews/:reviewId" element={<Review />} */}
+      <Route path="menu/casts" element={<MenuCasts />} />
+      <Route path="casts/:castId" element={<CastDetails />} />
 
-      <Route path="/user" element={<PrivateRoute />}>
+      {/* User Routes */}
+      <Route path="user" element={<PrivateRoute />}>
         <Route path="watchlist" element={<Watchlist />} />
         <Route path="chatroom" element={<ChatRoom />} />
         <Route path="ratings" element={<Ratings />} />
         <Route path="reviews" element={<UserReviews />} />
       </Route>
 
-      <Route path="menu/casts" element={<MenuCasts />} />
-      <Route path="casts/:castId" element={<CastDetails />} />
-
-
       {/*Admin Routes */}
-
-      <Route
-        path="dashboard"
-        element={
-          <PrivateRoute isAdminRoute={true}>
-            <Dashboard />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="accounts"
-        element={
-          <PrivateRoute isAdminRoute={true}>
-            <Accounts />
-          </PrivateRoute>
-        }
-      />
+      <Route path="admin" element={<PrivateRoute isAdminRoute={true} />}>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="accounts" element={<Accounts />} />
+      </Route>
 
       <Route path="*" element={<Navigate to="/" />} />
     </Route>

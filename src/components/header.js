@@ -55,14 +55,7 @@ export default function Header() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const isAdmin = user?.role_id === 1; // Assuming `role_id` indicates admin status
-  const loadingStateSlices = [
-    "movies",
-    "movie",
-    "cast",
-    "watchlist",
-    "rating",
-    "review",
-  ]; // List of loading state slices
+  const loadingStateSlices = ["movies", "movie", "cast", "watchlist", "review"]; // List of loading state slices
   const isLoading = useCombinedLoadingState(loadingStateSlices);
 
   const [headerMenuAnchorEl, setHeaderMenuAnchorEl] = useState(null);
@@ -154,29 +147,33 @@ export default function Header() {
                 <BookmarkAdd />
                 <Typography fontWeight={"bold"}>Watchlist</Typography>
               </MenuItemLink>
-
-              <MenuItemLink to="user/chatroom">
-                <ChatIcon />
-                <Typography fontWeight={"bold"}>Chatroom</Typography>
-              </MenuItemLink>
             </>
           )}
 
           {isAdmin && (
             <>
-              <MenuItemLink to="/accounts">
+              <MenuItemLink to="admin/accounts">
                 <Typography fontWeight={"bold"}>Accounts</Typography>
               </MenuItemLink>
 
-              <MenuItemLink to="/dashboard">
+              <MenuItemLink to="admin/dashboard">
                 <Typography fontWeight={"bold"}>Dashboard</Typography>
               </MenuItemLink>
             </>
           )}
 
+          <MenuItemLink to="user/chatroom">
+            <ChatIcon />
+            <Typography fontWeight={"bold"}>Chatroom</Typography>
+          </MenuItemLink>
+
           {isAuthenticated ? (
             <>
-              <MenuButton color="inherit" onClick={handleProfileMenuClick}>
+              <MenuButton
+                color="inherit"
+                onClick={handleProfileMenuClick}
+                sx={{ marginLeft: "auto" }}
+              >
                 <AccountCircle color="secondary" />
                 <Typography
                   color={"black"}
@@ -188,6 +185,7 @@ export default function Header() {
                 </Typography>
               </MenuButton>
               <ProfileMenu
+                isAdmin={isAdmin}
                 anchorEl={profileMenuAnchorEl}
                 open={Boolean(profileMenuAnchorEl)}
                 handleClose={handleProfileMenuClose}
@@ -195,7 +193,7 @@ export default function Header() {
               />
             </>
           ) : (
-            <MenuItemLink to="/login">
+            <MenuItemLink to="/login" sx={{marginLeft:"auto"}}>
               <Typography fontWeight={"bold"}>Sign In</Typography>
             </MenuItemLink>
           )}
