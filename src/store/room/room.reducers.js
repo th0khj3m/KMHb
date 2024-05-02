@@ -27,6 +27,7 @@ const roomsSlice = createSlice({
         rooms.forEach((room) => {
           state.rooms[room.id] = { ...room }; // Assign room properties to state.rooms with room ID as key
         });
+        state.loading = false;
       })
       .addCase(loadRooms.pending, (state, action) => {
         state.loading = true;

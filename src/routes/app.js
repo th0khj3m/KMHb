@@ -46,35 +46,16 @@ const router = createBrowserRouter(
       <Route path="movies/:movieId/reviews" element={<MovieReviews />} />
       {/* <Route path="reviews/:reviewId" element={<Review />} */}
 
+      <Route path="/user" element={<PrivateRoute />}>
+        <Route path="watchlist" element={<Watchlist />} />
+        <Route path="chatroom" element={<ChatRoom />} />
+        <Route path="ratings" element={<Ratings />} />
+        <Route path="reviews" element={<UserReviews />} />
+      </Route>
+
       <Route path="menu/casts" element={<MenuCasts />} />
       <Route path="casts/:castId" element={<CastDetails />} />
 
-      {/*Admin Routes */}
-      <Route path="chatroom" element={<ChatRoom />} />
-      <Route
-        path="watchlist"
-        element={
-          <PrivateRoute>
-            <Watchlist />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="ratings"
-        element={
-          <PrivateRoute>
-            <Ratings />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="user-reviews"
-        element={
-          <PrivateRoute>
-            <UserReviews />
-          </PrivateRoute>
-        }
-      />
 
       {/*Admin Routes */}
 

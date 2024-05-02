@@ -18,8 +18,7 @@ const userSlice = createSlice({
       .addCase(checkLoginStatus.fulfilled, (state, action) => {
         const { user } = action.payload;
         Object.assign(state, user);
-      })
-
+      });
   },
 });
 

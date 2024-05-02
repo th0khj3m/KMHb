@@ -150,12 +150,12 @@ export default function Header() {
                 <Search />
               </Box>
 
-              <MenuItemLink to="/watchlist">
+              <MenuItemLink to="user/watchlist">
                 <BookmarkAdd />
                 <Typography fontWeight={"bold"}>Watchlist</Typography>
               </MenuItemLink>
 
-              <MenuItemLink to="/chatroom">
+              <MenuItemLink to="user/chatroom">
                 <ChatIcon />
                 <Typography fontWeight={"bold"}>Chatroom</Typography>
               </MenuItemLink>

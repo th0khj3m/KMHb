@@ -18,9 +18,13 @@ const ratingSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(checkLoginStatus.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(checkLoginStatus.fulfilled, (state, action) => {
         const { ratings } = action.payload;
         state.ratings = ratings;
+        state.loading = false;
       })
       .addCase(loadRatings.pending, (state, action) => {
         state.loading = true;

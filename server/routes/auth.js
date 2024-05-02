@@ -177,12 +177,12 @@ export default (app, passport) => {
       const rooms = await RoomServiceInstance.loadRooms();
       const user = await UserServiceInstance.get({ id });
       res.status(200).send({
-        rooms,
+        isAuthenticated: true,
+        user,
         watchlist,
         ratings,
         reviews,
-        isLoggedIn: true,
-        user,
+        rooms,
       });
     } catch (err) {
       next(err);

@@ -5,17 +5,17 @@ import { loadWatchlist } from "../store/watchlist/watchlist.actions";
 import UserPage from "../components/user-pages";
 
 export default function Watchlist() {
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // const dispatch = useDispatch();
+  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const { movies: watchlistMovies, loading } = useSelector(
     (state) => state.watchlist
   );
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(loadWatchlist());
-    }
-  }, [dispatch, isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     dispatch(loadWatchlist());
+  //   }
+  // }, [dispatch, isAuthenticated]);
 
   const [fetchedDataDetails, setFetchedDataDetails] = useState({});
   useFetchMovieData(setFetchedDataDetails, watchlistMovies);
