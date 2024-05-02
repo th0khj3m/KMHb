@@ -12,8 +12,8 @@ const filterAndSort = (data, ratings, fetchedDataDetails, filterBy, sortBy) => {
       switch (filterBy) {
         case "date_added":
           return sortBy === "asc"
-            ? new Date(a.added_at) - new Date(b.added_at)
-            : new Date(b.added_at) - new Date(a.added_at);
+            ? new Date(a.created_at) - new Date(b.created_at)
+            : new Date(b.created_at) - new Date(a.created_at);
         case "movie_rating":
           return sortBy === "asc"
             ? movieA.vote_average - movieB.vote_average
