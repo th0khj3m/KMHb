@@ -40,7 +40,9 @@ export default class RoomModel {
   async getMessages(roomId) {
     try {
       const result = await db.query(
-        "SELECT * FROM chatroom_messages WHERE room_id = $1",
+        `SELECT cm.*, u.username AS user_username FROM chatroom_messages AS cm
+         INNER JOIN users AS u ON cm.user_id = u.id 
+         WHERE cm.room_id = $1`,
         [roomId]
       );
       if (result.rows?.length) {
@@ -85,9 +87,10 @@ export default class RoomModel {
 
   async delete(room_id) {
     try {
-      const result = await db.query("DELETE FROM rooms WHERE id = $1 RETURNING *", [
-        room_id,
-      ]);
+      const result = await db.query(
+        "DELETE FROM rooms WHERE id = $1 RETURNING *",
+        [room_id]
+      );
       if (result.rows?.length) {
         return result.rows[0];
       }

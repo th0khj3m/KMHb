@@ -61,44 +61,47 @@ export default function ChatRoom() {
   }, [dispatch, currentRoom]);
 
   useEffect(() => {
+    //Initializes a new socket connection
     socket = io(socketURL);
     socket.on("connect", () => {
       console.log("Socket connected:", socket.connected);
-      socket.emit("join_room", { userId: user.id, roomId: currentRoom });
+      socket.emit("join_room", { user, room: currentRoom });
     });
     socket.on("receive_message", (newMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
     return () => {
+      //Clean up
       socket.off("connect");
       socket.off("receive_message");
-      socket.emit("leave_room", { userId: user.id, roomId: currentRoom });
+      socket.emit("leave_room", { user, room: currentRoom });
       socket.disconnect();
     };
-  }, [currentRoom, user.id]);
+  }, [currentRoom, user]);
 
   const sendMessage = (event) => {
     event.preventDefault();
     if (message && currentRoom) {
       socket.emit("send_message", {
-        userId: user.id,
-        roomId: currentRoom,
+        user: user,
+        room: currentRoom,
         content: message,
       });
       setMessage("");
     }
   };
 
-  const joinRoom = async (room) => {
+  const joinRoom = async (roomJSON) => {
+    const { room } = JSON.parse(roomJSON);
     if (room !== currentRoom) {
       if (currentRoom) {
-        socket.emit("leave_room", { userId: user.id, roomId: currentRoom });
+        socket.emit("leave_room", { user, room: currentRoom });
       }
-      socket.emit("join_room", { userId: user.id, roomId: room });
       setCurrentRoom(room);
+      socket.emit("join_room", { user, room });
       setMessages([]);
       try {
-        const messages = await dispatch(loadMessages(room)).unwrap();
+        const messages = await dispatch(loadMessages(room.id)).unwrap();
         setMessages(messages);
       } catch (error) {
         console.error("Failed to load messages:", error);
@@ -168,7 +171,7 @@ export default function ChatRoom() {
             >
               <ListItemText
                 primary={room.name}
-                onClick={() => joinRoom(JSON.stringify({room}))}
+                onClick={() => joinRoom(JSON.stringify({ room }))}
               />
               {isAdmin && (
                 <>
@@ -249,7 +252,7 @@ export default function ChatRoom() {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Typography variant="h5" noWrap component="div">
-          {currentRoom || "Select a room"}
+          {currentRoom.name || "Select a room"}
         </Typography>
         <List>
           {messages.map((message, index) => (
@@ -257,20 +260,23 @@ export default function ChatRoom() {
               key={index}
               sx={{
                 textAlign: message.user_id === user.id ? "right" : "left",
-                "& .MuiListItemText-root": {
-                  textAlign: "inherit",
-                  "& .MuiListItemText-primary": {
+              }}
+            >
+              <ListItemText
+                primaryTypographyProps={{ variant: "subtitle2" }}
+                primary={message.user_username}
+                secondary={message.content}
+                sx={{
+                  "& .MuiListItemText-secondary": {
+                    backgroundColor:
+                      message.user_id === user.id ? "#DCF8C6" : "#EDEDED",
                     display: "inline-block",
                     maxWidth: "70%",
                     padding: "8px",
                     borderRadius: "8px",
-                    backgroundColor:
-                      message.user_id === user.id ? "#DCF8C6" : "#EDEDED",
                   },
-                },
-              }}
-            >
-              <ListItemText primary={message.content} />
+                }}
+              />
             </ListItem>
           ))}
         </List>
