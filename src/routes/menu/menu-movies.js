@@ -68,6 +68,7 @@ export default function MenuMovies() {
                 loadingMovie={loadingMovie}
                 handleAddToWatchlist={handleAddToWatchlist}
                 navigate={navigate}
+                movieWidth="23%"
               />
             ))}
         </Stack>

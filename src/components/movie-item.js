@@ -17,6 +17,7 @@ const MovieItem = ({
   loadingMovie,
   handleAddToWatchlist,
   navigate,
+  movieWidth = "15%",
 }) => {
   return (
     <Box
@@ -24,7 +25,7 @@ const MovieItem = ({
       display="flex"
       flexDirection="column"
       flexShrink={0}
-      width={"15%"}
+      width={movieWidth}
       my={2}
     >
       <Box>
@@ -48,11 +49,7 @@ const MovieItem = ({
         }}
       />
 
-      <Typography
-        fontWeight="bold"
-        mb="20px"
-        sx={{ flexGrow: 1 }}
-      >
+      <Typography fontWeight="bold" mb="20px" sx={{ flexGrow: 1 }}>
         {movie.title}
       </Typography>
       {isAuthenticated ? (
