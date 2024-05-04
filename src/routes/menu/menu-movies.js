@@ -7,6 +7,8 @@ import {
   Stack,
   Button,
   Box,
+  Divider,
+  Typography,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -53,10 +55,6 @@ export default function MenuMovies() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted!");
-    console.log("Sort By:", sortBy);
-    console.log("Release Date Range:", releaseDateRange);
     dispatch(fetchDiscoverMovies({ sortBy, releaseDate: releaseDateRange }));
   };
 
@@ -65,6 +63,9 @@ export default function MenuMovies() {
       <Grid item md={3}>
         <form onSubmit={handleFormSubmit}>
           <FormControl sx={{ ml: 2 }} size="small">
+            <Typography mb={1} mt={2} color={"#696969"} variant="h6">
+              Sort Result By
+            </Typography>
             <Select
               id="menu-movies-select"
               value={sortBy}
@@ -81,7 +82,12 @@ export default function MenuMovies() {
               <MenuItem value="vote_average.desc">Rating Descending</MenuItem>
               <MenuItem value="vote_average.asc">Rating Ascending</MenuItem>
             </Select>
+            
             <Box my={2}>
+              <Divider />
+              <Typography mb={1} mt={2} color={"#696969"} variant="h6">
+                Release Dates
+              </Typography>
               <DateRange
                 editableDateInputs={true} //Enable editable inputs
                 onChange={(ranges) => setReleaseDateRange([ranges.selection])} //

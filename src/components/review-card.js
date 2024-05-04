@@ -9,11 +9,7 @@ import {
 } from "@mui/material";
 import { sanitize } from "dompurify";
 import { MoreVert as MoreVertIcon } from "@mui/icons-material";
-
-const formatDate = (dateString) => {
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  return new Date(dateString).toLocaleDateString(undefined, options);
-};
+import { formatReviewDate } from "../utils/format-date";
 
 const ReviewCard = ({
   key,
@@ -30,7 +26,11 @@ const ReviewCard = ({
   };
 
   return (
-    <Paper key={key} elevation={3} sx={{ mb: 4, position: "relative", my: "15px" }}>
+    <Paper
+      key={key}
+      elevation={3}
+      sx={{ mb: 4, position: "relative", my: "15px" }}
+    >
       <Box p={"15px"}>
         {isUser && (
           <>
@@ -72,7 +72,7 @@ const ReviewCard = ({
               <Typography variant="span" fontWeight={"bold"} mr={0.6}>
                 {review.user_username}
               </Typography>
-              on {formatDate(review.review_date)}
+              on {formatReviewDate(review.review_date)}
             </Typography>
           </Box>
         </Box>

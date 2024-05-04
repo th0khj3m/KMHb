@@ -38,7 +38,7 @@ export const DashboardBox = styled(Box)({
   padding: "30px",
   flexGrow: 1,
   textAlign: "center",
-  borderRadius: "15px",
+  borderradius: "15px",
 });
 
 export const Img = styled("img")({
@@ -69,7 +69,7 @@ export const MediaLoginButton = styled(Button)({
   backgroundColor: "white",
   border: "1px solid #EEEEEE",
   mr: "20px",
-  borderRadius: "20px",
+  borderradius: "20px",
   py: "10px",
   px: "20px",
   "&:hover": {
@@ -85,7 +85,7 @@ export const AuthButton = styled(Button)({
   transition: "background-color 0.3s ease",
   font: "16px",
   width: "300px",
-  borderRadius: "20px",
+  borderradius: "20px",
   "&:hover": {
     backgroundColor: "#00A099",
   },

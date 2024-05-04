@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import { apiUrl, apiKeyParams, apiRequestParams } from "../../api-config";
-import formatDate from "../../utils/format-date";
+import { formatDate } from "../../utils/format-date";
 
 export const fetchUpcomingMovies = createAsyncThunk(
   "movies/fetchUpcomingMovies",

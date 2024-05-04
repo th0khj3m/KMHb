@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Box, CardMedia } from "@mui/material";
+import { Modal, Button, Box } from "@mui/material";
 
 const VideoModal = ({ open, handleClose, videoKey, videoName }) => {
   return (
@@ -42,7 +42,7 @@ const VideoModal = ({ open, handleClose, videoKey, videoName }) => {
           X Close
         </Button>
         {videoKey && (
-          <CardMedia
+          <Box
             component={"iframe"}
             src={`https://www.youtube.com/embed/${videoKey}`}
             alt={`${videoName}`}

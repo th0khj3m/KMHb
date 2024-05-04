@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   Typography,
   Divider,
@@ -8,26 +9,33 @@ import {
   Container,
   Stack,
 } from "@mui/material";
-import { WhiteTypography } from "../../routes/root";
 import StarIcon from "@mui/icons-material/Star";
+import { Img, WhiteTypography } from "../../routes/root";
 import RatingBox from "../rating-box";
-import { useSelector } from "react-redux";
+import findNewestTrailer from "../../utils/find-newest-trailer";
 
 export default function MovieDetailsBanner({ movie }) {
   const ratingMovies = useSelector((state) => state.rating.ratings);
+
   const movieYear = movie?.release_date?.split("-")[0];
   const hours = Math.floor(movie.runtime / 60) ?? 0;
   const minutes = movie?.runtime % 60 ?? 0;
-  const usRelease = movie?.releaseDates?.results.find(
+  const usRelease = movie?.release_dates?.results.find(
     (result) => result.iso_3166_1 === "US"
   );
+
   const movieCertification =
     usRelease?.release_dates[0]?.certification !== undefined &&
     usRelease?.release_dates[0]?.certification !== ""
       ? usRelease.release_dates[0].certification
       : "PG";
   const movieRating = movie?.vote_average?.toFixed(1);
-  const movieKey = movie?.newestTrailer?.key;
+
+  const newestTrailer = findNewestTrailer(movie?.videos?.results);
+  const movieKey = newestTrailer?.key;
+  const movieImagePath = movie?.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : `/images/no-image.png`;
 
   const getDirector = () => {
     if (movie && movie.casts && movie.casts.crew) {
@@ -119,17 +127,23 @@ export default function MovieDetailsBanner({ movie }) {
         </Box>
 
         <Box display={"flex"}>
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie?.title}
-            width="20%"
-          />
-          {movieKey && (
-            <iframe
+          <Img src={movieImagePath} alt={movie?.title} width="20%" />
+          {movieKey ? (
+            <Box
+              component={"iframe"}
               src={`https://www.youtube.com/embed/${movieKey}`}
               title={movie?.title}
-              style={{ flex: 1 }}
+              flex={1}
               allowFullScreen
+            />
+          ) : (
+            <Box
+              component={"iframe"}
+              src={`/videos/no-trailer.mp4`}
+              title={movie?.title}
+              flex={1}
+              allowFullScreen
+              sx={{ bgcolor: "black" }}
             />
           )}
         </Box>

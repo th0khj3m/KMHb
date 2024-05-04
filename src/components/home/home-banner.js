@@ -53,7 +53,7 @@ export default function HomeBanner() {
 
   // Fetch data when the component mounts
   useEffect(() => {
-    dispatch(fetchUpcomingMovies()).unwrap();
+    dispatch(fetchUpcomingMovies());
   }, [dispatch]);
 
   // Function to fetch the newest trailer for a movie

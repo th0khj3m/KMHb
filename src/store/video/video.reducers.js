@@ -9,12 +9,11 @@ const videoSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchNewestTrailer.fulfilled, (state, action) => {
-        const { video } = action.payload;
-        state.newestTrailer[video.id] = video;
-        state.error = null;
-      })
+    builder.addCase(fetchNewestTrailer.fulfilled, (state, action) => {
+      const video = action.payload;
+      state.newestTrailer[video.id] = video;
+      state.error = null;
+    });
   },
 });
 

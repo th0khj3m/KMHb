@@ -22,8 +22,8 @@ export default async (app) => {
   });
 
   app.set("trust proxy", 1);
-  // Create a session
 
+  // Create a session
   app.use(
     session({
       store: new pgSessionStore({
@@ -37,6 +37,9 @@ export default async (app) => {
         secure: false,
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
+        sameSite: "lax", // Add sameSite attribute to mitigate CSRF attacks
+        // Add the Partitioned attribute to address the warning
+        partition: "none",
       },
     })
   );

@@ -22,7 +22,7 @@ import { removeMovie } from "../store/watchlist/watchlist.actions";
 import useFilterAndSort from "../hooks/useFilterAndSort";
 import filterAndSort from "../utils/filter-and-sort";
 
-export default function UserPage({ fetchedDataDetails, data, type }) {
+export default function UserPage({ data, fetchedDataDetails, type }) {
   const dispatch = useDispatch();
   const ratings = useSelector((state) => state.rating.ratings);
   const typeRef = useRef(type); // Store type in a ref (Not need to trigger rerender)
@@ -81,7 +81,7 @@ export default function UserPage({ fetchedDataDetails, data, type }) {
         {filteredAndSortedData &&
           filteredAndSortedData.map((movieData, index) => {
             const movieId = movieData?.movie_id;
-            const movie = fetchedDataDetails[movieId]?.movieDetails;
+            const movie = fetchedDataDetails[movieId];
             return (
               movie && (
                 <Paper

@@ -55,7 +55,11 @@ export default function Header() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const isAdmin = user?.role_id === 1; // Assuming `role_id` indicates admin status
-  const loadingStateSlices = ["movies", "movie", "cast", "watchlist", "review"]; // List of loading state slices
+  const loadingStateSlices = ["movies", "movie", "cast"]; // List of loading state slices
+
+  if (isAuthenticated) {
+    loadingStateSlices.push("watchlist", "review");
+  }
   const isLoading = useCombinedLoadingState(loadingStateSlices);
 
   const [headerMenuAnchorEl, setHeaderMenuAnchorEl] = useState(null);
@@ -193,7 +197,7 @@ export default function Header() {
               />
             </>
           ) : (
-            <MenuItemLink to="/login" sx={{marginLeft:"auto"}}>
+            <MenuItemLink to="/login" sx={{ marginLeft: "auto" }}>
               <Typography fontWeight={"bold"}>Sign In</Typography>
             </MenuItemLink>
           )}
