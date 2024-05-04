@@ -19,6 +19,10 @@ const MovieItem = ({
   navigate,
   movieWidth = "15%",
 }) => {
+  const imagePath = movie?.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : `/images/no-image.png`;
+
   return (
     <Box
       key={movieIndex}
@@ -30,11 +34,7 @@ const MovieItem = ({
     >
       <Box>
         <Link to={`/movies/${movie.id}`}>
-          <Img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-            sx={{ borderRadius: "8px" }}
-          />
+          <Img src={imagePath} alt={movie.title} sx={{ borderRadius: "8px" }} />
         </Link>
       </Box>
 
@@ -52,6 +52,7 @@ const MovieItem = ({
       <Typography fontWeight="bold" mb="20px" sx={{ flexGrow: 1 }}>
         {movie.title}
       </Typography>
+
       {isAuthenticated ? (
         watchlistMovies.find(
           (watchlistMovie) => watchlistMovie.movie_id === movie.id

@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import { apiUrl, apiKeyParams, apiRequestParams } from "../../api-config";
+import formatDate from "../../utils/format-date";
 
 export const fetchUpcomingMovies = createAsyncThunk(
   "movies/fetchUpcomingMovies",
@@ -54,9 +55,23 @@ export const fetchPopularMovies = createAsyncThunk(
 
 export const fetchDiscoverMovies = createAsyncThunk(
   "movies/fetchDiscoverMovies",
-  async (sortBy, thunkAPI) => {
+  async (
+    { sortBy = "popularity.desc", releaseDate } = {}, //Default values and passed in if no parameters passed
+    thunkAPI
+  ) => {
     try {
-      const urlToFetch = `${apiUrl}/discover/movie${apiKeyParams}&sort_by=${sortBy}`;
+      let urlToFetch = `${apiUrl}/discover/movie${apiKeyParams}&sort_by=${sortBy}`;
+
+      // Check if releaseDate is provided and contains valid startDate and endDate
+      if (releaseDate) {
+        // Format startDate and endDate using formatDate function if necessary
+        const formattedStartDate = formatDate(releaseDate[0]?.startDate);
+        const formattedEndDate = formatDate(releaseDate[0]?.endDate);
+
+        // Add primary_release_date parameters to URL
+        urlToFetch += `&primary_release_date.gte=${formattedStartDate}&primary_release_date.lte=${formattedEndDate}`;
+      }
+
       const response = await axios.get(urlToFetch);
       return {
         discoverMovies: response.data.results,

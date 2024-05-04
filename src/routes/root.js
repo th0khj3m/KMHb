@@ -129,7 +129,6 @@ const theme = createTheme({
 });
 
 export default function Root() {
-
   return (
     <ThemeProvider theme={theme}>
       <Box
