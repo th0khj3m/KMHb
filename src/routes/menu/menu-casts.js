@@ -1,6 +1,13 @@
 import { useEffect } from "react";
-import { Typography, Box, Stack, Grid, Container, Paper } from "@mui/material";
-import { Img } from "../root";
+import {
+  Typography,
+  Grid,
+  Container,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActionArea,
+} from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchTrendingCasts } from "../../store/cast/cast.actions";
 import { clampStyles } from "../root";
@@ -19,36 +26,39 @@ export default function MenuCasts() {
 
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" component={"h1"} fontWeight={"bold"} my={5}>
+      <Typography variant="h4" component={"h1"} fontWeight={"bold"} mt={5}>
         Popular People
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={4} mb={4} mt={2}>
         {trendingCasts &&
           trendingCasts.map((cast, index) => (
-            <Grid item md={2} key={index}>
-              <Paper elevation={3} sx={{ borderRadius: 4, padding: 2 }}>
-                <Stack spacing={2}>
-                  <Link
-                    to={`/casts/${cast.id}`}
-                    style={{ textDecoration: "none" }}
+            <Grid item md={3} key={index}>
+              <Card elevation={3} sx={{ borderRadius: 4, padding: 2 }}>
+                <CardActionArea component={Link} to={`/casts/${cast.id}`}>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
+                    alt={cast.name}
+                    sx={{ width: "100%", height: "auto" }}
+                  />
+                </CardActionArea>
+                <CardContent>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    sx={{ ...clampStyles }}
                   >
-                    <Img
-                      src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
-                    />
-                  </Link>
-                  <Box>
-                    <Typography fontWeight="bold" sx={{ ...clampStyles }}>
-                      {cast.name}
-                    </Typography>
-                    <Typography sx={{ ...clampStyles }}>
-                      {cast.known_for
-                        .slice(0, 3)
-                        .map((movie) => movie.name || movie.title || "Unknown")
-                        .join(", ")}
-                    </Typography>
-                  </Box>
-                </Stack>
-              </Paper>
+                    {cast.name}
+                  </Typography>
+                  <Typography variant="body2" sx={{ ...clampStyles }}>
+                    {cast.known_for
+                      .slice(0, 3)
+                      .map((movie) => movie.name || movie.title || "Unknown")
+                      .join(", ")}
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
           ))}
       </Grid>

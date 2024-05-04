@@ -5,9 +5,11 @@ import { Box, Button, Container, Typography, Menu } from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 export const clampStyles = {
-  display: "-webkit-box",
-  WebkitBoxOrient: "vertical",
   overflow: "hidden",
+  height: "40px",
+  display: "-webkit-box",
+  textOverflow: "ellipsis",
+  WebkitBoxOrient: "vertical",
   WebkitLineClamp: 2, // Limit to 2 lines
 };
 
