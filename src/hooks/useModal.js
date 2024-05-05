@@ -6,8 +6,8 @@ export default function useModal() {
   const [modalIndex, setModalIndex] = useState(null);
 
   const handleOpenModal = (modalIndex) => {
-    setOpenModal(true);
     setModalIndex(modalIndex);
+    setOpenModal(true);
   };
 
   const handleCloseModal = () => {

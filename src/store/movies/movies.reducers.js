@@ -4,6 +4,7 @@ import {
   fetchTrendingMovies,
   fetchPopularMovies,
   fetchDiscoverMovies,
+  fetchNewestTrailer,
 } from "./movies.actions";
 
 const initialState = {
@@ -26,11 +27,20 @@ const moviesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchUpcomingMovies.fulfilled, (state, action) => {
-        const { upcomingMovies } = action.payload;
+        const upcomingMovies = action.payload;
         upcomingMovies.forEach((movie) => {
           const { id } = movie;
           state.upcomingMovies[id] = movie;
         });
+        state.loading = false;
+      })
+      .addCase(fetchNewestTrailer.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchNewestTrailer.fulfilled, (state, action) => {
+        const newestTrailer = action.payload;
+        const movieId = action.meta.arg;
+        state.upcomingMovies[movieId].video = newestTrailer;
         state.loading = false;
       })
       .addCase(fetchTrendingMovies.pending, (state) => {
@@ -68,5 +78,4 @@ const moviesSlice = createSlice({
   },
 });
 
-export const selectUpcomingMovies = (state) => state.movies.upcomingMovies;
 export default moviesSlice.reducer;

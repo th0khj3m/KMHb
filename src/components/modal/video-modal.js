@@ -1,57 +1,46 @@
 import React from "react";
-import { Modal, Button, Box } from "@mui/material";
+import { Button, Box, Stack } from "@mui/material";
+import { ModalStyle } from "../../routes/root";
 
-const VideoModal = ({ open, handleClose, videoKey, videoName }) => {
+const VideoModal = ({ videoKey, videoName, handleCloseModal }) => {
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      closeAfterTransition
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-      // slots={{ backdrop: (props) => <Backdrop {...props} onClick={() => {}} /> }} //Prevent user from clicking outside to close
+    <Stack
+      sx={ModalStyle}
+      width={"60%"}
+      height={"80%"}
+      bgcolor={"black"}
+      spacing={3}
     >
-      <Box
-        display={"flex"}
-        position={"relative"}
-        pt="50px"
-        borderRadius={"10px"}
-        bgcolor={"black"}
-        width={"60%"}
-        height={"80%"}
+      <Button
+        onClick={handleCloseModal}
+        variant="contained"
+        sx={{
+          position: "absolute",
+          top: "8px",
+          right: "10px",
+          backgroundColor: "transparent",
+          border: "none",
+          cursor: "pointer",
+          color: "white",
+          "&:hover": {
+            backgroundColor: "#141414", // Apply hover effect
+          },
+        }}
       >
-        <Button
-          onClick={handleClose}
-          variant="contained"
-          sx={{
-            position: "absolute",
-            top: "8px",
-            right: "10px",
-            backgroundColor: "transparent",
-            border: "none",
-            cursor: "pointer",
-            color: "white",
-            "&:hover": {
-              backgroundColor: "#141414", // Apply hover effect
-            },
-          }}
-        >
-          X Close
-        </Button>
-        {videoKey && (
-          <Box
-            component={"iframe"}
-            src={`https://www.youtube.com/embed/${videoKey}`}
-            alt={`${videoName}`}
-            title={videoName}
-            allowFullScreen
-          />
-        )}
-      </Box>
-    </Modal>
+        X Close
+      </Button>
+      {videoKey && (
+        <Box
+          component={"iframe"}
+          src={`https://www.youtube.com/embed/${videoKey}`}
+          alt={`${videoName}`}
+          title={videoName}
+          allowFullScreen
+          width={"100%"}
+          height={"100%"}
+        />
+      )}
+    </Stack>
   );
 };
 

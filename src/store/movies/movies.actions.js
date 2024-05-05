@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { apiUrl, apiKeyParams, apiRequestParams } from "../../api-config";
 import { formatDate } from "../../utils/format-date";
+import findNewestTrailer from "../../utils/find-newest-trailer";
 
 export const fetchUpcomingMovies = createAsyncThunk(
   "movies/fetchUpcomingMovies",
@@ -11,9 +12,7 @@ export const fetchUpcomingMovies = createAsyncThunk(
       const urlToFetch = `${apiUrl}/movie/upcoming${apiKeyParams}`;
       const response = await axios.get(urlToFetch);
       const upcomingMovies = response.data.results.slice(0, 10); //Fetch 10 movies
-      return {
-        upcomingMovies,
-      }; // Return array of upcoming movies
+      return upcomingMovies;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -47,6 +46,22 @@ export const fetchPopularMovies = createAsyncThunk(
       return {
         popularMovies: response.data.results,
       };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const fetchNewestTrailer = createAsyncThunk(
+  "movies/fetchNewestTrailers",
+  async (movieId, thunkAPI) => {
+    try {
+      const urlToFetch = `${apiUrl}/movie/${movieId}/videos${apiKeyParams}`;
+      const response = await axios.get(urlToFetch);
+
+      //Filter videos to include only official trailers
+      const newestTrailer = findNewestTrailer(response.data.results);
+      return newestTrailer;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }

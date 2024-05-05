@@ -1,8 +1,41 @@
 import Header from "../components/header";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/footer";
-import { Box, Button, Container, Typography, Menu } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  Menu,
+  IconButton,
+} from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { PlayCircleOutline } from "@mui/icons-material";
+
+export const MovieOverview = styled(Typography)({
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  display: "-webkit-box",
+  WebkitLineClamp: 1,
+  WebkitBoxOrient: "vertical",
+  color: "#666",
+});
+
+export const PlayButton = styled(PlayCircleOutline)(({ theme }) => ({
+  color: "black",
+  "&:hover": {
+    color: theme.palette.main,
+  },
+}));
+
+export const ArrowButton = styled(IconButton)({
+  position: "absolute",
+  top: "45%",
+  transform: "translateY(-70%)",
+  backgroundColor: "#3A3E29",
+  opacity: 0.5,
+  border: "1px solid white",
+});
 
 export const clampStyles = {
   overflow: "hidden",
@@ -50,16 +83,16 @@ export const Img = styled("img")({
   maxHeight: "100%",
 });
 
-export const ModalContainer = styled(Container)({
+export const ModalStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "100%",
-  bgcolor: "background.paper",
+  alignItems: "center",
+  justifyContent: "center",
   boxShadow: 24,
   p: 4,
-});
+};
 
 export const WhiteTypography = styled(Typography)({
   color: "#fff",

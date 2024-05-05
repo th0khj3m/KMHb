@@ -8,62 +8,30 @@ import {
   ArrowForwardIos,
   PlayCircleOutline,
 } from "@mui/icons-material";
+
+import {
+  fetchUpcomingMovies,
+  fetchNewestTrailer,
+} from "../../store/movies/movies.actions.js";
 import { Img } from "../../routes/root.js";
-
-import { fetchUpcomingMovies } from "../../store/movies/movies.actions.js";
-import { fetchNewestTrailer } from "../../store/video/video.actions.js";
-import { selectUpcomingMovies } from "../../store/movies/movies.reducers.js";
-
 import VideoModal from "../modal/video-modal.js";
+import useModal from "../../hooks/useModal.js";
+import ModalRender from "../modal-render.js";
+import { MovieOverview, PlayButton, ArrowButton } from "../../routes/root.js";
 
 export default function HomeBanner() {
-  const MovieOverview = styled(Typography)({
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    display: "-webkit-box",
-    WebkitLineClamp: 1,
-    WebkitBoxOrient: "vertical",
-    color: "#666", // Use a lighter shade of black
-  });
-
-  const PlayButton = styled(PlayCircleOutline)(({ theme }) => ({
-    color: "black",
-    "&:hover": {
-      color: theme.palette.main,
-    },
-  }));
-
-  const ArrowButton = styled(IconButton)({
-    position: "absolute",
-    top: "45%",
-    transform: "translateY(-70%)",
-    backgroundColor: "#3A3E29",
-    opacity: 0.5,
-    border: "1px solid white",
-  });
-
   const dispatch = useDispatch();
-  const upcomingMovies = Object.values(useSelector(selectUpcomingMovies));
+  const { upcomingMovies } = useSelector((state) => state.movies);
+  const upcomingMoviesArray = Object.values(upcomingMovies);
 
-  // Store trailers for each movie in a map
-  const [trailers, setTrailers] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [modalMovieIndex, setModalMovieIndex] = useState(0);
-  const [openModal, setOpenModal] = useState(false);
+  const { openModal, modalIndex, handleOpenModal, handleCloseModal } =
+    useModal();
 
   // Fetch data when the component mounts
   useEffect(() => {
     dispatch(fetchUpcomingMovies());
   }, [dispatch]);
-
-  // Function to fetch the newest trailer for a movie
-  const fetchTrailer = async (movieId) => {
-    const response = await dispatch(fetchNewestTrailer(movieId)).unwrap();
-    setTrailers((prevTrailers) => ({
-      ...prevTrailers,
-      [movieId]: response.video,
-    }));
-  };
 
   // Function to get the backdrop and poster path for a movie
   const getBackdropAndPoster = (movie) => {
@@ -79,43 +47,47 @@ export default function HomeBanner() {
   const handleNext = () => {
     setCurrentIndex((prevIndex) => {
       // Increment index, loop back to 0 if reaching the end
-      return (prevIndex + 1) % upcomingMovies.length;
+      return (prevIndex + 1) % upcomingMoviesArray.length;
     });
   };
 
   const handleBack = () => {
     setCurrentIndex((prevIndex) => {
       // Decrement index, loop back to last in
-      return (prevIndex - 1 + upcomingMovies.length) % upcomingMovies.length;
+      return (
+        (prevIndex - 1 + upcomingMoviesArray.length) %
+        upcomingMoviesArray.length
+      );
     });
   };
 
-  const handleOpenModal = async (movieIndex) => {
-    const movieId = upcomingMovies[movieIndex].id;
-    if (!trailers[movieId]) {
-      await fetchTrailer(movieId);
-    }
-    setModalMovieIndex(movieIndex);
-    setOpenModal(true);
+  const handleOpenTrailer = async (movieIndex) => {
+    const movieId = upcomingMoviesArray[movieIndex].id;
+    await dispatch(fetchNewestTrailer(movieId));
+    handleOpenModal(movieId);
   };
 
   return (
     <Grid container>
       <Grid item md={8}>
-        {upcomingMovies.length > 0 && (
+        {upcomingMoviesArray.length > 0 && (
           <Box position={"relative"}>
             <Img
-              src={getBackdropAndPoster(upcomingMovies[currentIndex]).backdrop}
-              alt={upcomingMovies[currentIndex].title}
-              onClick={() => handleOpenModal(currentIndex)}
+              src={
+                getBackdropAndPoster(upcomingMoviesArray[currentIndex]).backdrop
+              }
+              alt={upcomingMoviesArray[currentIndex].title}
+              onClick={() => handleOpenTrailer(currentIndex)}
               sx={{
                 cursor: "pointer",
                 pointerEvents: "auto",
               }}
             />
             <Img
-              src={getBackdropAndPoster(upcomingMovies[currentIndex]).poster}
-              alt={upcomingMovies[currentIndex].title}
+              src={
+                getBackdropAndPoster(upcomingMoviesArray[currentIndex]).poster
+              }
+              alt={upcomingMoviesArray[currentIndex].title}
               sx={{
                 position: "absolute",
                 bottom: "10%",
@@ -125,24 +97,24 @@ export default function HomeBanner() {
               }}
             />
             <Box sx={{ display: "flex", width: "74%", float: "right" }}>
-              <Button
+              <IconButton
                 sx={{
                   background: "none",
                   border: "none",
                   cursor: "pointer",
                   p: 0,
                 }}
-                onClick={() => handleOpenModal(currentIndex)}
+                onClick={() => handleOpenTrailer(currentIndex)}
               >
                 <PlayButton sx={{ fontSize: "96px" }} />
-              </Button>
+              </IconButton>
 
               <Box sx={{ ml: 2, mt: 1 }}>
                 <Typography variant="h4">
-                  {upcomingMovies[currentIndex].title}
+                  {upcomingMoviesArray[currentIndex].title}
                 </Typography>
                 <MovieOverview>
-                  {upcomingMovies[currentIndex].overview}
+                  {upcomingMoviesArray[currentIndex].overview}
                 </MovieOverview>
               </Box>
             </Box>
@@ -189,11 +161,11 @@ export default function HomeBanner() {
             mt: 1,
           }}
         >
-          {upcomingMovies.length > 0 &&
+          {upcomingMoviesArray.length > 0 &&
             Array.from({ length: 3 }).map((_, index) => {
               const movieIndex =
-                (currentIndex + index + 1) % upcomingMovies.length;
-              const movie = upcomingMovies[movieIndex];
+                (currentIndex + index + 1) % upcomingMoviesArray.length;
+              const movie = upcomingMoviesArray[movieIndex];
               return (
                 <Grid container key={movie.id} p="10px">
                   <Grid item md={3}>
@@ -212,7 +184,7 @@ export default function HomeBanner() {
                     >
                       <Button
                         className="play-button"
-                        onClick={() => handleOpenModal(movieIndex)}
+                        onClick={() => handleOpenTrailer(movieIndex)}
                         sx={{
                           background: "none",
                           cursor: "pointer",
@@ -238,12 +210,18 @@ export default function HomeBanner() {
               );
             })}
         </Box>
-        <VideoModal
-          open={openModal}
-          handleClose={() => setOpenModal(false)}
-          videoKey={trailers[upcomingMovies[modalMovieIndex]?.id]?.key} // Pass the selected movie's trailer key
-          videoName={trailers[upcomingMovies[modalMovieIndex]?.id]?.name} // Pass the selected movie's trailer name
-        />
+        {upcomingMovies && modalIndex && (
+          <ModalRender
+            isOpen={openModal}
+            handleClose={handleCloseModal}
+            Component={VideoModal}
+            modalProps={{
+              videoKey: upcomingMovies[modalIndex].video.key,
+              videoName: upcomingMovies[modalIndex].video.name,
+              handleCloseModal,
+            }}
+          />
+        )}
       </Grid>
     </Grid>
   );

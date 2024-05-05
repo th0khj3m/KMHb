@@ -5,6 +5,7 @@ import {
   CircularProgress,
   Stack,
 } from "@mui/material";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { searchMovies } from "../store/search/search.actions";
@@ -40,6 +41,7 @@ const Search = () => {
           variant="outlined"
           fullWidth
           size="small"
+          placeholder="Search movies...."
           InputProps={{
             ...params.InputProps,
             type: "search",

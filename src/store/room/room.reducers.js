@@ -45,7 +45,7 @@ const roomsSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(loadMessages.fulfilled, (state, action) => {
-        const roomId = action.meta.arg; // Or action.payload.room_id if roomId is in payload
+        const roomId = action.meta.arg; // Contains the original arguments passed to the thunk action
         state.rooms[roomId].messages = action.payload;
         state.loading = false;
       })

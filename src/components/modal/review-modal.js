@@ -19,7 +19,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic"; // or another CKEditor build
 import styled from "styled-components";
 
-import { Img, ModalContainer } from "../../routes/root";
+import { Img, ModalContainer, ModalStyle } from "../../routes/root";
 import { useDispatch, useSelector } from "react-redux";
 import { addReview, updateReview } from "../../store/review/review.actions";
 import { fetchMovieDetails } from "../../store/movie/movie.actions";
@@ -30,6 +30,7 @@ const StyledCKEditorContainer = styled.div`
     overflow-y: auto;
   }
 `;
+
 const editorConfig = {
   toolbar: [
     "heading",
@@ -49,16 +50,18 @@ const editorConfig = {
 
 export default function ReviewModal({ movieId, review, handleCloseModal }) {
   const dispatch = useDispatch();
-  const { movieDetails } = useSelector((state) => state.movie.movieDetails); // Get movie details from Redux state
+  const { movieDetails } = useSelector((state) => state.movie); // Get movie details from Redux state
 
   // Function to fetch movie details
   useEffect(() => {
     if (review && review.review_movie_id) {
       dispatch(fetchMovieDetails(review.review_movie_id)); // Dispatch action to fetch movie details
+    } else {
+      dispatch(fetchMovieDetails(movieId));
     }
-  }, [dispatch, review]); // Trigger useEffect when review changes
+  }, [dispatch, review, movieId]); // Trigger useEffect when review changes
 
-  const isEditMode = !!review; //Convert to boolean
+  const isEditMode = !!review; //Convert to boolean (review truthy => !!review will become true)
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required."),
@@ -107,10 +110,10 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
   };
 
   return (
-    <ModalContainer maxWidth="sm">
+    <>
       {movieDetails && (
-        <Paper elevation={4} sx={{ borderRadius: "10px", p: "15px" }}>
-          <Stack sx={{ bgcolor: "#f3f3f3" }} divider={<Divider />}>
+        <Paper elevation={4} sx={{ ...ModalStyle, borderRadius: 2 }}>
+          <Stack divider={<Divider />}>
             <Grid container>
               <Grid item md={2}>
                 <Img
@@ -122,7 +125,7 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
                 <Stack direction={"column"} divider={<Divider />} spacing={1}>
                   <Typography variant="h6">
                     {movieDetails.title}&nbsp; (
-                    {movieDetails.release_date.split("-")[0]})
+                    {movieDetails.release_date?.split("-")[0]})
                   </Typography>
                   <Typography variant="h5" component={"h1"}>
                     Add an Item
@@ -204,6 +207,6 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
           </Box>
         </Paper>
       )}
-    </ModalContainer>
+    </>
   );
 }

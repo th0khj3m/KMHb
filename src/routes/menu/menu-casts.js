@@ -29,7 +29,7 @@ export default function MenuCasts() {
       <Typography variant="h4" component={"h1"} fontWeight={"bold"} mt={5}>
         Popular People
       </Typography>
-      <Grid container spacing={4} mb={4} mt={2}>
+      <Grid container spacing={4} mb={4} mt={1}>
         {trendingCasts &&
           trendingCasts.map((cast, index) => (
             <Grid item md={3} key={index}>

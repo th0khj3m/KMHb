@@ -13,7 +13,7 @@ import { Error as ErrorIcon } from "@mui/icons-material";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
-import { ModalContainer } from "../../routes/root";
+import { ModalContainer, ModalStyle } from "../../routes/root";
 import { useDispatch } from "react-redux";
 import { addAccount } from "../../store/accounts/account.actions";
 
@@ -60,75 +60,73 @@ export default function AccountModal({ handleCloseModal }) {
   };
 
   return (
-    <ModalContainer maxWidth="sm">
-      <Paper elevation={4} sx={{ borderRadius: "10px", p: "15px" }}>
-        <Typography variant="h6" fontWeight={"bold"}>
-          Add Account
-        </Typography>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting, errors, touched }) => (
-            <Form>
-              <FormControl fullWidth>
-                <Field
-                  name="username"
-                  as={TextField}
-                  label="Username"
-                  fullWidth
-                  margin="normal"
-                />
-                <ErrorDisplay
-                  error={errors.username}
-                  touched={touched.username}
-                  id="username-helper-text"
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <Field
-                  name="email"
-                  as={TextField}
-                  label="Email"
-                  fullWidth
-                  margin="normal"
-                />
-                <ErrorDisplay
-                  error={errors.email}
-                  touched={touched.email}
-                  id="email-helper-text"
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <Field
-                  name="password"
-                  type="password"
-                  as={TextField}
-                  label="Password"
-                  fullWidth
-                  margin="normal"
-                />
-                <ErrorDisplay
-                  error={errors.password}
-                  touched={touched.password}
-                  id="email-helper-text"
-                />
-              </FormControl>
-              <Button
+    <Paper elevation={4} sx={ModalStyle}>
+      <Typography variant="h6" fontWeight={"bold"}>
+        Add Account
+      </Typography>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, errors, touched }) => (
+          <Form>
+            <FormControl fullWidth>
+              <Field
+                name="username"
+                as={TextField}
+                label="Username"
                 fullWidth
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={isSubmitting}
-                sx={{ mt: 3 }}
-              >
-                Add
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Paper>
-    </ModalContainer>
+                margin="normal"
+              />
+              <ErrorDisplay
+                error={errors.username}
+                touched={touched.username}
+                id="username-helper-text"
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <Field
+                name="email"
+                as={TextField}
+                label="Email"
+                fullWidth
+                margin="normal"
+              />
+              <ErrorDisplay
+                error={errors.email}
+                touched={touched.email}
+                id="email-helper-text"
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <Field
+                name="password"
+                type="password"
+                as={TextField}
+                label="Password"
+                fullWidth
+                margin="normal"
+              />
+              <ErrorDisplay
+                error={errors.password}
+                touched={touched.password}
+                id="email-helper-text"
+              />
+            </FormControl>
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isSubmitting}
+              sx={{ mt: 3 }}
+            >
+              Add
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Paper>
   );
 }
