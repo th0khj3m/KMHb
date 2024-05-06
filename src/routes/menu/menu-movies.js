@@ -11,20 +11,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // Main style file
 import "react-date-range/dist/theme/default.css"; // Theme styles
 
 import { fetchDiscoverMovies } from "../../store/movies/movies.actions";
 import MovieItem from "../../components/movie-item";
-import useAddToWatchlist from "../../hooks/useAddToWatchlist";
 
 export default function MenuMovies() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("popularity.desc");
-  const { handleAddToWatchlist, loadingMovie } = useAddToWatchlist();
   const [releaseDateRange, setReleaseDateRange] = useState([
     {
       startDate: new Date(),
@@ -33,10 +29,7 @@ export default function MenuMovies() {
     },
   ]);
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
   const { discoverMovies } = useSelector((state) => state.movies);
-  const watchlistMovies = useSelector((state) => state.watchlist.movies);
-  const ratingMovies = useSelector((state) => state.rating.ratings);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,7 +75,7 @@ export default function MenuMovies() {
               <MenuItem value="vote_average.desc">Rating Descending</MenuItem>
               <MenuItem value="vote_average.asc">Rating Ascending</MenuItem>
             </Select>
-            
+
             <Box my={2}>
               <Divider />
               <Typography mb={1} mt={2} color={"#696969"} variant="h6">
@@ -112,19 +105,8 @@ export default function MenuMovies() {
       <Grid item md={9}>
         <Stack direction={"row"} useFlexGap flexWrap={"wrap"} spacing={2}>
           {discoverMovies &&
-            Object.values(discoverMovies).map((movie, index) => (
-              <MovieItem
-                key={index}
-                movie={movie}
-                movieIndex={index}
-                isAuthenticated={isAuthenticated}
-                watchlistMovies={watchlistMovies}
-                ratingMovies={ratingMovies}
-                loadingMovie={loadingMovie}
-                handleAddToWatchlist={handleAddToWatchlist}
-                navigate={navigate}
-                movieWidth="23%"
-              />
+            Object.values(discoverMovies).map((movie) => (
+              <MovieItem movie={movie} movieWidth="23%" />
             ))}
         </Stack>
       </Grid>

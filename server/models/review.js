@@ -4,13 +4,27 @@ const pgp = pgPromise({ capSQL: true });
 
 export default class ReviewModel {
   async create(data) {
+    const { user_id, movie_id, title, content } = data;
     try {
       // Generate SQL statement - using helper for dynamic parameter injection
-      const statement =
-        pgp.helpers.insert(data, null, "reviews") + "RETURNING *";
+
+      const statement = `
+      WITH inserted AS (
+        INSERT INTO reviews (user_id, movie_id, title, content)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *
+      )
+      SELECT inserted.*, users.username 
+      FROM inserted
+      INNER JOIN users ON inserted.user_id = users.id;`;
 
       // Execute SQL statment
-      const result = await db.query(statement);
+      const result = await db.query(statement, [
+        user_id,
+        movie_id,
+        title,
+        content,
+      ]);
 
       if (result.rows?.length) {
         return result.rows[0];
@@ -25,12 +39,12 @@ export default class ReviewModel {
   async findByUserId(user_id) {
     try {
       const statement = `SELECT
-      reviews.id AS review_id,
-      reviews.title as review_title,
-      reviews.content AS review_content,
-      reviews.created_at AS review_date,
-      reviews.movie_id AS review_movie_id,
-      users.username AS user_username
+      reviews.id,
+      reviews.title,
+      reviews.content,
+      reviews.created_at,
+      reviews.movie_id,
+      users.username
   FROM
       reviews
   JOIN
@@ -50,11 +64,11 @@ export default class ReviewModel {
   async findByMovieId(movie_id) {
     try {
       const statement = `SELECT
-      reviews.id AS review_id,
-      reviews.title as review_title,
-      reviews.content AS review_content,
-      reviews.created_at AS review_date,
-      users.username AS user_username
+      reviews.id,
+      reviews.title,
+      reviews.content,
+      reviews.created_at,
+      users.username
   FROM
       reviews
   JOIN

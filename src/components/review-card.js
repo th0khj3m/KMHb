@@ -12,14 +12,13 @@ import { MoreVert as MoreVertIcon } from "@mui/icons-material";
 import { formatReviewDate } from "../utils/format-date";
 
 const ReviewCard = ({
-  key,
   review,
   options,
   handleOptionSelect,
   isUser = false,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const sanitizedContent = sanitize(review.review_content);
+  const sanitizedContent = sanitize(review?.content);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -27,7 +26,7 @@ const ReviewCard = ({
 
   return (
     <Paper
-      key={key}
+      key={review.review_id}
       elevation={3}
       sx={{ mb: 4, position: "relative", my: "15px" }}
     >
@@ -64,15 +63,16 @@ const ReviewCard = ({
         )}
         <Box display={"flex"} flexDirection={"column"}>
           <Typography fontWeight={"bold"} fontSize={"20px"}>
-            {review.review_title}
+            {review?.title}
           </Typography>
           <Box display={"flex"} alignItems={"center"} gap={"10px"}>
             <Typography>
               Written by{" "}
               <Typography variant="span" fontWeight={"bold"} mr={0.6}>
-                {review.user_username}
+                {review?.username}
               </Typography>
-              on {formatReviewDate(review.review_date)}
+              {/* on {formatReviewDate(review?.review_date)} */}
+              on {formatReviewDate(review?.created_at)}
             </Typography>
           </Box>
         </Box>

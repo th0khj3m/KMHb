@@ -9,10 +9,17 @@ import {
   Container,
   Stack,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import { Img, WhiteTypography } from "../../routes/root";
+import {
+  Add as AddIcon,
+  Star as StarIcon,
+  Check as CheckIcon,
+} from "@mui/icons-material";
+
+import { BannerWatchlistButton, Img, WhiteTypography } from "../../routes/root";
 import RatingBox from "../rating-box";
 import findNewestTrailer from "../../utils/find-newest-trailer";
+import useIsInWatchlist from "../../hooks/useIsInWatchlist";
+import useAddToWatchlist from "../../hooks/useAddToWatchlist";
 
 export default function MovieDetailsBanner({ movie }) {
   const ratingMovies = useSelector((state) => state.rating.ratings);
@@ -23,7 +30,6 @@ export default function MovieDetailsBanner({ movie }) {
   const usRelease = movie?.release_dates?.results.find(
     (result) => result.iso_3166_1 === "US"
   );
-
   const movieCertification =
     usRelease?.release_dates[0]?.certification !== undefined &&
     usRelease?.release_dates[0]?.certification !== ""
@@ -36,6 +42,9 @@ export default function MovieDetailsBanner({ movie }) {
   const movieImagePath = movie?.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : `/images/no-image.png`;
+
+  const isMovieInWatchlist = useIsInWatchlist(movie.id);
+  const { handleAddToWatchlist } = useAddToWatchlist(movie.id);
 
   const getDirector = () => {
     if (movie && movie.casts && movie.casts.crew) {
@@ -147,52 +156,73 @@ export default function MovieDetailsBanner({ movie }) {
             />
           )}
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            mt: "15px",
-            gap: "10px",
-          }}
-        >
-          <Box>
-            {movie.genres &&
-              movie.genres.map((genre, index) => (
-                <Chip
-                  key={index}
-                  label={genre.name}
-                  clickable
-                  sx={{
-                    marginRight: "5px",
-                    color: "#fff",
-                    border: "1px solid #fff",
-                    bgcolor: "transparent",
-                  }}
-                />
-              ))}
-          </Box>
-          <WhiteTypography sx={{ my: "10px" }}>
-            {movie?.overview}
-          </WhiteTypography>
-          <Divider />
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <WhiteTypography variant="h6" gutterBottom mb={"auto"} mr={"15px"}>
-              Director
-            </WhiteTypography>
-            <Typography variant="h6" color={"main"}>
-              {getDirector()}
-            </Typography>
-          </Box>
-          <Divider />
-          <Box sx={{ display: "flex", alignItems: "center", mb: "20px" }}>
-            <WhiteTypography variant="h6" gutterBottom mb={"auto"} mr={"15px"}>
-              Writers
-            </WhiteTypography>
-            <Typography variant="h6" color={"main"}>
-              {getWriters()}
-            </Typography>
-          </Box>
-        </Box>
+        <Grid container>
+          <Grid item md={9} my={2}>
+            <Stack gap={1}>
+              <Box>
+                {movie.genres &&
+                  movie.genres.map((genre, index) => (
+                    <Chip
+                      key={index}
+                      label={genre.name}
+                      clickable
+                      sx={{
+                        marginRight: "5px",
+                        color: "#fff",
+                        border: "1px solid #fff",
+                        bgcolor: "transparent",
+                      }}
+                    />
+                  ))}
+              </Box>
+              <WhiteTypography my={1}>{movie?.overview}</WhiteTypography>
+              <Divider />
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <WhiteTypography
+                  gutterBottom
+                  mb={"auto"}
+                  mr={"15px"}
+                  fontWeight={"bold"}
+                >
+                  Director
+                </WhiteTypography>
+                <Typography color={"main"}>{getDirector()}</Typography>
+              </Box>
+              <Divider />
+              <Box sx={{ display: "flex", alignItems: "center", mb: "20px" }}>
+                <WhiteTypography
+                  gutterBottom
+                  mb={"auto"}
+                  mr={1}
+                  fontWeight={"bold"}
+                >
+                  Writers
+                </WhiteTypography>
+                <Typography color={"main"}>{getWriters()}</Typography>
+              </Box>
+            </Stack>
+          </Grid>
+          <Grid
+            item
+            md={3}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "end",
+            }}
+          >
+            <BannerWatchlistButton
+              variant="contained"
+              onClick={() => handleAddToWatchlist()}
+              startIcon={isMovieInWatchlist ? <CheckIcon /> : <AddIcon />}
+              size="large"
+            >
+              <Typography fontWeight={"bold"} width={"100%"}>
+                Add to Watchlist
+              </Typography>
+            </BannerWatchlistButton>
+          </Grid>
+        </Grid>
       </Container>
 
       <Box

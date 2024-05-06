@@ -45,7 +45,7 @@ const CustomToolbar = () => {
   );
 };
 
-export default function Accounts() {
+export default function Reviews() {
   const dispatch = useDispatch();
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
   const { accounts, loading } = useSelector((state) => state.account);

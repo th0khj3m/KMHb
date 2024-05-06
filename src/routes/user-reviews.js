@@ -16,14 +16,10 @@ export default function UserReviews() {
     useModal();
 
   const handleOptionSelect = (option, review) => {
-    // Additional logic can be added here based on the selected option
     if (option === "Edit") {
       handleOpenModal(review);
-      // Handle edit action
-      // Example: handleEdit(review);
-      // You can pass the review data to the edit modal using state or props
     } else if (option === "Delete") {
-      dispatch(removeReview(review.review_id));
+      dispatch(removeReview(review.id));
     }
   };
 
@@ -31,7 +27,6 @@ export default function UserReviews() {
     <Container maxWidth="xl">
       {userReviews?.map((review) => (
         <ReviewCard
-          key={review.review_id}
           review={review}
           options={options}
           handleOptionSelect={handleOptionSelect}

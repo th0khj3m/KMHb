@@ -6,8 +6,9 @@ const watchlistSlice = createSlice({
   name: "watchlist",
   initialState: {
     movies: [],
-    error: null,
     loading: false,
+    loadingMovie: {},
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -23,16 +24,23 @@ const watchlistSlice = createSlice({
         state.movies = action.payload;
         state.loading = false;
       })
-      .addCase(addMovie.pending, (state, action) => {})
+      .addCase(addMovie.pending, (state, action) => {
+        // Set loading state of the specific movie to true
+        state.loadingMovie[action.meta.arg] = true;
+      })
       .addCase(addMovie.fulfilled, (state, action) => {
         state.movies.push(action.payload);
+        state.loadingMovie[action.meta.arg] = false;
       })
-      .addCase(removeMovie.pending, (state, action) => {})
+      .addCase(removeMovie.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(removeMovie.fulfilled, (state, action) => {
         const index = state.movies.findIndex(
           (movie) => movie.movie_id === action.payload.movie_id
         ); //Find index of movie removed in movies
-        state.movies.splice(index, 1); //Remove
+        state.movies.splice(index, 1); //Remove from state
+        state.loading = false;
       });
   },
 });

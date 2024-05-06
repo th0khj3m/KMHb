@@ -54,8 +54,8 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
 
   // Function to fetch movie details
   useEffect(() => {
-    if (review && review.review_movie_id) {
-      dispatch(fetchMovieDetails(review.review_movie_id)); // Dispatch action to fetch movie details
+    if (review && review.movie_id) {
+      dispatch(fetchMovieDetails(review.movie_id)); // Dispatch action to fetch movie details
     } else {
       dispatch(fetchMovieDetails(movieId));
     }
@@ -76,7 +76,7 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
   const handleSubmit = async (values, { setSubmitting, setStatus }) => {
     try {
       if (isEditMode) {
-        dispatch(updateReview({ reviewId: review.review_id, data: values }));
+        dispatch(updateReview({ reviewId: review.id, data: values }));
         setStatus({ success: true }); // Set Formik status for success feedback
       } else {
         dispatch(addReview({ movieId, data: values }));
@@ -145,8 +145,8 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
               initialValues={
                 isEditMode
                   ? {
-                      title: review.review_title,
-                      content: review.review_content,
+                      title: review.title,
+                      content: review.content,
                     }
                   : { title: "", content: "" }
               }

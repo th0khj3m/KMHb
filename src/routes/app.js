@@ -60,6 +60,7 @@ const router = createBrowserRouter(
       <Route path="admin" element={<PrivateRoute isAdminRoute={true} />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="accounts" element={<Accounts />} />
+        {/* <Route path="user-reviews" element={<Admin/>} /> */}
       </Route>
 
       <Route path="*" element={<Navigate to="/" />} />

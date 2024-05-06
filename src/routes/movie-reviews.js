@@ -13,8 +13,9 @@ export default function MovieReviews() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { movieId } = useParams();
+
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const reviews = useSelector((state) => state.review.reviews);
+  const { reviews } = useSelector((state) => state.review);
 
   const { openModal, handleOpenModal, handleCloseModal, modalIndex } =
     useModal();
@@ -57,7 +58,7 @@ export default function MovieReviews() {
           </Button>
         </Grid>
         <Grid item md={9}>
-          {reviews.map((review, index) => (
+          {reviews.map((review) => (
             <ReviewCard review={review} />
           ))}
         </Grid>

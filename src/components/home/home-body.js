@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 //MUI
 import {
@@ -16,18 +15,11 @@ import {
 } from "../../store/movies/movies.actions";
 
 import MovieItem from "../movie-item";
-import useAddToWatchlist from "../../hooks/useAddToWatchlist";
 
 const sections = [{ title: "Trending" }, { title: "Popular" }];
 
 export default function HomeBody() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const watchlistMovies = useSelector((state) => state.watchlist.movies);
-  const ratingMovies = useSelector((state) => state.rating.ratings);
-  const { handleAddToWatchlist, loadingMovie } = useAddToWatchlist();
 
   const [timeframe, setTimeframe] = useState("day");
   const [movies, setMovies] = useState({
@@ -57,7 +49,7 @@ export default function HomeBody() {
     };
 
     fetchData();
-  }, [dispatch, timeframe, isAuthenticated]);
+  }, [dispatch, timeframe]);
 
   return (
     <>
@@ -88,19 +80,7 @@ export default function HomeBody() {
           <Box display="flex" gap="20px" overflow="auto" pb="20px" mb="20px">
             {movies &&
               movies[index === 0 ? "trendingMovies" : "popularMovies"].map(
-                (movie, index) => (
-                  <MovieItem
-                    key={index}
-                    movie={movie}
-                    movieIndex={index}
-                    isAuthenticated={isAuthenticated}
-                    watchlistMovies={watchlistMovies}
-                    ratingMovies={ratingMovies}
-                    loadingMovie={loadingMovie}
-                    handleAddToWatchlist={handleAddToWatchlist}
-                    navigate={navigate}
-                  />
-                )
+                (movie) => <MovieItem movie={movie} />
               )}
           </Box>
         </Box>

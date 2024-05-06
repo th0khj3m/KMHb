@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   Typography,
   Box,
@@ -6,30 +9,34 @@ import {
   Paper,
   Divider,
   Container,
+  Stack,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+
 import { Img } from "../../routes/root";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { loadReviews } from "../../store/review/review.actions";
 import ReviewCard from "../review-card";
 
 export default function MovieDetailsInfo({ movie }) {
   const dispatch = useDispatch();
+
   const { reviews } = useSelector((state) => state.review);
-  const review = reviews[0];
   const { casts } = movie;
 
   useEffect(() => {
-    try {
+    if (movie && movie.id) {
       const fetchReviews = async () => {
-        await dispatch(loadReviews(movie.id));
+        try {
+          await dispatch(loadReviews(movie.id));
+        } catch (err) {
+          console.log(err);
+        }
       };
       fetchReviews();
-    } catch (err) {
-      console.log(err);
     }
-  }, [dispatch, movie.id]);
+  }, [dispatch, movie, movie.id]);
+
+  // Correctly handle rendering when reviews might be empty
+  const firstReview = reviews.length > 0 ? reviews[0] : null;
 
   return (
     <Container maxWidth="xl">
@@ -75,22 +82,29 @@ export default function MovieDetailsInfo({ movie }) {
 
           <Divider />
 
-          <Box my="15px">
+          <Stack my={1} gap={1}>
             <Typography variant="h5" component="h2" fontWeight={"600"}>
               User reviews
             </Typography>
-            {reviews.length > 0 && <ReviewCard review={review} />}
+            {firstReview ? (
+              <ReviewCard review={firstReview} />
+            ) : (
+              <Typography>
+                {" "}
+                We don't have any reviews for {movie.title}
+              </Typography>
+            )}
             <Link
               to={`/movies/${movie.id}/reviews`}
               style={{ textDecoration: "none" }}
             >
-              <Typography color="black" fontWeight={"600"}>
+              <Typography color="black" fontWeight={"600"} mb={2}>
                 Read all reviews
               </Typography>
             </Link>
-          </Box>
+          </Stack>
         </Grid>
-        <Grid item md={3} m="15px">
+        <Grid item md={3} m={1}>
           {movie && (
             <Box display="flex" flexDirection="column" gap="10px">
               <Typography variant="h5" component="h2" fontWeight="bold">

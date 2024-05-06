@@ -4,28 +4,26 @@ import { Box, Typography } from "@mui/material";
 import { Img } from "../routes/root";
 import RatingBox from "./rating-box";
 import { WatchlistButton } from "../routes/root";
-import CheckIcon from "@mui/icons-material/Check";
-import AddIcon from "@mui/icons-material/Add";
+import { Check as CheckIcon, Add as AddIcon } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import useIsInWatchlist from "../hooks/useIsInWatchlist";
+import { useSelector } from "react-redux";
+import useAddToWatchlist from "../hooks/useAddToWatchlist";
 
-const MovieItem = ({
-  movie,
-  movieIndex,
-  isAuthenticated,
-  watchlistMovies,
-  ratingMovies,
-  loadingMovie,
-  handleAddToWatchlist,
-  navigate,
-  movieWidth = "15%",
-}) => {
+const MovieItem = ({ movie, movieWidth = "15%" }) => {
+  const ratingMovies = useSelector((state) => state.rating.ratings);
+  const { loadingMovie } = useSelector((state) => state.watchlist);
+
+  const isMovieInWatchlist = useIsInWatchlist(movie.id);
+  const { handleAddToWatchlist } = useAddToWatchlist(movie.id);
+
   const imagePath = movie?.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : `/images/no-image.png`;
 
   return (
     <Box
-      key={movieIndex}
+      key={movie.id}
       display="flex"
       flexDirection="column"
       flexShrink={0}
@@ -53,41 +51,27 @@ const MovieItem = ({
         {movie.title}
       </Typography>
 
-      {isAuthenticated ? (
-        watchlistMovies.find(
-          (watchlistMovie) => watchlistMovie.movie_id === movie.id
-        ) ? (
-          <WatchlistButton
-            variant="contained"
-            onClick={() => handleAddToWatchlist(movie.id)}
-            startIcon={<CheckIcon />}
-          >
-            Watchlist
-          </WatchlistButton>
-        ) : (
-          <LoadingButton
-            onClick={() => handleAddToWatchlist(movie.id)}
-            loading={loadingMovie[movie.id]}
-            variant="contained"
-            loadingPosition="start"
-            startIcon={<AddIcon />}
-            sx={{
-              bgcolor: "#2C2C2C",
-              color: "#0DB597",
-              "&:hover": { bgcolor: "rgba(13, 181, 151, 0.4)" },
-            }}
-          >
-            <Typography component={"span"}>Watchlist</Typography>
-          </LoadingButton>
-        )
-      ) : (
+      {!loadingMovie[movie.id] ? (
         <WatchlistButton
           variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => navigate("/login")}
+          onClick={() => handleAddToWatchlist()}
+          startIcon={isMovieInWatchlist ? <CheckIcon /> : <AddIcon />}
         >
           Watchlist
         </WatchlistButton>
+      ) : (
+        <LoadingButton
+          loading={loadingMovie[movie.id]}
+          variant="contained"
+          loadingPosition="center"
+          sx={{
+            bgcolor: "#2C2C2C",
+            color: "#0DB597",
+            "&:hover": { bgcolor: "rgba(13, 181, 151, 0.4)" },
+          }}
+        >
+          <Typography component={"span"}>Watchlist</Typography>
+        </LoadingButton>
       )}
     </Box>
   );

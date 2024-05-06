@@ -1,49 +1,33 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addMovie, removeMovie } from "../store/watchlist/watchlist.actions";
+import useIsInWatchlist from "./useIsInWatchlist";
 
-const useAddToWatchlist = () => {
+const useAddToWatchlist = (movieId) => {
   const dispatch = useDispatch();
-  const watchlistMovies = useSelector((state) => state.watchlist.movies);
-  const [loadingMovie, setLoadingMovie] = useState({});
+  const navigate = useNavigate();
 
-  const handleAddToWatchlist = async (movieId) => {
-    // Check if the movie is already in the watchlist
-    const isMovieInWatchlist = watchlistMovies.some(
-      (watchlistMovie) => watchlistMovie.movie_id === movieId
-    );
+  const isAuthenticated = useSelector((state) => state.auth);
+  const isMovieInWatchlist = useIsInWatchlist(movieId);
 
-    // Set loading state of the specific movie to true
-    setLoadingMovie((prevState) => ({
-      ...prevState,
-      [movieId]: true,
-    }));
-
+  const handleAddToWatchlist = async () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     try {
       if (isMovieInWatchlist) {
         await dispatch(removeMovie(movieId));
       } else {
         await dispatch(addMovie(movieId));
       }
-
-      // Set loading state of the specific movie to false on success
-      setLoadingMovie((prevState) => ({
-        ...prevState,
-        [movieId]: false,
-      }));
-    } catch (error) {
-      // Set loading state of the specific movie to false on error
-      setLoadingMovie((prevState) => ({
-        ...prevState,
-        [movieId]: false,
-      }));
-      console.log(error);
+    } catch (err) {
+      throw err;
     }
   };
 
   return {
     handleAddToWatchlist,
-    loadingMovie,
   };
 };
 

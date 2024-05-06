@@ -126,6 +126,17 @@ export const AuthButton = styled(Button)({
   },
 });
 
+export const BannerWatchlistButton = styled(Button)({
+  display: "flex",
+  backgroundColor: "main", // Adjust the color based on your requirements
+  color: "black", // Text color
+  padding: "12px",
+  textAlign: "start",
+  boxShadow: "none",
+  width: "80%",
+  textTransform: "none",
+});
+
 export const WatchlistButton = styled(Button)({
   backgroundColor: "#2C2C2C",
   color: "#0DB597",
