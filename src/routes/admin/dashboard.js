@@ -10,6 +10,7 @@ import {
 } from "../../apis/statistics";
 import { DashboardBox } from "../root";
 import { useSelector } from "react-redux";
+import { formatReviewDate } from "../../utils/format-date";
 
 ChartJS.register(...registerables);
 
@@ -19,19 +20,6 @@ export default function Dashboard() {
   const [todayRegistrations, setTodayRegistrations] = useState();
   const [todayRatings, setTodayRatings] = useState([]);
   const [todayReviews, setTodayReviews] = useState([]);
-
-  const formatDate = (timePeriod) => {
-    const date = new Date(timePeriod);
-
-    // Format the date into a readable format (e.g., "Apr 20, 2024")
-    const formattedDate = date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    });
-
-    return formattedDate;
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +63,9 @@ export default function Dashboard() {
   const uniqueTimePeriodArray = Array.from(uniqueTimePeriods);
 
   const chartData = {
-    labels: uniqueTimePeriodArray.map((timePeriod) => formatDate(timePeriod)),
+    labels: uniqueTimePeriodArray.map((timePeriod) =>
+      formatReviewDate(timePeriod)
+    ),
     datasets: [
       { label: "Users", data: [] },
       { label: "Ratings", data: [] },
@@ -83,21 +73,23 @@ export default function Dashboard() {
     ],
   };
 
-  // Populate datasets with counts from totalOvertime
-  totalOvertime.forEach((item) => {
-    switch (item.type) {
-      case "user":
-        chartData.datasets[0].data.push(item.count);
-        break;
-      case "rating":
-        chartData.datasets[1].data.push(item.count);
-        break;
-      case "review":
-        chartData.datasets[2].data.push(item.count);
-        break;
-      default:
-        break;
-    }
+  uniqueTimePeriodArray.forEach((timePeriod) => {
+    // Check if there is data for the current time period in totalOvertime
+    const userData = totalOvertime.find(
+      (item) => item.time_period === timePeriod && item.type === "user"
+    );
+    const ratingData = totalOvertime.find(
+      (item) => item.time_period === timePeriod && item.type === "rating"
+    );
+    const reviewData = totalOvertime.find(
+      (item) => item.time_period === timePeriod && item.type === "review"
+    );
+
+    // If data is not found, set the count to 0 for that type
+    // If data is not found, set the count to 0 for that type
+    chartData.datasets[0].data.push(userData ? userData.count : 0);
+    chartData.datasets[1].data.push(ratingData ? ratingData.count : 0);
+    chartData.datasets[2].data.push(reviewData ? reviewData.count : 0);
   });
 
   const options = {
