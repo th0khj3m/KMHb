@@ -76,7 +76,7 @@ export default function Accounts() {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 4 }}>
       <Typography variant="h4" component={"h1"} fontWeight={"bold"} my={3}>
         Account Management
       </Typography>
@@ -125,6 +125,7 @@ export default function Accounts() {
               setRowSelectionModel(newRowSelectionModel);
             }}
             loading={loading}
+            autoHeight
             keepNonExistentRowsSelected
           />
         </>

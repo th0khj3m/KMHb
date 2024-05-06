@@ -68,43 +68,43 @@ export default class AuthService {
     }
   }
 
-  async googleLogin(profile) {
-    const { id, displayName, emails } = profile;
-    const email = emails[0].value;
-    const oauthUser = { id, displayName, email, role_id: 2 };
-    try {
-      // Check if user exists
-      const user = await UserModelInstance.findOneByGoogleId(id);
-      if (!user) {
-        const user = await UserModelInstance.create({
-          google: oauthUser,
-        });
-        await WatchlistServiceInstance.create(user.id);
-      }
-      return user;
-    } catch (err) {
-      throw err;
-    }
-  }
+  // async googleLogin(profile) {
+  //   const { id, displayName, emails } = profile;
+  //   const email = emails[0].value;
+  //   const oauthUser = { id, displayName, email, role_id: 2 };
+  //   try {
+  //     // Check if user exists
+  //     const user = await UserModelInstance.findOneByGoogleId(id);
+  //     if (!user) {
+  //       const user = await UserModelInstance.create({
+  //         google: oauthUser,
+  //       });
+  //       await WatchlistServiceInstance.create(user.id);
+  //     }
+  //     return user;
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // }
 
-  async facebookLogin(profile) {
-    const { id, displayName } = profile;
+  // async facebookLogin(profile) {
+  //   const { id, displayName } = profile;
 
-    try {
-      // Check if user exists
-      const user = await UserModelInstance.findOneByFacebookId(id);
+  //   try {
+  //     // Check if user exists
+  //     const user = await UserModelInstance.findOneByFacebookId(id);
 
-      // If no user found, create new user
-      if (!user) {
-        return await UserModelInstance.create({
-          facebook: { id, displayName },
-        });
-      }
+  //     // If no user found, create new user
+  //     if (!user) {
+  //       return await UserModelInstance.create({
+  //         facebook: { id, displayName },
+  //       });
+  //     }
 
-      // User already exists, return profile
-      return user;
-    } catch (err) {
-      throw createError(500, err);
-    }
-  }
+  //     // User already exists, return profile
+  //     return user;
+  //   } catch (err) {
+  //     throw createError(500, err);
+  //   }
+  // }
 }

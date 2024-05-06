@@ -11,9 +11,13 @@ import {
   Button,
 } from "@mui/material";
 import {
-  BookmarkAdd,
+  BookmarkAdd as BookmarkAddIcon,
   Menu as MenuIcon,
-  AccountCircle,
+  AccountCircle as AccountCircleIcon,
+  Chat as ChatIcon,
+  ManageAccounts as ManageAccountsIcon,
+  Dashboard as DashboardIcon,
+  Approval as ApprovalIcon,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { Img } from "../routes/root";
@@ -22,7 +26,6 @@ import ProfileMenu from "./menu/profile-menu";
 import { logoutUser } from "../store/auth/auth.actions";
 import useCombinedLoadingState from "../hooks/useCombinedLoadingState";
 import HeaderMenu from "./menu/header-menu";
-import ChatIcon from "@mui/icons-material/Chat";
 
 const MenuItemLink = styled(Link)({
   textDecoration: "none",
@@ -148,7 +151,7 @@ export default function Header() {
               </Box>
 
               <MenuItemLink to="user/watchlist">
-                <BookmarkAdd />
+                <BookmarkAddIcon />
                 <Typography fontWeight={"bold"}>Watchlist</Typography>
               </MenuItemLink>
             </>
@@ -156,12 +159,19 @@ export default function Header() {
 
           {isAdmin && (
             <>
+              <MenuItemLink to="admin/dashboard">
+                <DashboardIcon />
+                <Typography fontWeight={"bold"}>Dashboard</Typography>
+              </MenuItemLink>
+
               <MenuItemLink to="admin/accounts">
+                <ManageAccountsIcon />
                 <Typography fontWeight={"bold"}>Accounts</Typography>
               </MenuItemLink>
 
-              <MenuItemLink to="admin/dashboard">
-                <Typography fontWeight={"bold"}>Dashboard</Typography>
+              <MenuItemLink to="admin/reviews-approval">
+                <ApprovalIcon />
+                <Typography fontWeight={"bold"}>Reviews Approval</Typography>
               </MenuItemLink>
             </>
           )}
@@ -178,7 +188,7 @@ export default function Header() {
                 onClick={handleProfileMenuClick}
                 sx={{ marginLeft: "auto" }}
               >
-                <AccountCircle color="secondary" />
+                <AccountCircleIcon color="secondary" />
                 <Typography
                   color={"black"}
                   textTransform={"none"}

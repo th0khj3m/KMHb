@@ -9,6 +9,33 @@ export const fetchReviews = async (movieId) => {
   }
 };
 
+export const fetchPendingReviews = async () => {
+  try {
+    const response = await API.get(`reviews`);
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+};
+
+export const updateStatus = async (data) => {
+  try {
+    const response = await API.put(`reviews`, { data });
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+};
+
+export const deleteReviews = async (data) => {
+  try {
+    const response = await API.delete(`reviews`, { data });
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+};
+
 export const getSpecificReview = async (reviewId) => {
   try {
     const response = await API.get(`reviews/${reviewId}`);

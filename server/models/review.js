@@ -36,6 +36,21 @@ export default class ReviewModel {
     }
   }
 
+  async find() {
+    try {
+      const statement = `SELECT reviews.*, users.username FROM reviews 
+                         INNER JOIN users ON reviews.user_id = users.id 
+                         WHERE status = FALSE`;
+      const result = await db.query(statement);
+      if (result.rows?.length) {
+        return result.rows;
+      }
+      return [];
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async findByUserId(user_id) {
     try {
       const statement = `SELECT
@@ -94,6 +109,34 @@ export default class ReviewModel {
         return result.rows[0];
       }
       return null;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateStatus(data) {
+    try {
+      const idString = data.join(",");
+      const statement = `UPDATE reviews SET status = true WHERE id IN (${idString}) RETURNING *`;
+      const result = await db.query(statement);
+      if (result.rows?.length) {
+        return result.rows;
+      }
+      return [];
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async deleteReviews(data) {
+    try {
+      const idString = data.join(",");
+      const statement = `DELETE FROM reviews WHERE id IN (${idString}) RETURNING *`;
+      const result = await db.query(statement);
+      if (result.rows?.length) {
+        return result.rows;
+      }
+      return [];
     } catch (err) {
       throw err;
     }

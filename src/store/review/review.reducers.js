@@ -2,15 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addReview,
   getReview,
+  loadPendingReviews,
   loadReviews,
+  rejectReviews,
   removeReview,
   updateReview,
+  updateReviewsStatus,
 } from "./review.actions";
 import { checkLoginStatus } from "../auth/auth.actions";
 
 const reviewSlice = createSlice({
   name: "review",
   initialState: {
+    pendingReviews: [],
     reviews: [],
     userReviews: [],
     error: null,
@@ -25,6 +29,43 @@ const reviewSlice = createSlice({
       })
       .addCase(loadReviews.pending, (state, action) => {
         state.loading = true;
+      })
+      .addCase(loadPendingReviews.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(loadPendingReviews.fulfilled, (state, action) => {
+        state.pendingReviews = action.payload;
+        state.loading = false;
+      })
+      .addCase(updateReviewsStatus.fulfilled, (state, action) => {
+        // Update the status of the reviews in the state based on action.payload
+        const updatedReviews = action.payload;
+        // Loop through the updated reviews and update their status in the state
+        updatedReviews.forEach((updatedReview) => {
+          const existingReviewIndex = state.pendingReviews.findIndex(
+            (review) => review.id === updatedReview.id
+          );
+          if (existingReviewIndex !== -1) {
+            // Update the status of the review in the state
+            state.pendingReviews[existingReviewIndex].status =
+              updatedReview.status;
+          }
+        });
+        state.loading = false;
+      })
+      .addCase(rejectReviews.fulfilled, (state, action) => {
+        // Extract the IDs of the deleted reviews from action.payload
+        const deletedReviewIds = action.payload.map(
+          (deletedReview) => deletedReview.id
+        );
+
+        // Remove the deleted reviews from the state
+        state.pendingReviews = state.pendingReviews.filter(
+          (review) => !deletedReviewIds.includes(review.id)
+        );
+
+        // Set loading to false
+        state.loading = false;
       })
       .addCase(loadReviews.fulfilled, (state, action) => {
         state.reviews = action.payload;

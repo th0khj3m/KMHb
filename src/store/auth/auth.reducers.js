@@ -56,10 +56,6 @@ const authSlice = createSlice({
         state.error = null;
         state.loading = false;
       });
-    // .addCase(initiateOAuth.fulfilled, (state, action) => {
-    //   state.isAuthenticated = true;
-    //   state.loading = false;
-    // });
   },
 });
 

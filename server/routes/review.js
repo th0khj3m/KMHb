@@ -1,11 +1,40 @@
 import express from "express";
 const router = express.Router();
 import ReviewService from "../services/ReviewService.js";
-import { isLoggedIn } from "../middleware/middleware.js";
+import { isAuthorized, isLoggedIn } from "../middleware/middleware.js";
 const ReviewServiceInstance = new ReviewService();
 
 export default (app) => {
   app.use("/api/reviews", isLoggedIn, router);
+
+  router.get("/", isAuthorized(), async (req, res, next) => {
+    try {
+      const response = await ReviewServiceInstance.loadPendingReviews();
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.put("/", isAuthorized(), async (req, res, next) => {
+    try {
+      const { data } = req.body;
+      const response = await ReviewServiceInstance.updateReviewsStatus(data);
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.delete("/", isAuthorized(), async (req, res, next) => {
+    try {
+      const data = req.body;
+      const response = await ReviewServiceInstance.rejectReviews(data);
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
 
   router.get("/movies/:movieId", async (req, res, next) => {
     try {

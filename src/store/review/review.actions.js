@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   add,
+  deleteReviews,
+  fetchPendingReviews,
   fetchReviews,
   getSpecificReview,
   remove,
   update,
+  updateStatus,
 } from "../../apis/review";
 
 export const loadReviews = createAsyncThunk(
@@ -12,6 +15,42 @@ export const loadReviews = createAsyncThunk(
   async (movieId, thunkAPI) => {
     try {
       const response = await fetchReviews(movieId);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const loadPendingReviews = createAsyncThunk(
+  "review/loadPendingReviews",
+  async (_, thunkAPI) => {
+    try {
+      const response = await fetchPendingReviews();
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const updateReviewsStatus = createAsyncThunk(
+  "review/updateReviewStatus",
+  async (reviews, thunkAPI) => {
+    try {
+      const response = await updateStatus(reviews);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const rejectReviews = createAsyncThunk(
+  "review/rejectReviewStatus",
+  async (reviews, thunkAPI) => {
+    try {
+      const response = await deleteReviews(reviews);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

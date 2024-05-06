@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   DataGrid,
   GridToolbarContainer,
@@ -7,12 +9,6 @@ import {
   GridToolbarExport,
   GridToolbarDensitySelector,
 } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import {
-  loadAccounts,
-  removeAccounts,
-} from "../../store/accounts/account.actions";
 import {
   Box,
   Button,
@@ -21,10 +17,11 @@ import {
   Typography,
   Stack,
 } from "@mui/material";
-import { useState } from "react";
-import useModal from "../../hooks/useModal";
-import ModalRender from "../../components/modal-render";
-import AccountModal from "../../components/modal/account-modal";
+import {
+  loadPendingReviews,
+  rejectReviews,
+  updateReviewsStatus,
+} from "../../store/review/review.actions";
 
 const CustomToolbar = () => {
   return (
@@ -45,25 +42,25 @@ const CustomToolbar = () => {
   );
 };
 
-export default function Reviews() {
+export default function ReviewsApproval() {
   const dispatch = useDispatch();
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
-  const { accounts, loading } = useSelector((state) => state.account);
-
-  const { openModal, handleOpenModal, handleCloseModal } = useModal();
+  const { pendingReviews, loading } = useSelector((state) => state.review);
 
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "username", headerName: "Username", flex: 1 },
-    { field: "email", headerName: "Email", flex: 1 },
+    { field: "title", headerName: "Title", flex: 1 },
+    { field: "content", headerName: "Content", flex: 1 },
     { field: "created_at", headerName: "Created At", flex: 1 },
-    { field: "role_id", headerName: "Role ID", flex: 1 },
+    { field: "movie_id", headerName: "Movie Id", flex: 1 },
+    { field: "username", headerName: "Username", flex: 1 },
+    { field: "status", headerName: "Status", flex: 1 },
   ];
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        await dispatch(loadAccounts());
+        await dispatch(loadPendingReviews());
       } catch (err) {
         console.log(err);
       }
@@ -71,43 +68,56 @@ export default function Reviews() {
     fetchUserData();
   }, [dispatch]);
 
-  const handleDelete = () => {
-    dispatch(removeAccounts(rowSelectionModel));
+  const handleApprove = async () => {
+    await dispatch(updateReviewsStatus(rowSelectionModel));
+    setRowSelectionModel([]);
+  };
+
+  const handleReject = async () => {
+    await dispatch(rejectReviews(rowSelectionModel));
+    setRowSelectionModel([]);
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 4 }}>
       <Typography variant="h4" component={"h1"} fontWeight={"bold"} my={3}>
-        Account Management
+        Reviews Approval Management
       </Typography>
       {/* {error && (
         <Alert severity="error" variant="filled">
           {error?.message}
         </Alert>
       )} */}
-      {accounts && (
+      {pendingReviews && (
         <>
           <Stack direction={"row"}>
             <Box ml={"auto"} my={2}>
-              <Button variant="outlined" onClick={handleOpenModal}>
-                <Typography color={"primary"}>Add Account</Typography>
-              </Button>
-
               {rowSelectionModel?.length > 0 && (
-                <Button variant="outlined" sx={{ ml: 2 }}>
-                  <Typography
-                    color={"error"}
-                    fontWeight={""}
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </Typography>{" "}
-                </Button>
+                <>
+                  <Button variant="outlined" sx={{ ml: 2 }}>
+                    <Typography
+                      color={"success"} // Change color to represent approved action
+                      fontWeight={"bold"}
+                      onClick={handleApprove} // Add onClick handler for approval action
+                    >
+                      Approved
+                    </Typography>
+                  </Button>
+                  <Button variant="outlined" sx={{ ml: 2 }}>
+                    <Typography
+                      color={"error"}
+                      fontWeight={"bold"}
+                      onClick={handleReject}
+                    >
+                      Rejected
+                    </Typography>{" "}
+                  </Button>
+                </>
               )}
             </Box>
           </Stack>
           <DataGrid
-            rows={accounts}
+            rows={pendingReviews}
             columns={columns}
             initialState={{
               pagination: {
@@ -119,24 +129,17 @@ export default function Reviews() {
             slots={{ toolbar: CustomToolbar, loadingOverlay: LinearProgress }}
             autoPageSize
             checkboxSelection
-            rowCount={accounts?.length}
+            rowCount={pendingReviews?.length}
             paginationMode="server"
             onRowSelectionModelChange={(newRowSelectionModel) => {
               setRowSelectionModel(newRowSelectionModel);
             }}
             loading={loading}
             keepNonExistentRowsSelected
+            autoHeight
           />
         </>
       )}
-      <ModalRender
-        isOpen={openModal}
-        handleClose={handleCloseModal}
-        Component={AccountModal}
-        modalProps={{
-          handleCloseModal,
-        }}
-      />
     </Container>
   );
 }

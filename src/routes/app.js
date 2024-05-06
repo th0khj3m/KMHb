@@ -30,6 +30,7 @@ import ResetPasswordPage from "./reset-password.js";
 import UserReviews from "./user-reviews.js";
 import ChatRoom from "./chatroom.js";
 import PasswordRequestSent from "./request-sent.js";
+import ReviewsApproval from "./admin/reviews-approval.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -60,7 +61,7 @@ const router = createBrowserRouter(
       <Route path="admin" element={<PrivateRoute isAdminRoute={true} />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="accounts" element={<Accounts />} />
-        {/* <Route path="user-reviews" element={<Admin/>} /> */}
+        <Route path="reviews-approval" element={<ReviewsApproval />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" />} />
