@@ -1,4 +1,4 @@
-import { formatInTimeZone, format } from "date-fns-tz";
+import { formatInTimeZone } from "date-fns-tz";
 
 const formatDate = (date) => {
   const newDate = new Date(date);

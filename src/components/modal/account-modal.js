@@ -10,12 +10,12 @@ import {
   TextField,
 } from "@mui/material";
 import { Error as ErrorIcon } from "@mui/icons-material";
+
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
-
-import { ModalContainer, ModalStyle } from "../../routes/root";
 import { useDispatch } from "react-redux";
 import { addAccount } from "../../store/accounts/account.actions";
+import { ModalStyle } from "../../routes/root";
 
 export default function AccountModal({ handleCloseModal }) {
   const dispatch = useDispatch();

@@ -19,7 +19,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic"; // or another CKEditor build
 import styled from "styled-components";
 
-import { Img, ModalContainer, ModalStyle } from "../../routes/root";
+import { Img, ModalStyle } from "../../routes/root";
 import { useDispatch, useSelector } from "react-redux";
 import { addReview, updateReview } from "../../store/review/review.actions";
 import { fetchMovieDetails } from "../../store/movie/movie.actions";

@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Grid, Button, Box, Typography, IconButton } from "@mui/material";
-import { styled } from "@mui/system";
-import {
-  ArrowBackIosNew,
-  ArrowForwardIos,
-  PlayCircleOutline,
-} from "@mui/icons-material";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
 import {
   fetchUpcomingMovies,

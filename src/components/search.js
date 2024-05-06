@@ -1,47 +1,71 @@
-import * as React from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
 import {
   TextField,
   Autocomplete,
   CircularProgress,
   Stack,
+  ListItem,
+  ListItemButton,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  List,
 } from "@mui/material";
-
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { debounce } from "lodash-es";
 import { searchMovies } from "../store/search/search.actions";
 import { setSearchQuery } from "../store/search/search.reducers";
 
 const Search = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { query, results, loading } = useSelector((state) => state.search);
 
-  const handleSearch = async (event, newValue) => {
-    if (newValue !== undefined && newValue !== null) {
-      dispatch(setSearchQuery(newValue));
-      try {
-        await dispatch(searchMovies(newValue));
-      } catch (error) {
-        console.error("Error searching movies:", error);
-      }
+  // Debounce function to limit the rate at which the search function is invoked
+  const debouncedSearch = React.useMemo(
+    () =>
+      debounce(async (newValue) => {
+        try {
+          await dispatch(searchMovies(newValue));
+        } catch (error) {
+          console.error("Error searching movies:", error);
+        }
+      }, 300),
+    [dispatch]
+  );
+
+  const handleInputChange = (event, newInputValue, reason) => {
+    if (reason === "input") {
+      debouncedSearch(newInputValue);
+      dispatch(setSearchQuery(newInputValue));
     }
+  };
+
+  const handleOptionSelected = (event, value) => {
+    const linkPath =
+      value.media_type === "movie"
+        ? `/movies/${value.id}`
+        : `/casts/${value.id}`;
+    navigate(linkPath);
+    dispatch(setSearchQuery("")); // Clear input after searching
   };
 
   return (
     <Autocomplete
-      value={query ?? ""}
-      freeSolo
-      onChange={handleSearch}
+      inputValue={query}
+      onInputChange={handleInputChange}
+      onChange={handleOptionSelected}
       options={results}
-      getOptionLabel={(option) => option?.title ?? ""}
       loading={loading}
-      isOptionEqualToValue={(option, value) => option.title === value.title}
+      getOptionLabel={(option) => option?.title || option?.name}
       renderInput={(params) => (
         <TextField
           {...params}
           variant="outlined"
           fullWidth
           size="small"
-          placeholder="Search movies...."
+          placeholder="Search for a movie, person..."
           InputProps={{
             ...params.InputProps,
             type: "search",
@@ -60,15 +84,28 @@ const Search = () => {
           }}
         />
       )}
-      // Wrap the option with Link component
-      renderOption={(props, option, { inputValue }) => (
-        <Link
-          to={`/movies/${option.id}`}
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <li {...props}>{option.title}</li>
-        </Link>
-      )}
+      renderOption={(props, option) => {
+        const imagePath =
+          option?.media_type === "movie"
+            ? `https://image.tmdb.org/t/p/w500${option.poster_path}`
+            : `https://image.tmdb.org/t/p/w500${option.profile_path}`;
+        return (
+          <List>
+            <ListItem>
+              <ListItemButton {...props}>
+                <ListItemAvatar>
+                  <Avatar
+                    src={imagePath}
+                    alt={option?.title || option?.name}
+                    variant="square"
+                  />
+                </ListItemAvatar>
+                <ListItemText primary={option?.title || option?.name} />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        );
+      }}
     />
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Stack, Button, Typography, Rating, c } from "@mui/material";
+import { Stack, Button, Typography, Rating } from "@mui/material";
 import { ModalStyle } from "../../routes/root";
 
 import StarIcon from "@mui/icons-material/Star";

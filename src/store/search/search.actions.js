@@ -7,7 +7,7 @@ export const searchMovies = createAsyncThunk(
   async (query, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${apiUrl}/search/movie${apiKeyParams}${apiRequestParams}&query=${query}`
+        `${apiUrl}/search/multi${apiKeyParams}${apiRequestParams}&query=${query}`
       );
       return response.data.results;
     } catch (err) {
