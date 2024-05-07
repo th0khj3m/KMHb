@@ -59,7 +59,7 @@ export default function MovieReviews() {
         </Grid>
         <Grid item md={9}>
           {reviews.map((review) => (
-            <ReviewCard review={review} />
+            <ReviewCard key={review.id} review={review} />
           ))}
         </Grid>
       </Grid>

@@ -65,7 +65,7 @@ export default class ReviewModel {
   JOIN
       users ON reviews.user_id = users.id
   WHERE
-      reviews.user_id = $1`;
+      reviews.user_id = $1 AND reviews.status = true`;
       const result = await db.query(statement, [user_id]);
       if (result.rows?.length) {
         return result.rows;
@@ -89,7 +89,7 @@ export default class ReviewModel {
   JOIN
       users ON reviews.user_id = users.id
   WHERE
-      reviews.movie_id = $1`;
+      reviews.movie_id = $1 AND reviews.status = true`;
       const result = await db.query(statement, [movie_id]);
       if (result.rows?.length) {
         return result.rows;
@@ -145,7 +145,8 @@ export default class ReviewModel {
   async update(id, data) {
     try {
       // Generate SQL statement - using helper for dynamic parameter injection
-      const condition = pgp.as.format("WHERE id = $1 RETURNING *", [id]); // Replaced ${} with positional parameters
+      console.log(id);
+      const condition = pgp.as.format("WHERE id = $1 RETURNING *", [id]);
       const statement = pgp.helpers.update(data, null, "reviews") + condition;
 
       // Execute SQL statment

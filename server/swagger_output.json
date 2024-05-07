@@ -392,6 +392,9 @@
                 },
                 "content": {
                   "example": "any"
+                },
+                "status": {
+                  "example": "any"
                 }
               }
             }

@@ -12,24 +12,7 @@ export default class ReviewService {
     }
   }
 
-  async loadUserReviews(id) {
-    try {
-      const reviews = await ReviewModelInstance.findByUserId(id);
-      return reviews;
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async loadReviews(movie_id) {
-    try {
-      const reviews = await ReviewModelInstance.findByMovieId(movie_id);
-      return reviews;
-    } catch (err) {
-      throw err;
-    }
-  }
-
+  // Admin
   async loadPendingReviews() {
     try {
       const reviews = await ReviewModelInstance.find();
@@ -57,6 +40,25 @@ export default class ReviewService {
     }
   }
 
+  // Registered Users
+  async loadUserReviews(id) {
+    try {
+      const reviews = await ReviewModelInstance.findByUserId(id);
+      return reviews;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async loadReviews(movie_id) {
+    try {
+      const reviews = await ReviewModelInstance.findByMovieId(movie_id);
+      return reviews;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async get(id) {
     try {
       const review = await ReviewModelInstance.findOne(id);
@@ -69,7 +71,7 @@ export default class ReviewService {
     }
   }
 
-  async update(id, data) {
+  async updateReview(id, data) {
     try {
       const review = await ReviewModelInstance.update(id, data);
       return review;
@@ -78,7 +80,7 @@ export default class ReviewService {
     }
   }
 
-  async remove(id) {
+  async removeReview(id) {
     try {
       const review = await ReviewModelInstance.delete(id);
       return review;

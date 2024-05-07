@@ -78,10 +78,11 @@ export default (app) => {
   router.put("/:reviewId", isLoggedIn, async (req, res, next) => {
     try {
       const { reviewId } = req.params;
-      const { title, content } = req.body;
-      const response = await ReviewServiceInstance.update(reviewId, {
+      const { title, content, status } = req.body;
+      const response = await ReviewServiceInstance.updateReview(reviewId, {
         title,
         content,
+        status,
       });
       res.status(200).send(response);
     } catch (err) {
@@ -92,7 +93,7 @@ export default (app) => {
   router.delete("/:reviewId", isLoggedIn, async (req, res, next) => {
     try {
       const { reviewId } = req.params;
-      const response = await ReviewServiceInstance.remove(reviewId);
+      const response = await ReviewServiceInstance.removeReview(reviewId);
       res.status(200).send(response);
     } catch (err) {
       next(err);

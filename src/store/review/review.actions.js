@@ -22,6 +22,8 @@ export const loadReviews = createAsyncThunk(
   }
 );
 
+
+// Admin
 export const loadPendingReviews = createAsyncThunk(
   "review/loadPendingReviews",
   async (_, thunkAPI) => {
@@ -58,6 +60,7 @@ export const rejectReviews = createAsyncThunk(
   }
 );
 
+// Registered Users
 export const getReview = createAsyncThunk(
   "review/getReview",
   async (reviewId, thunkAPI) => {

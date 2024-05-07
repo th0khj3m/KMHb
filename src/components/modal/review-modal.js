@@ -76,13 +76,11 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
   const handleSubmit = async (values, { setSubmitting, setStatus }) => {
     try {
       if (isEditMode) {
-        dispatch(updateReview({ reviewId: review.id, data: values }));
-        setStatus({ success: true }); // Set Formik status for success feedback
+        await dispatch(updateReview({ reviewId: review.id, data: values }));
       } else {
-        dispatch(addReview({ movieId, data: values }));
-        setStatus({ success: true }); // Set Formik status for success feedback
+        await dispatch(addReview({ movieId, data: values }));
       }
-      handleCloseModal();
+      setStatus({ success: true });
     } catch (error) {
       console.error("Error submitting review:", error);
       setStatus({
@@ -113,95 +111,140 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
     <>
       {movieDetails && (
         <Paper elevation={4} sx={{ ...ModalStyle, borderRadius: 2 }}>
-          <Stack divider={<Divider />}>
-            <Grid container>
-              <Grid item md={2}>
-                <Img
-                  src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
-                  width={"80%"}
-                />
-              </Grid>
-              <Grid item md={10} p={"15px"}>
-                <Stack direction={"column"} divider={<Divider />} spacing={1}>
-                  <Typography variant="h6">
-                    {movieDetails.title}&nbsp; (
-                    {movieDetails.release_date?.split("-")[0]})
-                  </Typography>
-                  <Typography variant="h5" component={"h1"}>
-                    Add an Item
-                  </Typography>
-                </Stack>
-              </Grid>
-            </Grid>
-          </Stack>
-          <Box display={"flex"} mt="10px">
-            <Typography ml={"5px"} mt="5px"></Typography>
-          </Box>
           <Box display={"flex"} flexDirection={"column"} gap={"10px"}>
-            <Typography bgcolor={"#f3f3f3"} p={"5px"}>
-              YOUR REVIEW
-            </Typography>
             <Formik
               initialValues={
-                isEditMode
+                isEditMode //If is Edit mode then display edit data
                   ? {
                       title: review.title,
                       content: review.content,
+                      status: false,
                     }
                   : { title: "", content: "" }
               }
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              {({ values, errors, touched, handleChange }) => (
-                <Form>
-                  <FormControl fullWidth sx={{ mb: 2 }}>
-                    <Field
-                      as={OutlinedInput}
-                      id="title"
-                      name="title"
-                      placeholder="Write a title for your review here"
-                      required
-                    />
-                    <ErrorDisplay
-                      error={errors.title}
-                      touched={touched.title}
-                      id="title-helper-text"
-                    />
-                  </FormControl>
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                status,
+                resetForm,
+                setStatus,
+              }) => (
+                <>
+                  <Stack divider={<Divider />}>
+                    <Grid container>
+                      <Grid item md={2}>
+                        <Img
+                          src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
+                          width={"80%"}
+                        />
+                      </Grid>
+                      <Grid item md={10} p={"15px"}>
+                        <Stack
+                          direction={"column"}
+                          divider={<Divider />}
+                          spacing={1}
+                        >
+                          <Typography variant="h6">
+                            {movieDetails.title}&nbsp; (
+                            {movieDetails.release_date?.split("-")[0]})
+                          </Typography>
+                          <Typography variant="h5" component={"h1"}>
+                            {status?.success
+                              ? "Submission Successful"
+                              : "Add an Item"}
+                          </Typography>
+                        </Stack>
+                      </Grid>
+                    </Grid>
+                  </Stack>
 
-                  <FormControl fullWidth>
-                    <StyledCKEditorContainer>
-                      <CKEditor
-                        editor={ClassicEditor}
-                        data={values.content}
-                        value={values.content}
-                        id="content"
-                        name="content"
-                        config={editorConfig}
-                        onChange={(event, editor) => {
-                          const data = editor.getData();
-                          handleChange({
-                            target: { name: "content", value: data },
-                          });
-                        }}
-                      />
-                    </StyledCKEditorContainer>
-                    <ErrorDisplay
-                      error={errors.content}
-                      touched={touched.content}
-                      id="content-helper-text"
-                    />
-                  </FormControl>
-                  <Button
-                    type="submit"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ mt: "30px" }}
-                  >
-                    Submit
-                  </Button>
-                </Form>
+                  {!status?.success && (
+                    <Typography bgcolor={"#f3f3f3"} p={"5px"}>
+                      YOUR REVIEW
+                    </Typography>
+                  )}
+
+                  <Form>
+                    {status?.success ? (
+                      <Stack gap={1} mt={1}>
+                        <Typography variant="h6">
+                          Thank you for contributing to KMHb!
+                        </Typography>
+                        <Typography variant="body2">
+                          The information you have supplied is now being
+                          processed by the moderator.
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          onClick={() => {
+                            handleCloseModal();
+                            resetForm();
+                            setStatus(null);
+                          }}
+                          fullWidth
+                          sx={{ mt: 2 }}
+                        >
+                          OK
+                        </Button>
+                      </Stack>
+                    ) : (
+                      <>
+                        <FormControl fullWidth sx={{ mb: 2 }}>
+                          <Field
+                            as={OutlinedInput}
+                            id="title"
+                            name="title"
+                            placeholder="Write a title for your review here"
+                            required
+                          />
+                          <ErrorDisplay
+                            error={errors.title}
+                            touched={touched.title}
+                            id="title-helper-text"
+                          />
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                          <StyledCKEditorContainer>
+                            <CKEditor
+                              editor={ClassicEditor}
+                              data={values.content}
+                              value={values.content}
+                              id="content"
+                              name="content"
+                              config={editorConfig}
+                              onChange={(event, editor) => {
+                                const data = editor.getData();
+                                handleChange({
+                                  target: { name: "content", value: data },
+                                });
+                              }}
+                            />
+                          </StyledCKEditorContainer>
+                          <ErrorDisplay
+                            error={errors.content}
+                            touched={touched.content}
+                            id="content-helper-text"
+                          />
+                        </FormControl>
+
+                        <Button
+                          type="submit"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ mt: "30px" }}
+                        >
+                          Submit
+                        </Button>
+                      </>
+                    )}
+                  </Form>
+                </>
               )}
             </Formik>
           </Box>
