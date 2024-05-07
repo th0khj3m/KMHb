@@ -80,10 +80,7 @@ async function sendPasswordResetEmail(email, resetToken) {
     };
 
     // Send mail with defined transport object
-    const info = await transporter.sendMail(mailOptions);
-
-    // Log the response
-    console.log("Email sent: " + info.response);
+    await transporter.sendMail(mailOptions);
 
     // Return the response
     return { message: "Password reset email sent successfully" };

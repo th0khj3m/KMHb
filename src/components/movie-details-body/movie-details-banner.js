@@ -41,7 +41,7 @@ export default function MovieDetailsBanner({ movie }) {
     : `/images/no-image.png`;
 
   const isMovieInWatchlist = useIsInWatchlist(movie.id);
-  const { handleAddToWatchlist } = useWatchlistManagement(movie.id);
+  const { handleWatchlistManagement } = useWatchlistManagement(movie.id);
 
   const getDirector = () => {
     if (movie && movie.casts && movie.casts.crew) {
@@ -197,7 +197,7 @@ export default function MovieDetailsBanner({ movie }) {
           >
             <BannerWatchlistButton
               variant="contained"
-              onClick={() => handleAddToWatchlist()}
+              onClick={() => handleWatchlistManagement()}
               startIcon={isMovieInWatchlist ? <CheckIcon /> : <AddIcon />}
               size="large"
             >

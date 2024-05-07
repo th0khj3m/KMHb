@@ -32,7 +32,12 @@ const MovieItem = ({ movie, movieWidth = "15%" }) => {
     >
       <Box>
         <Link to={`/movies/${movie.id}`}>
-          <Img src={imagePath} alt={movie.title} sx={{ borderRadius: "8px" }} />
+          <Img
+            src={imagePath}
+            alt={movie.title}
+            sx={{ borderRadius: "8px" }}
+            height={400}
+          />
         </Link>
       </Box>
 

@@ -18,6 +18,7 @@ const UserModelInstance = new UserModel();
 import RoomService from "../services/RoomService.js";
 const RoomServiceInstance = new RoomService();
 import sendPasswordResetEmail from "../utils/email.js";
+import getCurrentTime from "../utils/current-date.js";
 
 export default (app, passport) => {
   app.use("/api/auth", router);
@@ -64,23 +65,9 @@ export default (app, passport) => {
         return res.status(404).send({ message: "User not found" });
       }
 
-      const resetToken = crypto.randomBytes(20).toString("hex");
+      const resetToken = crypto.randomBytes(20).toString("hex"); //Generates 20 random bytes
 
-      // Get the current time
-      const currentTime = new Date(Date.now() + 3600000); // Current time + 1 hour (3600000 milliseconds)
-
-      // Convert to Vietnam time (Indochina Time, ICT)
-      const options = {
-        timeZone: "Asia/Ho_Chi_Minh", // Set the time zone to Vietnam
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      };
-
-      const resetTokenExpires = currentTime.toLocaleString("en-US", options);
+      const resetTokenExpires = getCurrentTime();
 
       // Update the user record in the database with the reset token and expiration time
       const updateQuery =
@@ -122,6 +109,8 @@ export default (app, passport) => {
       const updateQuery =
         "UPDATE users SET password_hash = $1, reset_token = NULL, reset_token_expires = NULL WHERE id = $2";
       await db.query(updateQuery, [hashedPassword, user.id]);
+
+      res.sendStatus(204);
     } catch (err) {
       next(err);
     }

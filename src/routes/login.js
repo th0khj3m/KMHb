@@ -29,6 +29,7 @@ export default function Login() {
     try {
       // Set submitting state to true to indicate form submission is in progress
       setSubmitting(true);
+      setError("");
       await dispatch(loginUser(credentials)).unwrap();
       navigate("/");
     } catch (err) {
