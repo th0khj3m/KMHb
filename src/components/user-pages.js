@@ -36,7 +36,6 @@ export default function UserPage({ data, fetchedDataDetails, type }) {
     dispatch(removeMovie(movieId));
   };
 
-
   const filteredAndSortedData = filterAndSort(
     data,
     ratings,

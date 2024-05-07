@@ -10,6 +10,7 @@ import {
   Box,
   LinearProgress,
   Button,
+  Chip,
 } from "@mui/material";
 import {
   BookmarkAdd as BookmarkAddIcon,
@@ -33,7 +34,7 @@ const MenuItemLink = styled(Link)({
   textDecoration: "none",
   color: "black",
   display: "flex",
-  gap: "4px",
+  gap: "8px",
   alignItems: "center",
   padding: "10px",
   ":hover": {
@@ -58,6 +59,8 @@ const MenuButton = styled(Button)({
 export default function Header() {
   const dispatch = useDispatch();
   const { isAuthenticated, isAdmin } = useSelector((state) => state.auth);
+  const { movies } = useSelector((state) => state.watchlist);
+  const movieCount = movies.length;
   const user = useSelector((state) => state.user);
   const loadingStateSlices = ["movies", "movie", "cast"]; // List of loading state slices
 
@@ -141,7 +144,7 @@ export default function Header() {
                   Menu
                 </Typography>
               </MenuButton>
-              
+
               <HeaderMenu
                 anchorEl={headerMenuAnchorEl}
                 open={Boolean(headerMenuAnchorEl)}
@@ -155,6 +158,7 @@ export default function Header() {
               <MenuItemLink to="user/watchlist">
                 <BookmarkAddIcon />
                 <Typography fontWeight={"bold"}>Watchlist</Typography>
+                <Chip label={movieCount} color="secondary" size="small" />
               </MenuItemLink>
             </>
           )}
