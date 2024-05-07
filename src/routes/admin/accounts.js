@@ -73,6 +73,7 @@ export default function Accounts() {
 
   const handleDelete = () => {
     dispatch(removeAccounts(rowSelectionModel));
+    setRowSelectionModel([]);
   };
 
   return (
@@ -85,14 +86,16 @@ export default function Accounts() {
           <Stack direction={"row"}>
             <Box ml={"auto"} my={2}>
               <Button variant="outlined" onClick={handleOpenModal}>
-                <Typography color={"primary"}>Add Account</Typography>
+                <Typography color={"primary"} fontWeight={"bold"}>
+                  Add Account
+                </Typography>
               </Button>
 
               {rowSelectionModel?.length > 0 && (
                 <Button variant="outlined" sx={{ ml: 2 }}>
                   <Typography
                     color={"error"}
-                    fontWeight={""}
+                    fontWeight={"bold"}
                     onClick={handleDelete}
                   >
                     Delete
@@ -119,6 +122,7 @@ export default function Accounts() {
             onRowSelectionModelChange={(newRowSelectionModel) => {
               setRowSelectionModel(newRowSelectionModel);
             }}
+            rowSelectionModel={rowSelectionModel}
             loading={loading}
             autoHeight
             keepNonExistentRowsSelected

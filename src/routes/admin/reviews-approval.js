@@ -130,6 +130,7 @@ export default function ReviewsApproval() {
             onRowSelectionModelChange={(newRowSelectionModel) => {
               setRowSelectionModel(newRowSelectionModel);
             }}
+            rowSelectionModel={rowSelectionModel}
             loading={loading}
             keepNonExistentRowsSelected
             autoHeight
