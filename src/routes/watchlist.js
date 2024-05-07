@@ -10,6 +10,7 @@ export default function Watchlist() {
 
   const [fetchedDataDetails, setFetchedDataDetails] = useState({});
   useFetchMovieData(setFetchedDataDetails, watchlistMovies);
+
   return (
     <>
       {!loading && fetchedDataDetails && watchlistMovies && (

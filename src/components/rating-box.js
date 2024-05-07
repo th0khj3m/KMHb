@@ -20,9 +20,9 @@ import useIsRating from "../hooks/useIsRating";
 
 export default function RatingBox({ movie, size = "small", cut = false }) {
   const dispatch = useDispatch();
-  const [rating, setRating] = useState("?"); // Initial state
+  const [rating, setRating] = useState("?");
 
-  const movieId = movie?.title;
+  const movieId = movie?.id;
   const movieTitle = movie?.title;
   const movieRating = movie?.vote_average?.toFixed(1);
 
@@ -51,7 +51,6 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
 
   const handleRatingRemove = (movieId) => {
     dispatch(removeRating(movieId));
-    setRating("?");
     handleCloseModal();
   };
 

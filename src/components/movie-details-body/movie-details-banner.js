@@ -18,7 +18,7 @@ import { BannerWatchlistButton, Img, WhiteTypography } from "../../routes/root";
 import RatingBox from "../rating-box";
 import findNewestTrailer from "../../utils/find-newest-trailer";
 import useIsInWatchlist from "../../hooks/useIsInWatchlist";
-import useAddToWatchlist from "../../hooks/useAddToWatchlist";
+import useWatchlistManagement from "../../hooks/useWatchlistManagement";
 
 export default function MovieDetailsBanner({ movie }) {
   const movieYear = movie?.release_date?.split("-")[0];
@@ -41,7 +41,7 @@ export default function MovieDetailsBanner({ movie }) {
     : `/images/no-image.png`;
 
   const isMovieInWatchlist = useIsInWatchlist(movie.id);
-  const { handleAddToWatchlist } = useAddToWatchlist(movie.id);
+  const { handleAddToWatchlist } = useWatchlistManagement(movie.id);
 
   const getDirector = () => {
     if (movie && movie.casts && movie.casts.crew) {

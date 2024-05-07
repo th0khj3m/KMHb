@@ -15,7 +15,14 @@ const ratingSlice = createSlice({
     error: null,
     loading: false,
   },
-  reducers: {},
+  reducers: {
+    setRating: (state, action) => {
+      state.value = action.payload;
+    },
+    resetRating: (state, action) => {
+      state.value = "?";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(checkLoginStatus.pending, (state, action) => {
@@ -67,5 +74,4 @@ const ratingSlice = createSlice({
   },
 });
 
-// Export reducer function by default
 export default ratingSlice.reducer;

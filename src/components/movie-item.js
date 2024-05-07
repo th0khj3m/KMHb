@@ -1,19 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Check as CheckIcon, Add as AddIcon } from "@mui/icons-material";
+
 import RatingBox from "./rating-box";
 import { WatchlistButton, Img } from "../routes/root";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { useSelector } from "react-redux";
+
 import useIsInWatchlist from "../hooks/useIsInWatchlist";
-import useAddToWatchlist from "../hooks/useAddToWatchlist";
+import useWatchlistManagement from "../hooks/useWatchlistManagement";
 
 const MovieItem = ({ movie, movieWidth = "15%" }) => {
   const { loadingMovie } = useSelector((state) => state.watchlist);
 
   const isMovieInWatchlist = useIsInWatchlist(movie.id);
-  const { handleAddToWatchlist } = useAddToWatchlist(movie.id);
+  const { handleWatchlistManagement } = useWatchlistManagement(movie.id);
 
   const imagePath = movie?.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -43,7 +45,7 @@ const MovieItem = ({ movie, movieWidth = "15%" }) => {
       {!loadingMovie[movie.id] ? (
         <WatchlistButton
           variant="contained"
-          onClick={() => handleAddToWatchlist()}
+          onClick={() => handleWatchlistManagement()}
           startIcon={isMovieInWatchlist ? <CheckIcon /> : <AddIcon />}
         >
           Watchlist

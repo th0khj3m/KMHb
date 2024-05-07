@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   Container,
   Box,
@@ -13,33 +15,27 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { HighlightOff, ArrowUpward, ArrowDownward } from "@mui/icons-material";
+
 import { format } from "date-fns";
 import { Img } from "../routes/root";
 import RatingBox from "./rating-box";
-import { useDispatch, useSelector } from "react-redux";
-import { loadRatings } from "../store/rating/rating.actions";
 import { removeMovie } from "../store/watchlist/watchlist.actions";
+
 import useFilterAndSort from "../hooks/useFilterAndSort";
 import filterAndSort from "../utils/filter-and-sort";
 
 export default function UserPage({ data, fetchedDataDetails, type }) {
   const dispatch = useDispatch();
-  const ratings = useSelector((state) => state.rating.ratings);
-  const typeRef = useRef(type); // Store type in a ref (Not need to trigger rerender)
+  const { ratings } = useSelector((state) => state.rating);
   const { filterBy, sortBy, handleFilterChange, handleSortToggle } =
     useFilterAndSort();
-
-  useEffect(() => {
-    if ((typeRef.current = "watchlist")) {
-      dispatch(loadRatings());
-    }
-  }, [dispatch, typeRef]);
 
   const title = type === "watchlist" ? "My Watchlist" : "My Ratings";
 
   const handleRemoveFromWatchlist = (movieId) => {
     dispatch(removeMovie(movieId));
   };
+
 
   const filteredAndSortedData = filterAndSort(
     data,
@@ -122,23 +118,10 @@ export default function UserPage({ data, fetchedDataDetails, type }) {
                               "MMMM d, yyyy"
                             )}
                           </Typography>
-                          <RatingBox
-                            movie={{
-                              movieRating:
-                                Math.round(movie?.vote_average * 10) / 10,
-                              movieTitle: movie?.title,
-                              movieId: movie?.id,
-                              userRating:
-                                type === "watchlist"
-                                  ? ratings.find(
-                                      (rating) => rating.movie_id === movieId
-                                    )?.rating
-                                  : movieData.rating,
-                            }}
-                          />
+                          <RatingBox movie={movie} />
                         </Box>
                         <Typography fontSize={"18px"}>
-                          {movie.overview}
+                          {movie?.overview}
                         </Typography>
                         <Box>
                           {type === "watchlist" && (
