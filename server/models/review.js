@@ -144,13 +144,16 @@ export default class ReviewModel {
 
   async update(id, data) {
     try {
+      const { title, content, status } = data;
       // Generate SQL statement - using helper for dynamic parameter injection
-      console.log(id);
-      const condition = pgp.as.format("WHERE id = $1 RETURNING *", [id]);
-      const statement = pgp.helpers.update(data, null, "reviews") + condition;
+      // const condition = pgp.as.format("WHERE id = $1 RETURNING *", [id]);
+      // const statement =
+      //   pgp.helpers.update(data, ["title", "content", "status"], "reviews") +
+      //   condition;
+      const statement = `UPDATE reviews SET title=$1, content=$2, status=$3 WHERE id=$4 RETURNING *`;
 
       // Execute SQL statment
-      const result = await db.query(statement);
+      const result = await db.query(statement, [title, content, status, id]);
 
       if (result.rows?.length) {
         return result.rows[0];

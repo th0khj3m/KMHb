@@ -78,12 +78,8 @@ export default (app) => {
   router.put("/:reviewId", isLoggedIn, async (req, res, next) => {
     try {
       const { reviewId } = req.params;
-      const { title, content, status } = req.body;
-      const response = await ReviewServiceInstance.updateReview(reviewId, {
-        title,
-        content,
-        status,
-      });
+      const data = req.body;
+      const response = await ReviewServiceInstance.updateReview(reviewId, data);
       res.status(200).send(response);
     } catch (err) {
       next(err);

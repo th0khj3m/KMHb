@@ -156,6 +156,8 @@ export default function ReviewModal({ movieId, review, handleCloseModal }) {
                           <Typography variant="h5" component={"h1"}>
                             {status?.success
                               ? "Submission Successful"
+                              : isEditMode
+                              ? "Edit an Item"
                               : "Add an Item"}
                           </Typography>
                         </Stack>

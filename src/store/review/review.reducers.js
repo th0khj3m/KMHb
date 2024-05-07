@@ -82,6 +82,7 @@ const reviewSlice = createSlice({
       })
       .addCase(addReview.fulfilled, (state, action) => {
         state.reviews.push(action.payload);
+        state.loading = false;
       })
       .addCase(updateReview.pending, (state, action) => {
         state.loading = true;
@@ -91,6 +92,7 @@ const reviewSlice = createSlice({
         const existingReviewIndex = state.reviews.findIndex(
           (review) => review.id === action.payload.id
         );
+        // If the review exists, update it
         if (existingReviewIndex !== -1) {
           // Update the existing review object
           state.reviews[existingReviewIndex] = {
@@ -98,6 +100,7 @@ const reviewSlice = createSlice({
             ...action.payload, // Update specific properties (e.g., review)
           };
         }
+        // Find the review to update in the userReviews state
         const existingUserReviewIndex = state.userReviews.findIndex(
           (review) => review.id === action.payload.id
         );
@@ -107,6 +110,7 @@ const reviewSlice = createSlice({
             ...action.payload,
           };
         }
+        state.loading = false;
       })
       .addCase(removeReview.pending, (state, action) => {
         state.loading = true;
@@ -122,6 +126,7 @@ const reviewSlice = createSlice({
         if (userIndex !== -1) {
           state.userReviews.splice(userIndex, 1);
         }
+        state.loading = false;
       });
   },
 });
