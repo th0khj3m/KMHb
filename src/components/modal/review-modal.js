@@ -16,7 +16,7 @@ import { Error as ErrorIcon } from "@mui/icons-material";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic"; // or another CKEditor build
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import styled from "styled-components";
 
 import { Img, ModalStyle } from "../../routes/root";

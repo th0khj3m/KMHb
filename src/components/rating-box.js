@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Stack } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { IconButton, Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+
+import { Box, Typography, Stack, IconButton, Button } from "@mui/material";
+import {
+  Star as StarIcon,
+  StarBorder as StarBorderIcon,
+} from "@mui/icons-material";
 
 import useModal from "../hooks/useModal";
 import ModalRender from "./modal-render";
@@ -12,17 +15,19 @@ import {
   removeRating,
   updateRating,
 } from "../store/rating/rating.actions";
-import { useDispatch } from "react-redux";
 import { WhiteTypography } from "../routes/root";
+import useIsRating from "../hooks/useIsRating";
 
-export default function RatingBox({
-  movie: { movieRating, movieTitle, movieId, userRating },
-  size = "small",
-  cut = false,
-}) {
+export default function RatingBox({ movie, size = "small", cut = false }) {
   const dispatch = useDispatch();
-  const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const [rating, setRating] = useState("?"); // Initial state
+
+  const { openModal, handleOpenModal, handleCloseModal } = useModal();
+  const userRating = useIsRating(movie.id);
+
+  const movieRating = movie.vote_average.toFixed(1);
+  const movieTitle = movie.title;
+  const movieId = movie.title;
 
   useEffect(() => {
     if (userRating) {

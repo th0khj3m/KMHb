@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import useAddToWatchlist from "../hooks/useAddToWatchlist";
 
 const MovieItem = ({ movie, movieWidth = "15%" }) => {
-  const ratingMovies = useSelector((state) => state.rating.ratings);
   const { loadingMovie } = useSelector((state) => state.watchlist);
 
   const isMovieInWatchlist = useIsInWatchlist(movie.id);
@@ -36,16 +35,7 @@ const MovieItem = ({ movie, movieWidth = "15%" }) => {
         </Link>
       </Box>
 
-      <RatingBox
-        movie={{
-          movieRating: Math.round(movie.vote_average * 10) / 10,
-          movieTitle: movie.title,
-          movieId: movie.id,
-          userRating: ratingMovies.find(
-            (rating) => rating.movie_id === movie.id
-          )?.rating,
-        }}
-      />
+      <RatingBox movie={movie} />
 
       <Typography fontWeight="bold" mb="20px" sx={{ flexGrow: 1 }}>
         {movie.title}
