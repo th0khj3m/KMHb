@@ -33,20 +33,20 @@ export default class AuthService {
   }
 
   async register(data) {
-    const { username, password, email, role_id = 2 } = data;
+    const { username, password, email } = data;
     try {
-      // Check if email already exists
-      const userEmail = await UserModelInstance.findOneByEmail(email);
-
-      if (userEmail) {
-        throw createError(422, "Email already exists");
-      }
-
       // Check if username already exists
       const userUsername = await UserModelInstance.findOneByUsername(username);
 
       if (userUsername) {
         throw createError(422, "Username already exists");
+      }
+      
+      // Check if email already exists
+      const userEmail = await UserModelInstance.findOneByEmail(email);
+
+      if (userEmail) {
+        throw createError(422, "Email already exists");
       }
 
       // Generate salt
@@ -58,7 +58,7 @@ export default class AuthService {
         username,
         password_hash: hashedPassword,
         email,
-        role_id, // Default role_id value (2 for regular users)
+        role_id: 2, // Default role_id value (2 for regular users)
       };
 
       // User doesnt exist, create new user record

@@ -8,11 +8,10 @@ import {
   fetchUpcomingMovies,
   fetchNewestTrailer,
 } from "../../store/movies/movies.actions.js";
-import { Img } from "../../routes/root.js";
 import VideoModal from "../modal/video-modal.js";
 import useModal from "../../hooks/useModal.js";
 import ModalRender from "../modal-render.js";
-import { MovieOverview, PlayButton, ArrowButton } from "../../routes/root.js";
+import { MovieOverview, PlayButton, ArrowButton, Img } from "../../routes/root.js";
 
 export default function HomeBanner() {
   const dispatch = useDispatch();

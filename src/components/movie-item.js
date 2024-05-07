@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
-import { Img } from "../routes/root";
-import RatingBox from "./rating-box";
-import { WatchlistButton } from "../routes/root";
 import { Check as CheckIcon, Add as AddIcon } from "@mui/icons-material";
+import RatingBox from "./rating-box";
+import { WatchlistButton, Img } from "../routes/root";
 import LoadingButton from "@mui/lab/LoadingButton";
-import useIsInWatchlist from "../hooks/useIsInWatchlist";
 import { useSelector } from "react-redux";
+import useIsInWatchlist from "../hooks/useIsInWatchlist";
 import useAddToWatchlist from "../hooks/useAddToWatchlist";
 
 const MovieItem = ({ movie, movieWidth = "15%" }) => {

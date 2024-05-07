@@ -1,11 +1,11 @@
 import React from "react";
-
-import { Stack, Button, Typography, Rating } from "@mui/material";
-import { ModalStyle } from "../../routes/root";
-
-import StarIcon from "@mui/icons-material/Star";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import { Stack, Button, Typography, Rating } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+
+import { ModalStyle } from "../../routes/root";
 
 export default function RatingModal({
   movieId,

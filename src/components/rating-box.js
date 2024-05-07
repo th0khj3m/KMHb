@@ -22,12 +22,12 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
   const dispatch = useDispatch();
   const [rating, setRating] = useState("?"); // Initial state
 
-  const { openModal, handleOpenModal, handleCloseModal } = useModal();
-  const userRating = useIsRating(movie.id);
+  const movieId = movie?.title;
+  const movieTitle = movie?.title;
+  const movieRating = movie?.vote_average?.toFixed(1);
 
-  const movieRating = movie.vote_average.toFixed(1);
-  const movieTitle = movie.title;
-  const movieId = movie.title;
+  const { openModal, handleOpenModal, handleCloseModal } = useModal();
+  const userRating = useIsRating(movieId);
 
   useEffect(() => {
     if (userRating) {

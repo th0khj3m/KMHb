@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   Grid,
   Box,
@@ -9,11 +12,9 @@ import {
   Link as MuiLink,
 } from "@mui/material";
 import { Facebook, Twitter, Instagram } from "@mui/icons-material";
-import { useParams, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+
 import { fetchCastDetails } from "../store/cast/cast.actions";
-import { Img } from "./root";
-import { clampStyles } from "./root";
+import { clampStyles, Img } from "./root";
 
 export default function CastDetails() {
   const dispatch = useDispatch();
@@ -144,6 +145,7 @@ export default function CastDetails() {
                               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                               alt={movie.title}
                               sx={{ borderRadius: "8px" }}
+                              height={250}
                             />
                           </Link>
                           <Typography

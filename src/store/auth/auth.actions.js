@@ -21,6 +21,7 @@ export const loginUser = createAsyncThunk(
       return {
         user: response,
         isAuthenticated: true,
+        isAdmin: response.role_id === 1,
       };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -51,16 +52,3 @@ export const logoutUser = createAsyncThunk(
     }
   }
 );
-
-// // OAuth
-// export const initiateOAuth = createAsyncThunk(
-//   "auth/initiateOAuth",
-//   async (_, thunkAPI) => {
-//     try {
-//       await accessOAuth();
-//       return;
-//     } catch (err) {
-//       return thunkAPI.rejectWithValue(err.response.data);
-//     }
-//   }
-// );

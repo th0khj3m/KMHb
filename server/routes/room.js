@@ -16,7 +16,7 @@ export default (app) => {
     }
   });
 
-  router.post("/", isAuthorized, async (req, res, next) => {
+  router.post("/", isAuthorized(), async (req, res, next) => {
     try {
       const { name } = req.body;
       const response = await RoomServiceInstance.addRoom(name);

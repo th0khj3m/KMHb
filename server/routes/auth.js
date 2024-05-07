@@ -18,10 +18,24 @@ const UserModelInstance = new UserModel();
 import RoomService from "../services/RoomService.js";
 const RoomServiceInstance = new RoomService();
 import sendPasswordResetEmail from "../utils/email.js";
-import { isLoggedIn } from "../middleware/middleware.js";
 
 export default (app, passport) => {
   app.use("/api/auth", router);
+
+  router.post("/register", async (req, res, next) => {
+    try {
+      const { username, password, email } = req.body;
+      const user = await AuthServiceInstance.register({
+        username,
+        password,
+        email,
+      });
+      await WatchlistServiceInstance.create(user.id);
+      res.status(200).send(user);
+    } catch (err) {
+      next(err);
+    }
+  });
 
   // Login Endpoint
   router.post(
@@ -144,21 +158,6 @@ export default (app, passport) => {
   //   }
   // );
 
-  router.post("/register", async (req, res, next) => {
-    try {
-      const { username, password, email } = req.body;
-      const user = await AuthServiceInstance.register({
-        username,
-        password,
-        email,
-      });
-      await WatchlistServiceInstance.create(user.id);
-      res.status(200).send(user);
-    } catch (err) {
-      next(err);
-    }
-  });
-
   router.get("/logout", async (req, res, next) => {
     try {
       req.logout(() => {
@@ -179,6 +178,7 @@ export default (app, passport) => {
       const rooms = await RoomServiceInstance.loadRooms();
       res.status(200).send({
         isAuthenticated: true,
+        isAdmin: user.role_id === 1,
         user,
         watchlist,
         ratings,

@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+
 import {
   Typography,
   Box,
@@ -13,7 +15,6 @@ import { Error as ErrorIcon } from "@mui/icons-material";
 
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
 import { addAccount } from "../../store/accounts/account.actions";
 import { ModalStyle } from "../../routes/root";
 

@@ -10,7 +10,7 @@ import {
   Box,
   Typography,
   FormControl,
-  Alert
+  Alert,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
@@ -19,7 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../store/auth/auth.actions.js";
 
 import * as Yup from "yup";
-import { AuthButton, Img, MediaLoginButton } from "./root.js";
+import { AuthButton, Img } from "./root.js";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -152,7 +152,7 @@ export default function Register() {
                 >
                   Sign Up
                 </AuthButton>
-                <Box
+                {/* <Box
                   display={"flex"}
                   flexDirection={"column"}
                   gap={"10px"}
@@ -173,7 +173,7 @@ export default function Register() {
                       />
                     </MediaLoginButton>
                   </Box>
-                </Box>
+                </Box> */}
 
                 <Typography mr={"auto"} py={2}>
                   Already have an account?&nbsp;

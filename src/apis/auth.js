@@ -36,13 +36,3 @@ export const logout = async () => {
     throw err.response.data;
   }
 };
-
-// OAuth
-// export const accessOAuth = async () => {
-//   try {
-//     const response = await API.get("auth/google");
-//     return response;
-//   } catch (err) {
-//     throw err.response.data;
-//   }
-// };

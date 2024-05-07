@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Search from "./search";
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   AppBar,
   Toolbar,
@@ -20,12 +21,13 @@ import {
   Approval as ApprovalIcon,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
+
 import { Img } from "../routes/root";
-import { useSelector, useDispatch } from "react-redux";
+import Search from "./search";
+import HeaderMenu from "./menu/header-menu";
 import ProfileMenu from "./menu/profile-menu";
 import { logoutUser } from "../store/auth/auth.actions";
 import useCombinedLoadingState from "../hooks/useCombinedLoadingState";
-import HeaderMenu from "./menu/header-menu";
 
 const MenuItemLink = styled(Link)({
   textDecoration: "none",
@@ -55,9 +57,8 @@ const MenuButton = styled(Button)({
 
 export default function Header() {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, isAdmin } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
-  const isAdmin = user?.role_id === 1; // Assuming `role_id` indicates admin status
   const loadingStateSlices = ["movies", "movie", "cast"]; // List of loading state slices
 
   if (isAuthenticated) {
@@ -140,6 +141,7 @@ export default function Header() {
                   Menu
                 </Typography>
               </MenuButton>
+              
               <HeaderMenu
                 anchorEl={headerMenuAnchorEl}
                 open={Boolean(headerMenuAnchorEl)}

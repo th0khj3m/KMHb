@@ -44,9 +44,9 @@ const Search = () => {
 
   const handleOptionSelected = (event, value) => {
     const linkPath =
-      value.media_type === "movie"
-        ? `/movies/${value.id}`
-        : `/casts/${value.id}`;
+      value?.media_type === "movie" || value?.media_type === "tv"
+        ? `/movies/${value?.id}`
+        : `/casts/${value?.id}`;
     navigate(linkPath);
     dispatch(setSearchQuery("")); // Clear input after searching
   };

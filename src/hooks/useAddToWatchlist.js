@@ -7,7 +7,7 @@ const useAddToWatchlist = (movieId) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isAuthenticated = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const isMovieInWatchlist = useIsInWatchlist(movieId);
 
   const handleAddToWatchlist = async () => {

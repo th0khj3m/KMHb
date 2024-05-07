@@ -9,8 +9,9 @@ import {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    loading: false,
     isAuthenticated: false,
+    isAdmin: false,
+    loading: false,
     error: null,
   },
   reducers: {},
@@ -20,8 +21,9 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(checkLoginStatus.fulfilled, (state, action) => {
-        const { isAuthenticated } = action.payload;
+        const { isAuthenticated, isAdmin } = action.payload;
         state.isAuthenticated = isAuthenticated;
+        state.isAdmin = isAdmin;
         state.loading = false;
       })
       .addCase(checkLoginStatus.rejected, (state, action) => {
@@ -33,8 +35,9 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        const { isAuthenticated } = action.payload;
+        const { isAuthenticated, isAdmin } = action.payload;
         state.isAuthenticated = isAuthenticated;
+        state.isAdmin = isAdmin;
         state.loading = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -53,8 +56,9 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.isAuthenticated = false;
-        state.error = null;
+        state.isAdmin = false;
         state.loading = false;
+        state.error = null;
       });
   },
 });

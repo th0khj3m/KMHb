@@ -9,7 +9,12 @@ export const searchMovies = createAsyncThunk(
       const response = await axios.get(
         `${apiUrl}/search/multi${apiKeyParams}${apiRequestParams}&query=${query}`
       );
-      return response.data.results;
+      const results = response.data.results;
+      // Filter to only include movies and people (cast)
+      const filteredResults = results.filter(
+        (item) => item.media_type === "movie" || item.media_type === "person"
+      );
+      return filteredResults;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }

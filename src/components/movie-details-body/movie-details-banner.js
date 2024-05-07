@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import {
   Typography,
   Divider,
@@ -22,8 +21,6 @@ import useIsInWatchlist from "../../hooks/useIsInWatchlist";
 import useAddToWatchlist from "../../hooks/useAddToWatchlist";
 
 export default function MovieDetailsBanner({ movie }) {
-  const ratingMovies = useSelector((state) => state.rating.ratings);
-
   const movieYear = movie?.release_date?.split("-")[0];
   const hours = Math.floor(movie.runtime / 60) ?? 0;
   const minutes = movie?.runtime % 60 ?? 0;
@@ -116,20 +113,7 @@ export default function MovieDetailsBanner({ movie }) {
                 </Stack>
               </Grid>
               <Grid item md={6} sx={{ textAlign: "center" }}>
-                {movie && (
-                  <RatingBox
-                    movie={{
-                      movieRating: Math.round(movie.vote_average * 10) / 10,
-                      movieTitle: movie.title,
-                      movieId: movie.id,
-                      userRating: ratingMovies.find(
-                        (rating) => rating.movie_id === movie.id
-                      )?.rating,
-                    }}
-                    size="large"
-                    cut={true}
-                  />
-                )}
+                {movie && <RatingBox movie={movie} size="large" cut={true} />}
               </Grid>
             </Grid>
           </Box>
