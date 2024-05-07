@@ -80,11 +80,6 @@ export default function Accounts() {
       <Typography variant="h4" component={"h1"} fontWeight={"bold"} my={3}>
         Account Management
       </Typography>
-      {/* {error && (
-        <Alert severity="error" variant="filled">
-          {error?.message}
-        </Alert>
-      )} */}
       {accounts && (
         <>
           <Stack direction={"row"}>

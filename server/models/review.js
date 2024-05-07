@@ -59,7 +59,8 @@ export default class ReviewModel {
       reviews.content,
       reviews.created_at,
       reviews.movie_id,
-      users.username
+      users.username,
+      reviews.status
   FROM
       reviews
   JOIN

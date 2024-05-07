@@ -24,7 +24,7 @@ const searchSlice = createSlice({
         state.results = action.payload;
       })
       .addCase(searchMovies.rejected, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.error = action.error.message;
       });
   },

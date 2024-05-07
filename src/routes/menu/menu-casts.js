@@ -38,7 +38,11 @@ export default function MenuCasts() {
                   <CardMedia
                     component="img"
                     height="140"
-                    image={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
+                    image={
+                      cast.profile_path
+                        ? `https://image.tmdb.org/t/p/w500${cast.profile_path}`
+                        : `/images/no-image.png`
+                    }
                     alt={cast.name}
                     sx={{ width: "100%", height: "auto" }}
                   />

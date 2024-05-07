@@ -52,7 +52,11 @@ export default function CastDetails() {
             <Grid item md={3}>
               <Box width="90%">
                 <Img
-                  src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
+                  src={
+                    cast?.profile_path
+                      ? `https://image.tmdb.org/t/p/w500${cast?.profile_path}`
+                      : `/images/no-image.png`
+                  }
                   sx={{ borderRadius: "8px" }}
                 />
               </Box>
@@ -100,7 +104,6 @@ export default function CastDetails() {
                     return null;
                   }
 
-                  // Render other details as usual
                   return (
                     <Box key={detail.title}>
                       <Typography fontWeight={"bold"}>
@@ -121,7 +124,9 @@ export default function CastDetails() {
                   <Typography variant="h6" component="h2" fontWeight={"bold"}>
                     Biography
                   </Typography>
-                  <Typography mt={"5px"}>{cast.biography}</Typography>
+                  <Typography mt={"5px"}>
+                    {cast.biography ? cast.biography : "No biography"}
+                  </Typography>
                 </Box>
                 <Box>
                   <Typography variant="h6" component="h2" fontWeight={"bold"}>
@@ -142,8 +147,8 @@ export default function CastDetails() {
                         >
                           <Link to={`/movies/${movie.id}`}>
                             <Img
-                              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                              alt={movie.title}
+                              src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+                              alt={movie?.title}
                               sx={{ borderRadius: "8px" }}
                               height={250}
                             />
@@ -153,7 +158,7 @@ export default function CastDetails() {
                             variant="body2"
                             sx={{ ...clampStyles, flexGrow: 1 }}
                           >
-                            {movie.title}
+                            {movie?.title}
                           </Typography>
                         </Box>
                       ))}
@@ -164,14 +169,18 @@ export default function CastDetails() {
                     Media
                   </Typography>
                   <Box display="flex" gap={"10px"} overflow={"auto"} mt="5px">
-                    {movieImages?.profiles?.map((image, index) => (
-                      <Box key={index} width={"15%"} flexShrink={0} mb="30px">
-                        <Img
-                          src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
-                          sx={{ borderRadius: "8px" }}
-                        />
-                      </Box>
-                    ))}
+                    {movieImages?.profiles?.length > 0 ? (
+                      movieImages.profiles.map((image, index) => (
+                        <Box key={index} width={"15%"} flexShrink={0} mb="30px">
+                          <Img
+                            src={`https://image.tmdb.org/t/p/w500${image?.file_path}`}
+                            sx={{ borderRadius: "8px" }}
+                          />
+                        </Box>
+                      ))
+                    ) : (
+                      <Typography variant="body1">No media images</Typography>
+                    )}
                   </Box>
                 </Box>
               </Stack>

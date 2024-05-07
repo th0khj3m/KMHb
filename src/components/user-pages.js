@@ -23,6 +23,7 @@ import { removeMovie } from "../store/watchlist/watchlist.actions";
 
 import useFilterAndSort from "../hooks/useFilterAndSort";
 import filterAndSort from "../utils/filter-and-sort";
+import { Link } from "react-router-dom";
 
 export default function UserPage({ data, fetchedDataDetails, type }) {
   const dispatch = useDispatch();
@@ -104,13 +105,18 @@ export default function UserPage({ data, fetchedDataDetails, type }) {
                     <Grid display={"flex"} item md={10} alignItems={"center"}>
                       <Stack spacing={2}>
                         <Box>
-                          <Typography
-                            variant="h5"
-                            fontWeight={"bold"}
-                            component={"h2"}
+                          <Link
+                            to={`/movies/${movie?.id}`}
+                            style={{ textDecoration: "none", color: "black" }}
                           >
-                            {movie?.title}
-                          </Typography>
+                            <Typography
+                              variant="h5"
+                              fontWeight={"bold"}
+                              component={"h2"}
+                            >
+                              {movie?.title}
+                            </Typography>
+                          </Link>
                           <Typography color={"#66667D"}>
                             {format(
                               new Date(movie?.release_date),

@@ -11,7 +11,7 @@ import { WatchlistButton, Img } from "../routes/root";
 import useIsInWatchlist from "../hooks/useIsInWatchlist";
 import useWatchlistManagement from "../hooks/useWatchlistManagement";
 
-const MovieItem = ({ movie, movieWidth = "15%" }) => {
+const MovieItem = ({ movie, movieWidth = "15%", movieHeight }) => {
   const { loadingMovie } = useSelector((state) => state.watchlist);
 
   const isMovieInWatchlist = useIsInWatchlist(movie.id);
@@ -36,7 +36,7 @@ const MovieItem = ({ movie, movieWidth = "15%" }) => {
             src={imagePath}
             alt={movie.title}
             sx={{ borderRadius: "8px" }}
-            height={400}
+            height={movieHeight}
           />
         </Link>
       </Box>

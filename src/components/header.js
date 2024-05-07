@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   AppBar,
   Toolbar,
-  IconButton,
   Typography,
   Box,
   LinearProgress,
@@ -60,8 +59,8 @@ export default function Header() {
   const dispatch = useDispatch();
   const { isAuthenticated, isAdmin } = useSelector((state) => state.auth);
   const { movies } = useSelector((state) => state.watchlist);
-  const movieCount = movies.length;
   const user = useSelector((state) => state.user);
+  const movieCount = movies.length;
   const loadingStateSlices = ["movies", "movie", "cast"]; // List of loading state slices
 
   if (isAuthenticated) {
@@ -119,7 +118,9 @@ export default function Header() {
         >
           {!isAdmin && (
             <>
-              <IconButton
+              <Button
+                component={Link}
+                to="/"
                 edge="start"
                 aria-label="menu"
                 sx={{
@@ -128,13 +129,11 @@ export default function Header() {
                   borderRadius: 0,
                 }}
               >
-                <Link to="/">
-                  <Img
-                    src={process.env.PUBLIC_URL + "/images/logo.png"}
-                    alt="Website Logo"
-                  />
-                </Link>
-              </IconButton>
+                <Img
+                  src={process.env.PUBLIC_URL + "/images/logo.png"}
+                  alt="Website Logo"
+                />
+              </Button>
 
               <MenuButton
                 startIcon={<MenuIcon />}
@@ -158,7 +157,9 @@ export default function Header() {
               <MenuItemLink to="user/watchlist">
                 <BookmarkAddIcon />
                 <Typography fontWeight={"bold"}>Watchlist</Typography>
-                <Chip label={movieCount} color="secondary" size="small" />
+                {isAuthenticated && (
+                  <Chip label={movieCount} color="secondary" size="small" />
+                )}
               </MenuItemLink>
             </>
           )}

@@ -71,7 +71,6 @@ const ReviewCard = ({
               <Typography variant="span" fontWeight={"bold"} mr={0.6}>
                 {review?.username}
               </Typography>
-              {/* on {formatReviewDate(review?.review_date)} */}
               on {formatReviewDate(review?.created_at)}
             </Typography>
           </Box>

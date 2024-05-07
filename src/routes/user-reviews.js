@@ -25,14 +25,16 @@ export default function UserReviews() {
 
   return (
     <Container maxWidth="xl">
-      {userReviews?.map((review) => (
-        <ReviewCard
-          review={review}
-          options={options}
-          handleOptionSelect={handleOptionSelect}
-          isUser={true}
-        />
-      ))}
+      {userReviews
+        ?.filter((review) => review.status === true)
+        .map((review) => (
+          <ReviewCard
+            review={review}
+            options={options}
+            handleOptionSelect={handleOptionSelect}
+            isUser={true}
+          />
+        ))}
       <ModalRender
         isOpen={openModal}
         handleClose={handleCloseModal}

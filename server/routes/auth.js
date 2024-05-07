@@ -50,6 +50,7 @@ export default (app, passport) => {
           username,
           password,
         });
+
         res.status(200).send(user);
       } catch (err) {
         next(err); //Forward the error to error handling middleware

@@ -106,7 +106,7 @@ export default function MenuMovies() {
         <Stack direction={"row"} useFlexGap flexWrap={"wrap"} spacing={2}>
           {discoverMovies &&
             Object.values(discoverMovies).map((movie) => (
-              <MovieItem movie={movie} movieWidth="23%" />
+              <MovieItem movie={movie} movieWidth="23%" movieHeight={400} />
             ))}
         </Stack>
       </Grid>

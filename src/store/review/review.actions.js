@@ -10,19 +10,6 @@ import {
   updateStatus,
 } from "../../apis/review";
 
-export const loadReviews = createAsyncThunk(
-  "review/loadReviews",
-  async (movieId, thunkAPI) => {
-    try {
-      const response = await fetchReviews(movieId);
-      return response;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err);
-    }
-  }
-);
-
-
 // Admin
 export const loadPendingReviews = createAsyncThunk(
   "review/loadPendingReviews",
@@ -60,7 +47,19 @@ export const rejectReviews = createAsyncThunk(
   }
 );
 
-// Registered Users
+// Non-admin actions
+export const loadReviews = createAsyncThunk(
+  "review/loadReviews",
+  async (movieId, thunkAPI) => {
+    try {
+      const response = await fetchReviews(movieId);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 export const getReview = createAsyncThunk(
   "review/getReview",
   async (reviewId, thunkAPI) => {

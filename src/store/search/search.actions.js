@@ -14,6 +14,7 @@ export const searchMovies = createAsyncThunk(
       const filteredResults = results.filter(
         (item) => item.media_type === "movie" || item.media_type === "person"
       );
+
       return filteredResults;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

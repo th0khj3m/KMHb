@@ -15,7 +15,7 @@ import { AuthButton } from "./root";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
-import { loginUser } from "../store/auth/auth.actions";
+import { checkLoginStatus, loginUser } from "../store/auth/auth.actions";
 
 import * as Yup from "yup";
 import { Img } from "./root";
@@ -31,6 +31,7 @@ export default function Login() {
       setSubmitting(true);
       setError("");
       await dispatch(loginUser(credentials)).unwrap();
+      await dispatch(checkLoginStatus());
       navigate("/");
     } catch (err) {
       setError(err.message);

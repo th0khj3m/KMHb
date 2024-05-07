@@ -23,7 +23,7 @@ export default class UserModel {
   async find() {
     try {
       // Generate SQL statement
-      const statement = `SELECT * FROM users`;
+      const statement = `SELECT * FROM users WHERE role_id <> 1;`;
 
       // Execute SQL statement using pg-promise
       const result = await db.query(statement);
