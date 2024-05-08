@@ -43,7 +43,6 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
         const movieTMDbRating = movie?.vote_average?.toFixed(1);
         // Fetch average rating
         const avgRating = await dispatch(loadAvgRating(movieId)).unwrap();
-
         // Calculate combined rating
         const averageRating =
           (Number(movieTMDbRating) + Number(avgRating.average_rating)) / 2;
@@ -65,7 +64,7 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
     if (movieId) {
       fetchAndSetRating();
     }
-  }, [dispatch, movieId, movie?.vote_average]);
+  }, [dispatch, movieId, movie?.vote_average, userRating]);
 
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
