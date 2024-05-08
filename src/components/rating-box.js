@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Box, Typography, Stack, IconButton, Button } from "@mui/material";
 import {
@@ -12,19 +12,21 @@ import ModalRender from "./modal-render";
 import RatingModal from "./modal/rating-modal";
 import {
   addRating,
+  loadAvgRating,
   removeRating,
   updateRating,
 } from "../store/rating/rating.actions";
 import { WhiteTypography } from "../routes/root";
 import useIsRating from "../hooks/useIsRating";
+import { setMovieRating } from "../store/rating/rating.reducers";
 
 export default function RatingBox({ movie, size = "small", cut = false }) {
   const dispatch = useDispatch();
   const [rating, setRating] = useState("?");
+  const { movieRatings } = useSelector((state) => state.rating);
 
   const movieId = movie?.id;
   const movieTitle = movie?.title;
-  const movieRating = movie?.vote_average?.toFixed(1);
 
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const userRating = useIsRating(movieId);
@@ -34,6 +36,34 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
       setRating(userRating);
     }
   }, [userRating]);
+
+  useEffect(() => {
+    const fetchAndSetRating = async () => {
+      try {
+        const movieTMDbRating = movie?.vote_average?.toFixed(1);
+        // Fetch average rating
+        const avgRating = await dispatch(loadAvgRating(movieId)).unwrap();
+
+        // Calculate combined rating
+        const averageRating =
+          (Number(movieTMDbRating) + Number(avgRating.average_rating)) / 2;
+
+        // Dispatch action to set combined rating
+        dispatch(
+          setMovieRating({
+            movieId,
+            rating: avgRating.average_rating ? averageRating : Number(movieTMDbRating),
+          })
+        );
+      } catch (err) {
+        console.error("Error fetching or setting rating:", err);
+      }
+    };
+
+    if (movieId) {
+      fetchAndSetRating();
+    }
+  }, [dispatch, movieId, movie?.vote_average]);
 
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
@@ -57,10 +87,12 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
   return (
     <>
       <Box display={"flex"} alignItems={"center"}>
-        {!cut && (
+        {!cut && movieRatings && (
           <Stack direction={"row"} display={"flex"} alignItems={"center"}>
             <StarIcon fontSize={size} />
-            <Typography ml={"3px"}>{movieRating}</Typography>
+            <Typography ml={"3px"}>
+              {movieRatings[movieId]?.toFixed(1)}
+            </Typography>
           </Stack>
         )}
         {cut && <WhiteTypography mr={"-10px"}>YOUR RATING</WhiteTypography>}

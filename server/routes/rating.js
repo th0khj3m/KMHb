@@ -17,6 +17,18 @@ export default (app) => {
     }
   });
 
+  router.get("/movies/:movieId/average", async (req, res, next) => {
+    try {
+      const { movieId } = req.params;
+      const response = await RatingServiceInstance.calculateAverageRating(
+        movieId
+      );
+      res.status(200).send(response);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.get("/movies/:movieId", async (req, res, next) => {
     try {
       const { id } = req.user;

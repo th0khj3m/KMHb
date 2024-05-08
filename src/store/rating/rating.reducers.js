@@ -5,22 +5,23 @@ import {
   removeRating,
   updateRating,
   getRating,
+  loadAvgRating,
 } from "./rating.actions";
 import { checkLoginStatus } from "../auth/auth.actions";
 
 const ratingSlice = createSlice({
   name: "rating",
   initialState: {
+    movieRatings: {},
+    avgRating: null,
     ratings: [],
     error: null,
     loading: false,
   },
   reducers: {
-    setRating: (state, action) => {
-      state.value = action.payload;
-    },
-    resetRating: (state, action) => {
-      state.value = "?";
+    setMovieRating: (state, action) => {
+      const { movieId, rating } = action.payload;
+      state.movieRatings[movieId] = rating
     },
   },
   extraReducers: (builder) => {
@@ -39,6 +40,9 @@ const ratingSlice = createSlice({
       .addCase(loadRatings.fulfilled, (state, action) => {
         state.ratings = action.payload;
         state.loading = false;
+      })
+      .addCase(loadAvgRating.fulfilled, (state, action) => {
+        state.avgRating = action.payload.average_rating;
       })
       .addCase(getRating.pending, (state, action) => {
         state.loading = true;
@@ -74,4 +78,5 @@ const ratingSlice = createSlice({
   },
 });
 
+export const { setMovieRating } = ratingSlice.actions;
 export default ratingSlice.reducer;

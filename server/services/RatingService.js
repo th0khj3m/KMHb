@@ -21,6 +21,15 @@ export default class RatingService {
     }
   }
 
+  async calculateAverageRating(movie_id) {
+    try {
+      const avgRating = await RatingModelInstance.calculate(movie_id);
+      return avgRating;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async get(data) {
     try {
       const rating = await RatingModelInstance.findOneByUser(data);

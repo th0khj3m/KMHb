@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   addToRatings,
+  fetchAvgRating,
   fetchRatings,
   getSpecificRating,
   removeFromRatings,
@@ -12,6 +13,18 @@ export const loadRatings = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await fetchRatings();
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const loadAvgRating = createAsyncThunk(
+  "rating/loadAvgRating",
+  async (movieId, thunkAPI) => {
+    try {
+      const response = await fetchAvgRating(movieId);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

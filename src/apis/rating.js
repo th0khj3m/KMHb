@@ -9,6 +9,15 @@ export const fetchRatings = async () => {
   }
 };
 
+export const fetchAvgRating = async (movieId) => {
+  try {
+    const response = await API.get(`ratings/movies/${movieId}/average`);
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+};
+
 export const getSpecificRating = async (movieId) => {
   try {
     const response = await API.get(`ratings/movies/${movieId}`);

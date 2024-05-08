@@ -35,6 +35,20 @@ export default class RatingModel {
     }
   }
 
+  async calculate(movie_id) {
+    try {
+      const statement = `SELECT ROUND(AVG(rating), 1) AS average_rating from ratings 
+                        WHERE movie_id = $1`;
+      const result = await db.query(statement, [movie_id]);
+
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async findOneByUser({ user_id, movie_id }) {
     try {
       const statement = `SELECT * FROM ratings WHERE user_id = $1 AND movie_id = $2`;

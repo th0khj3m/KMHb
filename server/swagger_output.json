@@ -158,6 +158,24 @@
         }
       }
     },
+    "/api/ratings/movies/{movieId}/average": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/ratings/movies/{movieId}": {
       "get": {
         "description": "",
