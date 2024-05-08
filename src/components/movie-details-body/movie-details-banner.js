@@ -8,11 +8,7 @@ import {
   Container,
   Stack,
 } from "@mui/material";
-import {
-  Add as AddIcon,
-  Star as StarIcon,
-  Check as CheckIcon,
-} from "@mui/icons-material";
+import { Add as AddIcon, Check as CheckIcon } from "@mui/icons-material";
 
 import { BannerWatchlistButton, Img, WhiteTypography } from "../../routes/root";
 import RatingBox from "../rating-box";
@@ -32,7 +28,6 @@ export default function MovieDetailsBanner({ movie }) {
     usRelease?.release_dates[0]?.certification !== ""
       ? usRelease.release_dates[0].certification
       : "PG";
-  const movieRating = movie?.vote_average?.toFixed(1);
 
   const newestTrailer = findNewestTrailer(movie?.videos?.results);
   const movieKey = newestTrailer?.key;
@@ -95,27 +90,7 @@ export default function MovieDetailsBanner({ movie }) {
               alignItems: "center",
             }}
           >
-            <Grid container>
-              <Grid
-                item
-                md={6}
-                sx={{
-                  textAlign: "center",
-                  margin: "auto",
-                }}
-              >
-                <Stack direction={"row"} spacing={2}>
-                  <WhiteTypography>KMHb RATING</WhiteTypography>
-                  <Box display="flex" justifyContent="center">
-                    <StarIcon sx={{ color: "main" }} />
-                    <WhiteTypography ml="3px">{movieRating}</WhiteTypography>
-                  </Box>
-                </Stack>
-              </Grid>
-              <Grid item md={6} sx={{ textAlign: "center" }}>
-                {movie && <RatingBox movie={movie} size="large" cut={true} />}
-              </Grid>
-            </Grid>
+            {movie && <RatingBox movie={movie} include={true} />}
           </Box>
         </Box>
 

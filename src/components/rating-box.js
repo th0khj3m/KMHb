@@ -20,7 +20,7 @@ import { WhiteTypography } from "../routes/root";
 import useIsRating from "../hooks/useIsRating";
 import { setMovieRating } from "../store/rating/rating.reducers";
 
-export default function RatingBox({ movie, size = "small", cut = false }) {
+export default function RatingBox({ movie, include = false }) {
   const dispatch = useDispatch();
   const [rating, setRating] = useState("?");
   const { movieRatings } = useSelector((state) => state.rating);
@@ -87,17 +87,20 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
 
   return (
     <>
-      <Box display={"flex"} alignItems={"center"}>
-        {!cut && movieRatings && (
-          <Stack direction={"row"} display={"flex"} alignItems={"center"}>
-            <StarIcon fontSize={size} />
-            <Typography ml={"3px"}>
-              {movieRatings[movieId]?.toFixed(1)}
-            </Typography>
-          </Stack>
-        )}
-        {cut && <WhiteTypography mr={"-10px"}>YOUR RATING</WhiteTypography>}
-        <Box ml={3} alignItems={"center"}>
+      <Box display={"flex"} alignItems={"center"} ml={include ? "auto" : "0"}>
+        <Stack direction={"row"} alignItems={"center"}>
+          {include && <WhiteTypography mr={1}>KMHb RATING</WhiteTypography>}
+          <StarIcon
+            fontSize="small"
+            sx={{ color: include ? "main" : "black" }}
+          />
+          <Typography ml={1} sx={{ color: include ? "white" : "black" }}>
+            {movieRatings[movieId]?.toFixed(1)}
+          </Typography>
+        </Stack>
+
+        <Stack ml={3} direction={"row"} alignItems={"center"}>
+          {include && <WhiteTypography>YOUR RATING</WhiteTypography>}
           {userRating ? (
             <Button
               size="large"
@@ -107,11 +110,11 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
               {rating}
             </Button>
           ) : (
-            <IconButton onClick={() => handleOpenModal(movieId)}>
-              <StarBorderIcon sx={{ color: "#0db597" }} fontSize="medium" />
+            <IconButton size="medium" onClick={() => handleOpenModal(movieId)}>
+              <StarBorderIcon sx={{ color: "#0db597" }} fontSize="inherit" />
             </IconButton>
           )}
-        </Box>
+        </Stack>
       </Box>
       <ModalRender
         isOpen={openModal}
