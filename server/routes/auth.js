@@ -19,6 +19,7 @@ import RoomService from "../services/RoomService.js";
 const RoomServiceInstance = new RoomService();
 import sendPasswordResetEmail from "../utils/email.js";
 import getCurrentTime from "../utils/current-date.js";
+import { isLoggedIn } from "../middleware/middleware.js";
 
 export default (app, passport) => {
   app.use("/api/auth", router);
@@ -116,7 +117,7 @@ export default (app, passport) => {
     }
   });
 
-  router.get("/logout", async (req, res, next) => {
+  router.get("/logout", isLoggedIn, async (req, res, next) => {
     try {
       req.logout(() => {
         res.status(200).send("Logged out successfully");
@@ -126,7 +127,7 @@ export default (app, passport) => {
     }
   });
 
-  router.get("/logged_in", async (req, res, next) => {
+  router.get("/logged_in", isLoggedIn, async (req, res, next) => {
     try {
       const { id } = req.user;
       const user = await UserServiceInstance.get(id);
