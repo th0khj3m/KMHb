@@ -1,6 +1,8 @@
 import db from "../db/db.js";
 import pgPromise from "pg-promise";
 const pgp = pgPromise({ capSQL: true });
+import WatchlistService from "../services/WatchlistService.js";
+const WatchlistServiceInstance = new WatchlistService();
 
 export default class UserModel {
   async create(data) {
@@ -9,8 +11,8 @@ export default class UserModel {
 
       // Execute SQL statement
       const result = await db.query(statement);
-
       if (result.rows?.length) {
+        WatchlistServiceInstance.create(result.rows[0].id); //Initialize Watchlist for new user
         return result.rows[0];
       }
 

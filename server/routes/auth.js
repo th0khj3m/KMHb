@@ -31,7 +31,6 @@ export default (app, passport) => {
         password,
         email,
       });
-      await WatchlistServiceInstance.create(user.id);
       res.status(200).send(user);
     } catch (err) {
       next(err);
@@ -116,37 +115,6 @@ export default (app, passport) => {
       next(err);
     }
   });
-
-  // router.get(
-  //   "/google",
-  //   passport.authenticate("google", { scope: ["profile", "email"] })
-  // );
-
-  // router.get(
-  //   "/google/callback",
-  //   passport.authenticate("google"),
-  //   async (req, res) => {
-  //     try {
-  //       res.redirect(
-  //         `http://localhost:3006/logged_in?user=${JSON.stringify(req.user)}`
-  //       );
-  //     } catch (err) {
-  //       next(err);
-  //     }
-  //   }
-  // );
-
-  // // Facebook Login Endpoint
-  // router.get("/facebook", passport.authenticate("facebook"));
-
-  // // Facebook Login Callback Endpoint
-  // router.get(
-  //   "/facebook/callback",
-  //   passport.authenticate("facebook", { failureRedirect: "/login" }),
-  //   async (req, res) => {
-  //     res.redirect("/");
-  //   }
-  // );
 
   router.get("/logout", async (req, res, next) => {
     try {
