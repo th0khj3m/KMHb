@@ -52,7 +52,9 @@ export default function RatingBox({ movie, size = "small", cut = false }) {
         dispatch(
           setMovieRating({
             movieId,
-            rating: avgRating.average_rating ? averageRating : Number(movieTMDbRating),
+            rating: avgRating.average_rating
+              ? averageRating
+              : Number(movieTMDbRating),
           })
         );
       } catch (err) {

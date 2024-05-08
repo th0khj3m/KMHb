@@ -21,7 +21,7 @@ const ratingSlice = createSlice({
   reducers: {
     setMovieRating: (state, action) => {
       const { movieId, rating } = action.payload;
-      state.movieRatings[movieId] = rating
+      state.movieRatings[movieId] = rating;
     },
   },
   extraReducers: (builder) => {
