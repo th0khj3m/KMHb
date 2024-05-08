@@ -45,7 +45,7 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "client": "set PORT=3006 && npx dotenvx run -- react-scripts start",
+    "client": "npx dotenvx run -- react-scripts start",
     "build": "react-scripts build",
     "server": "npx dotenvx run -- nodemon server/server.js",
     "test": "react-scripts test",
