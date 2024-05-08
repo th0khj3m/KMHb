@@ -1,14 +1,14 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import session from "express-session";
-import { SESSION_SECRET } from "../config.js";
+import { SESSION_SECRET, CLIENT, DB } from "../config.js";
 import pgSession from "connect-pg-simple"; // Import connect-pg-simple
 const pgSessionStore = pgSession(session);
 import pg from "pg";
 
 export default async (app) => {
   // Enable Cross Origin Resource Sharing to all origins by default
-  app.use(cors({ credentials: true, origin: "http://localhost:3006" }));
+  app.use(cors({ credentials: true, origin: CLIENT.URL }));
 
   // Parse incoming request bodies as JSON
   app.use(bodyParser.json());
@@ -18,7 +18,7 @@ export default async (app) => {
   app.use(bodyParser.urlencoded({ extended: true }));
 
   const pool = new pg.Pool({
-    connectionString: "postgres://khiem:TooWild147258@@localhost/KMHb",
+    connectionString: DB.CONNECTION_STRING,
   });
 
   app.set("trust proxy", 1);

@@ -11,6 +11,7 @@ const DB = {
   DATABASE: process.env.PGDATABASE,
   PASSWORD: process.env.PGPASSWORD,
   PORT: process.env.PGPORT,
+  CONNECTION_STRING: process.env.PG_CONNECTION_STRING
 };
 
 const OWNER = {
