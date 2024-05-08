@@ -3,8 +3,6 @@ import bcrypt from "bcrypt";
 
 import UserModel from "../models/user.js";
 const UserModelInstance = new UserModel();
-import WatchlistService from "../services/WatchlistService.js";
-const WatchlistServiceInstance = new WatchlistService();
 
 export default class AuthService {
   async login(data) {
@@ -33,7 +31,7 @@ export default class AuthService {
   }
 
   async register(data) {
-    const { username, password, email } = data;
+    const { username, password, email, role_id } = data;
     try {
       // Check if username already exists
       const userUsername = await UserModelInstance.findOneByUsername(username);
@@ -41,7 +39,7 @@ export default class AuthService {
       if (userUsername) {
         throw createError(422, "Username already exists");
       }
-      
+
       // Check if email already exists
       const userEmail = await UserModelInstance.findOneByEmail(email);
 
@@ -58,7 +56,7 @@ export default class AuthService {
         username,
         password_hash: hashedPassword,
         email,
-        role_id: 2, // Default role_id value (2 for regular users)
+        role_id: role_id || 2, // If role_id is not provided, use default value (2)
       };
 
       // User doesnt exist, create new user record
@@ -67,44 +65,4 @@ export default class AuthService {
       throw err;
     }
   }
-
-  // async googleLogin(profile) {
-  //   const { id, displayName, emails } = profile;
-  //   const email = emails[0].value;
-  //   const oauthUser = { id, displayName, email, role_id: 2 };
-  //   try {
-  //     // Check if user exists
-  //     const user = await UserModelInstance.findOneByGoogleId(id);
-  //     if (!user) {
-  //       const user = await UserModelInstance.create({
-  //         google: oauthUser,
-  //       });
-  //       await WatchlistServiceInstance.create(user.id);
-  //     }
-  //     return user;
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
-
-  // async facebookLogin(profile) {
-  //   const { id, displayName } = profile;
-
-  //   try {
-  //     // Check if user exists
-  //     const user = await UserModelInstance.findOneByFacebookId(id);
-
-  //     // If no user found, create new user
-  //     if (!user) {
-  //       return await UserModelInstance.create({
-  //         facebook: { id, displayName },
-  //       });
-  //     }
-
-  //     // User already exists, return profile
-  //     return user;
-  //   } catch (err) {
-  //     throw createError(500, err);
-  //   }
-  // }
 }
