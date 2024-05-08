@@ -8,9 +8,9 @@ export default async function DefaultAdminAccount() {
     const exisitingAdmin = await UserServiceInstance.getUserByRole(1); // Assuming a UserService with getUserRole method
     if (!exisitingAdmin) {
       await AuthServiceInstance.register({
-        username: "khiem",
-        password: "khiem1",
-        email: "khiem@gmail.com",
+        username: "admin",
+        password: "admin1",
+        email: "admin@gmail.com",
         role_id: 1,
       });
     }
