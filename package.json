@@ -44,8 +44,8 @@
     "yup": "^1.4.0"
   },
   "scripts": {
-    "all": "concurrently \"npm run server\" \"npm run client\"",
-    "start": "set PORT=3006 && npx dotenvx run -- react-scripts start",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "set PORT=3006 && npx dotenvx run -- react-scripts start",
     "build": "react-scripts build",
     "server": "npx dotenvx run -- nodemon server/server.js",
     "test": "react-scripts test",
