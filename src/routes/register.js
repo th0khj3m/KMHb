@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-import { Form, Formik, Field } from "formik";
 import {
   TextField,
   IconButton,
@@ -13,13 +14,12 @@ import {
   Alert,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
 
+import { AuthButton, Img } from "./root.js";
 import { registerUser } from "../store/auth/auth.actions.js";
 
+import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
-import { AuthButton, Img } from "./root.js";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -152,29 +152,6 @@ export default function Register() {
                 >
                   Sign Up
                 </AuthButton>
-                {/* <Box
-                  display={"flex"}
-                  flexDirection={"column"}
-                  gap={"10px"}
-                  mt={3}
-                >
-                  <Typography>Or sign up using: </Typography>
-                  <Box display="inline-flex" gap="10px">
-                    <MediaLoginButton type="button" variant="contained">
-                      <Img
-                        src={process.env.PUBLIC_URL + "/images/google.png"}
-                        alt="Sign up with Google"
-                      />
-                    </MediaLoginButton>
-                    <MediaLoginButton type="button" variant="contained">
-                      <Img
-                        src={process.env.PUBLIC_URL + "/images/facebook.png"}
-                        alt="Sign up with Facebook"
-                      />
-                    </MediaLoginButton>
-                  </Box>
-                </Box> */}
-
                 <Typography mr={"auto"} py={2}>
                   Already have an account?&nbsp;
                   <Link to="/login" style={{ textDecoration: "none" }}>

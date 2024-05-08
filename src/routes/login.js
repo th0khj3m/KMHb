@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 
-import { Form, Formik, Field } from "formik";
 import {
   TextField,
   Alert,
@@ -10,15 +11,11 @@ import {
   Container,
   FormControl,
 } from "@mui/material";
-import { AuthButton } from "./root";
-
-import { useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
-
-import { checkLoginStatus, loginUser } from "../store/auth/auth.actions";
-
+import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
-import { Img } from "./root";
+
+import { AuthButton, Img } from "./root";
+import { checkLoginStatus, loginUser } from "../store/auth/auth.actions";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -117,36 +114,6 @@ export default function Login() {
                 >
                   Log In
                 </AuthButton>
-                <Box
-                  display={"flex"}
-                  flexDirection={"column"}
-                  gap={"10px"}
-                  mt={3}
-                >
-                  {/* <Typography>Or log in using: </Typography>
-                  <Box display={"inline-flex"} gap={"10px"}> */}
-                  {/* <MediaLoginButton
-                      type="button"
-                      variant="contained"
-                      onClick={handleMediaLogin}
-                    >
-                      <Img
-                        src={process.env.PUBLIC_URL + "/images/google.png"}
-                        alt="Sign in with Google"
-                      />
-                    </MediaLoginButton> */}
-                  {/* <MediaLoginButton
-                      type="button"
-                      variant="contained"
-                      href="http://localhost:4000/api/auth/facebook"
-                    >
-                      <Img
-                        src={process.env.PUBLIC_URL + "/images/facebook.png"}
-                        alt="Sign in with Facebook"
-                      />
-                    </MediaLoginButton> */}
-                  {/* </Box> */}
-                </Box>
                 <Typography mr={"auto"} py={2}>
                   Not a member yet?&nbsp;
                   <Link to="/register" style={{ textDecoration: "none" }}>
