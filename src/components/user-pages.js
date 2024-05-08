@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import {
   Container,
@@ -23,11 +24,10 @@ import { removeMovie } from "../store/watchlist/watchlist.actions";
 
 import useFilterAndSort from "../hooks/useFilterAndSort";
 import filterAndSort from "../utils/filter-and-sort";
-import { Link } from "react-router-dom";
 
 export default function UserPage({ data, fetchedDataDetails, type }) {
   const dispatch = useDispatch();
-  const { ratings } = useSelector((state) => state.rating);
+  const { ratings, movieRatings } = useSelector((state) => state.rating);
   const { filterBy, sortBy, handleFilterChange, handleSortToggle } =
     useFilterAndSort();
 
@@ -40,6 +40,7 @@ export default function UserPage({ data, fetchedDataDetails, type }) {
   const filteredAndSortedData = filterAndSort(
     data,
     ratings,
+    movieRatings,
     fetchedDataDetails,
     filterBy,
     sortBy
