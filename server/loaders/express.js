@@ -34,7 +34,7 @@ export default async (app) => {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: false,
+        secure: true, //Change to false if local
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
         sameSite: "lax", // Add sameSite attribute to mitigate CSRF attacks
